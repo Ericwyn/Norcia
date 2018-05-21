@@ -121,9 +121,24 @@
 </body>
 <!--引入自定义css-->
 <script src="js/script.js"></script>
-<!--<script src="js/ajax.js"></script>-->
+<script src="js/norcia.js"></script>
 <script type="text/javascript">
 //	loadNavigation();
     const inst=new mdui.Drawer('#drawer',{swipe:true});
+
+    //载入config
+    let config = new NorciaConfig();
+    config.load([
+        function loadHead(config) {
+            console.log(config.head);
+        },
+        function loadTitle(config) {
+            console.log(config.introduce);
+        },
+        function loadArticle(configTemp) {
+            console.log(configTemp.articles[0].title);
+        }
+    ]);
+
 </script>
 </html>
