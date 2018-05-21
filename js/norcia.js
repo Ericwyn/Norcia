@@ -39,6 +39,7 @@ function Article() {
     let create;
     let update;
     let mini;
+    let content;
     this.parseArticleJson = function (json) {
         this.title = json.title;
         this.tag = json.tag;
@@ -46,6 +47,18 @@ function Article() {
         this.update = json.update;
         this.mini = json.mini;
     };
+    this.loadContent = function (callback) {
+        ajax_get(
+            "document/"+this.title+".md",
+            null,
+            function (mkDocument) {
+                callback(mkDocument)
+            },
+            function (status) {
+                console.log(status);
+            }
+        );
+    }
 }
 
 /**

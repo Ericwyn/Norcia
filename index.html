@@ -6,7 +6,6 @@
     <title>Norcia Blog</title>
     <!--引入mdui-->
     <link rel="stylesheet" href="css/mdui.min.css">
-    <link rel="stylesheet" href="css/console_css.css">
     <script src="js/mdui.min.js"></script>
     <!--引入自定义css-->
     <link rel="stylesheet" href="css/style.css">
@@ -137,8 +136,13 @@
         },
         function loadArticle(configTemp) {
             console.log(configTemp.articles[0].title);
+            console.log("load document ---------->");
+            configTemp.articles[0].loadContent(function loadArticle(mdDocument) {
+                console.log(mdDocument);
+            })
         }
     ]);
+
 
 </script>
 </html>
