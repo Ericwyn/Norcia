@@ -5,7 +5,7 @@ function NorciaConfig() {
     let weibo;
     let articles;
     //解析 json文件，传入一大堆回调函数，来规避 ajax 无法同步运行的问题
-    this.load = function (callbackList) {
+    this.load = function (callback) {
         ajax_get(
             "config.json",
             null,
@@ -22,9 +22,8 @@ function NorciaConfig() {
                     articleTemp.parseArticleJson(articlesJson[i]);
                     this.articles[i] = articleTemp;
                 }
-                for (let i = 0; i < callbackList.length; i++) {
-                    callbackList[i](this);
-                }
+                callback(this);
+
             },
             function (status) {
                 console.log(status);
