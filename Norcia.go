@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"sort"
+	"strconv"
 )
 
 /**
@@ -36,13 +37,17 @@ import (
 		]
 	}
 */
-const docDirName string = "document/"
-const miniDocDirName string = "document_mini/"
 
+// md文件存储文件夹
+const docDirName string = "document/"
+// Norcia 多语言支持
+var language = "cn"
+//const languageMap = initLanguageMap()
 func main() {
+
 	//var oldArticleNum = 0
-	var updateNum = 0
-	var createNum = 0
+	updateNum := 0
+	createNum := 0
 	//var deleteNum = 0
 	blogconfig := parseConfigJson(readFileToString("config.json"))
 	//oldArticleNum = len(blogconfig.Articles)
@@ -65,7 +70,7 @@ func main() {
 			} else {
 				temp = Article{
 					Title:  title,
-					Tag:    "tag",
+					Tag:    articleFromConfig.Tag,
 					Update: substr(updateTime.String(), 0, 16),
 					Create: articleFromConfig.Create,
 					Mini:   miniDoc,
@@ -76,7 +81,7 @@ func main() {
 			//如果无法找到旧的文件,证明文件时新建的!
 			temp = Article{
 				Title:  title,
-				Tag:    "tag",
+				Tag:    inputDocumentsTag(title,blogconfig),
 				Update: substr(updateTime.String(), 0, 16),
 				Create: substr(updateTime.String(), 0, 16),
 				Mini:   miniDoc,
@@ -88,7 +93,55 @@ func main() {
 	sort.Sort(articleList(articles))
 	blogconfig.Articles = articles
 	outputNewBlogConfig(blogconfig)
-	fmt.Println("update", updateNum, "document(s), and create", createNum, "documents(s)")
+	fmt.Printf("更新了 %d 个文档, 并且创建了 %d 个文档", updateNum , createNum)
+}
+
+//用户输入标签，或者是从旧的标签里面选一个
+func inputDocumentsTag(title string,config BlogConfig) string{
+	reader := bufio.NewReader(os.Stdin)
+	tagMap := make(map[int64]string)
+	var tagCount int64
+	tagCount = 0
+	for _,article:= range config.Articles{
+		tagsTemp := strings.Split(article.Tag,",")
+		for _,tag := range tagsTemp {
+			flag := true
+			for _,tagHaveTemp := range tagMap{
+				if tagHaveTemp == tag {
+					flag = false
+					break
+				}
+			}
+			if flag {
+				tagMap[tagCount] = tag
+				tagCount++
+			}
+		}
+	}
+	for i,tagTemp := range tagMap{
+		fmt.Println(i,".",tagTemp)
+	}
+	fmt.Printf("请输入文章 ' %s ' 的新标签名称，或者选择旧的标签，多个标签之间使用空格分隔 : \n",title)
+	input, _, _ := reader.ReadLine()
+	res := ""
+	for _,tag := range strings.Split(string(input),""){
+		flag,num :=  isInt(tag)
+		if flag {
+			res += tagMap[num]+" "
+		}else {
+			res += tag
+		}
+	}
+	return strings.Replace(string(input)," ",",",-1)
+}
+
+func isInt(str string)( bool,int64){
+	num,err := strconv.ParseInt("10",0,64)
+	if err != nil {
+		return false,-1
+	}else {
+		return true,num
+	}
 }
 
 func readFileToString(fileName string) string {
@@ -158,7 +211,7 @@ func outputNewBlogConfig(config BlogConfig) {
 }
 
 func writeStringToFile(outputString string, fileName string) {
-	outputFile, outputError := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE, 0666)
+	outputFile, outputError := os.OpenFile(fileName, os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0666)
 	if outputError != nil {
 		fmt.Printf("An error occurred with file opening or creation\n")
 		return
@@ -222,4 +275,32 @@ func substr(str string, start, length int) string {
 		end = rl
 	}
 	return string(rs[start:end])
+}
+
+func makeMap(lang []string) map[string]string{
+	mapTemp := map[string]string{
+		"zh":lang[0],
+		"en":lang[1],
+	}
+	return mapTemp
+}
+
+func getStringsLan(languageMap map[string]map[string]string,key string) string{
+	return languageMap[key][language]
+}
+
+
+func initLanguageMap() map[string]map[string]string{
+	var languageMap map[string]map[string]string
+	languageMap = make(map[string](map[string]string))
+	//载入多语言字符串
+	languageMap["final"] = makeMap([]string{
+		"更新了 %d 个文档, 并且创建了 %d 个文档",
+		"update %d document(s), and create %d documents(s)",
+	})
+	languageMap["key_select"] = makeMap([]string{
+		"请输入文章 ' %s ' 标签或者选择标签，多个标签之间使用 ',' 分隔",
+		"Please enter a tag or select a tag for ' %s ' . Separate multiple tags by ','",
+	})
+	return languageMap
 }

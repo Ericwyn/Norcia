@@ -6,29 +6,46 @@ function NorciaConfig() {
     let articles;
     //解析 json文件，传入一大堆回调函数，来规避 ajax 无法同步运行的问题
     this.load = function (callback) {
-        ajax_get(
-            "config.json",
-            null,
-            function (responseText) {
-                let json = JSON.parse(responseText);
-                this.head = json['head'];
-                this.introduce = json['introduce'];
-                this.github = json['github'];
-                this.weibo = json['weibo'];
-                this.articles = [];
-                let articlesJson = json['articles'];
-                for (let i = 0; i < articlesJson.length; i++) {
-                    let articleTemp = new Article();
-                    articleTemp.parseArticleJson(articlesJson[i]);
-                    this.articles[i] = articleTemp;
+        if (sessionStorage.getItem("config") === null){
+            ajax_get(
+                "config.json",
+                null,
+                function (responseText) {
+                    sessionStorage.setItem("config",responseText);
+                    let json = JSON.parse(responseText);
+                    this.head = json['head'];
+                    this.introduce = json['introduce'];
+                    this.github = json['github'];
+                    this.weibo = json['weibo'];
+                    this.articles = [];
+                    let articlesJson = json['articles'];
+                    for (let i = 0; i < articlesJson.length; i++) {
+                        let articleTemp = new Article();
+                        articleTemp.parseArticleJson(articlesJson[i]);
+                        this.articles[i] = articleTemp;
+                    }
+                    callback(this);
+                },
+                function (status) {
+                    console.log(status);
                 }
-                callback(this);
-
-            },
-            function (status) {
-                console.log(status);
+            );
+        }else {
+            let responseText = sessionStorage.getItem("config");
+            let json = JSON.parse(responseText);
+            this.head = json['head'];
+            this.introduce = json['introduce'];
+            this.github = json['github'];
+            this.weibo = json['weibo'];
+            this.articles = [];
+            let articlesJson = json['articles'];
+            for (let i = 0; i < articlesJson.length; i++) {
+                let articleTemp = new Article();
+                articleTemp.parseArticleJson(articlesJson[i]);
+                this.articles[i] = articleTemp;
             }
-        );
+            callback(this);
+        }
     }
 }
 
@@ -50,8 +67,8 @@ function Article() {
         ajax_get(
             "document/"+this.title+".md",
             null,
-            function (mkDocument) {
-                callback(mkDocument)
+            function (mdDocument) {
+                callback(mdDocument)
             },
             function (status) {
                 console.log(status);

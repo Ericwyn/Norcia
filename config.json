@@ -1,20 +1,34 @@
 {
-	"head": "Norica Blog",
-	"introduce": "A simple static blog framework",
-	"github": "https://github.com/Besfim/Norcia",
+	"head": "",
+	"introduce": "",
+	"github": "",
 	"weibo": "",
 	"articles": [
 		{
-			"title": "test2",
-			"tag": "tag",
-			"create": "2018-05-11 21:52",
-			"update": "2018-05-21 19:02",
-			"mini": " 测试标题   测试标题3"
+			"title": "test22",
+			"tag": "0,1,2,3,标签6",
+			"create": "2018-05-22 20:25",
+			"update": "2018-05-22 20:25",
+			"mini": " Norcia 一个简单的静态博客框架   项目结构   根目录下的 HTML \\ CSS \\ JavaScript 文件   `document` 文件夹用来存放博文 markdown 文件   config.json 作为静态博客的配置文件以及博客文章索引,该文件在初次设定好个人信息后可由 Norcia 程序自动更新与维护, 详情请看下文介绍    config.json 自动更新  更新 运行 Norcia 程序就可以自动依照 document 文件夹里面的 markdown 文件的修改, 而自动维护更新 config.json 索引了  Norcia 为以下三个平台提供打包好的二进制程"
 		},
 		{
 			"title": "test",
-			"tag": "tag",
-			"create": "2018-05-11 18:15",
+			"tag": "标签2",
+			"create": "2018-05-21 19:02",
+			"update": "2018-05-21 19:02",
+			"mini": " 主要内容   Markdown是什么？   谁创造了它？   为什么要使用它？   怎么使用？   谁在用？   尝试一下   正文  1. Markdown是什么？ Markdown是一种轻量级标记语言，它以纯文本形式(*易读、易写、易更改*)编写文档，并最终以HTML格式发布。     Markdown也可以理解为将以MARKDOWN语法编写的语言转换成HTML内容的工具。       2. 谁创造了它？ 它由[Aaron Swartz](http://www.aaronsw.com/)和John Gruber共同设计，Aaron Swartz就是那位于去年（*2013年1月11日*）自"
+		},
+		{
+			"title": "test2",
+			"tag": "tag,标签3,标签4",
+			"create": "2018-05-21 19:02",
+			"update": "2018-05-22 20:25",
+			"mini": " Norcia 一个简单的静态博客框架   项目结构   根目录下的 HTML \\ CSS \\ JavaScript 文件   `document` 文件夹用来存放博文 markdown 文件   config.json 作为静态博客的配置文件以及博客文章索引,该文件在初次设定好个人信息后可由 Norcia 程序自动更新与维护, 详情请看下文介绍    config.json 自动更新  更新 运行 Norcia 程序就可以自动依照 document 文件夹里面的 markdown 文件的修改, 而自动维护更新 config.json 索引了  Norcia 为以下三个平台提供打包好的二进制程"
+		},
+		{
+			"title": "测试文档",
+			"tag": "tag,标签5",
+			"create": "2018-05-17 17:34",
 			"update": "2018-05-21 19:02",
 			"mini": " 主要内容   Markdown是什么？   谁创造了它？   为什么要使用它？   怎么使用？   谁在用？   尝试一下   正文  1. Markdown是什么？ Markdown是一种轻量级标记语言，它以纯文本形式(*易读、易写、易更改*)编写文档，并最终以HTML格式发布。     Markdown也可以理解为将以MARKDOWN语法编写的语言转换成HTML内容的工具。       2. 谁创造了它？ 它由[Aaron Swartz](http://www.aaronsw.com/)和John Gruber共同设计，Aaron Swartz就是那位于去年（*2013年1月11日*）自"
 		}
