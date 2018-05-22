@@ -44,8 +44,8 @@ const docDirName string = "document/"
 var language = "cn"
 //const languageMap = initLanguageMap()
 func main() {
-
 	//var oldArticleNum = 0
+	printHeader()
 	updateNum := 0
 	createNum := 0
 	//var deleteNum = 0
@@ -93,12 +93,11 @@ func main() {
 	sort.Sort(articleList(articles))
 	blogconfig.Articles = articles
 	outputNewBlogConfig(blogconfig)
-	fmt.Printf("更新了 %d 个文档, 并且创建了 %d 个文档", updateNum , createNum)
+	fmt.Printf("\n更新了 %d 个文档, 并且创建了 %d 个文档 \n\n", updateNum , createNum)
 }
 
 //用户输入标签，或者是从旧的标签里面选一个
 func inputDocumentsTag(title string,config BlogConfig) string{
-	reader := bufio.NewReader(os.Stdin)
 	tagMap := make(map[int64]string)
 	var tagCount int64
 	tagCount = 0
@@ -118,25 +117,35 @@ func inputDocumentsTag(title string,config BlogConfig) string{
 			}
 		}
 	}
+	fmt.Println("\n以下为已有的标签及编号：")
 	for i,tagTemp := range tagMap{
-		fmt.Println(i,".",tagTemp)
+		fmt.Println("\t",i,".",tagTemp)
 	}
-	fmt.Printf("请输入文章 ' %s ' 的新标签名称，或者选择旧的标签，多个标签之间使用空格分隔 : \n",title)
+	fmt.Printf("请输入文章 ' %s ' 的新标签名称，或者输入已有标签的序号，多个输入之间使用空格分隔 : \n",title)
+	reader := bufio.NewReader(os.Stdin)
 	input, _, _ := reader.ReadLine()
 	res := ""
-	for _,tag := range strings.Split(string(input),""){
+	inputTemp := strings.Split(string(input)," ")
+	for i,tag := range inputTemp{
 		flag,num :=  isInt(tag)
 		if flag {
-			res += tagMap[num]+" "
+			if tagMap[num] == "" {
+				res += tag
+			}else {
+				res += tagMap[num]
+			}
 		}else {
 			res += tag
 		}
+		if i != len(inputTemp)-1 {
+			res += ","
+		}
 	}
-	return strings.Replace(string(input)," ",",",-1)
+	return res
 }
 
 func isInt(str string)( bool,int64){
-	num,err := strconv.ParseInt("10",0,64)
+	num,err := strconv.ParseInt(str,0,64)
 	if err != nil {
 		return false,-1
 	}else {
@@ -283,6 +292,14 @@ func makeMap(lang []string) map[string]string{
 		"en":lang[1],
 	}
 	return mapTemp
+}
+
+func printHeader() {
+	fmt.Println(" _   _                _       ")
+	fmt.Println("| \\ | | ___  _ __ ___(_) __ _ ")
+	fmt.Println("|  \\| |/ _ \\| '__/ __| |/ _` |")
+	fmt.Println("| |\\  | (_) | | | (__| | (_| |")
+	fmt.Println("|_| \\_|\\___/|_|  \\___|_|\\__,_|")
 }
 
 func getStringsLan(languageMap map[string]map[string]string,key string) string{
