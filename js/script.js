@@ -28,7 +28,7 @@ function bindIndexArticleCard(article) {
         `<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
         <div class="mdui-card-primary">
             <div class="mdui-card-primary-title ">
-                <a href="blog.html?title=${article.title}">${article.title}</a>
+                <a href="javascript:void(0);" onclick="handleCardClick('blog.html?title=${article.title}')">${article.title}</a>
             </div>
             <div class="mdui-card-primary-subtitle">${article.create}</div>
         </div>
@@ -43,6 +43,15 @@ function bindIndexArticleCard(article) {
     </div>`;
 
     return head;
+}
+
+function handleCardClick(uri) {
+    window.location.href = uri;
+    if (window.location.pathname.endsWith("index.html")){
+        //记录浏览的位置
+        sessionStorage.setItem("loadNum",articleCount);
+        sessionStorage.setItem("scrollIndex",document.body.scrollTop);
+    }
 }
 
 /**

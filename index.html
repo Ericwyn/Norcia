@@ -38,11 +38,14 @@
     </div>
 
     <div>
-        <button class="mdui-btn mdui-color-theme-accent mdui-center">加载更多</button>
-
+        <button class="mdui-btn mdui-center mdui-color-theme-400"
+                id="load_more_btn"
+                onclick="loadIndexCard(norcia)">
+            加载更多
+        </button>
     </div>
     <div class=" mdui-typo mdui-m-t-4" id="foot" style="text-align: center">
-        <p class="mdui-center">Power By <a href="https://github.com/Besfim/Norcia">Norcia</a></p>
+        <p class="mdui-center mdui-typo-subheading-opacity ">Power By <a href="https://github.com/Besfim/Norcia">Norcia</a></p>
     </div>
 
     <div class="mdui-container mdui-appbar-with-toolbar">
@@ -109,29 +112,51 @@
 //        console.log(config.introduce);
     }
 
+    //首页文章动态加载 flag,记录文章加载的记录
+    let articleCount = 0;
     /**
      * 载入首页的文章卡片
      * @param config
      */
     function loadIndexCard(config) {
-        for (let i = 0;i<config.articles.length;i++){
+        let loadNum = 5;
+        let startNum = articleCount;
+        // 是否从其他页面返回来
+        if (sessionStorage.getItem("loadNum")!==null){
+            articleCount = sessionStorage.getItem("loadNum");
+            articleCount = parseInt(articleCount);
+            sessionStorage.removeItem("loadNum");
+            loadNum = 0;
+            startNum = 0;
+        }
+        for (let i = startNum;i<config.articles.length && i<articleCount+loadNum;i++){
             domId("articles").innerHTML +=
                 "\n"
                 +bindIndexArticleCard(config.articles[i]);
+            if (i === config.articles.length-1){
+                domId("load_more_btn").disabled = true;
+                domId("load_more_btn").innerText = " 我可是有底线的，哼 ╭(╯^╰)╮ ";
+            }
+        }
+        articleCount = articleCount+loadNum;
+        //如果有记录浏览位置的话，就跳转到浏览位置
+        if (sessionStorage.getItem("scrollIndex")!==null){
+            document.body.scrollTop = sessionStorage.getItem("scrollIndex");
+            sessionStorage.removeItem("scrollIndex");
         }
     }
 
     // 新建一个 config 对象
-    const norcia = new NorciaConfig();
+    let norcia = new NorciaConfig();
     // 载入 config
     norcia.load(
         function (config) {
+            norcia = config;
             domId("loading").style.display="none";
             loadHead(config);
             loadIntroduce(config);
             loadIndexCard(config)
         }
     );
-
 </script>
 </html>
