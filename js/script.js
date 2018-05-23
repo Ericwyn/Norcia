@@ -64,14 +64,13 @@ function bindArticleTags(tags,randomColor) {
         "mdui-color-pink-400",
         "mdui-color-blue-grey-400"
     ];
-    let colorClass = "";
+    let colorClass = "mdui-color-theme-accent";
     let ran = getRandom(0,colors.length-1);
     for (let i=0;i<temp.length;i++){
         if (randomColor){
             colorClass = colors[(ran+i)%temp.length];
         }
-        tagHtml +=
-            `<button class="mdui-btn mdui-ripple ${colorClass} mdui-text-color-white mdui-shadow-1 mdui-m-x-1">
+        tagHtml += `<button class="mdui-btn mdui-ripple ${colorClass} mdui-text-color-white mdui-shadow-1 mdui-m-x-1">
                 ${temp[i]}
             </button>`;
     }
