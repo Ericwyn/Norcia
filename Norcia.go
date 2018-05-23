@@ -176,7 +176,7 @@ type BlogConfig struct {
 	Head      string    `json:"head"`
 	Introduce string    `json:"introduce"`
 	Github    string    `json:"github"`
-	Weibo     string    `json:"weibo"`
+	Mail      string    `json:"mail"`
 	Articles  []Article `json:"articles"`
 }
 

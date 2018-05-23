@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -61,7 +60,9 @@
                 <div>
                     <div class="mdui-typo mdui-typo-subheading-opacity">
                         <ul>
-                            <li>原始链接 :</li>
+                            <li id = "currentLink">
+
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -78,6 +79,17 @@
 
                 </div>
             </div>
+
+            <div id="preAndNext" class="">
+                <div id="prePage" class="mdui-float-left" style="text-align: left">
+                    <p >< 上一篇</p>
+                    <h3 id="preTitle" onclick="gotoPrePage()"></h3>
+                </div>
+                <div id="nextPage" class="mdui-float-right" style="text-align: right">
+                    <p >下一篇 ></p>
+                    <h3 id="nextTitle" onclick="gotoNextPage()"></h3>
+                </div>
+            </div>
         </div>
         <!--占位-->
         <div class="mdui-col-md-2 mdui-col-sm-0"></div>
@@ -89,7 +101,6 @@
 <script>
     loadNavigation("body",true);
     const inst = new mdui.Drawer('#drawer', {swipe: true});
-    const norcia = new NorciaConfig();
 
     function loadArticleConfig(article) {
         document.title = article.title;
@@ -97,11 +108,13 @@
         domId("create").innerHTML = article.create;
         domId("lastUpdate").innerHTML = article.update;
         domId("tags").innerHTML = bindArticleTags(article.tag,true);
+        domId("currentLink").innerHTML+=
+            `原始链接 :<a href="${window.location.href}">${window.location.href}</a>`
     }
 
     //TODO:当配置文件存在但是文章不存在的情况
     //TODO:
-    function loadArticleContent(config){
+    function loadArticleContent(norciaConfig){
         let title = getUrlParam("title");
         if (title === null){
             domId("mdContent").innerHTML +=
@@ -110,20 +123,27 @@
         }
         let loadSuccess = false;
         console.log("title",title);
-        for(let i=0;i<config.articles.length;i++){
-            if (config.articles[i].title === title){
-                loadArticleConfig(config.articles[i]);
-                config.articles[i].loadContent(function (mdDocument) {
+        for(let i=0;i<norciaConfig.articles.length;i++){
+            if (norciaConfig.articles[i].title === title){
+                loadArticleConfig(norciaConfig.articles[i]);
+                norciaConfig.articles[i].loadContent(function (mdDocument) {
                     domId("loading").style.display = "none";
                     domId("mdContent").innerHTML += marked(mdDocument);
                 });
                 loadSuccess = true;
+                if (i !== norciaConfig.articles.length-1){
+                    prePage = norciaConfig.articles[i+1].title;
+                    domId("preTitle").innerHTML = prePage
+                }
+                if (i !== 0){
+                    nextPage = norciaConfig.articles[i-1].title;
+                    domId("nextTitle").innerHTML = nextPage
+                }
                 break;
             }else {
                 console.log("无法找到文章");
-//                console.log(config.articles)
             }
-            console.log(config.articles[i].title)
+            console.log(norciaConfig.articles[i].title)
         }
         if (!loadSuccess){
             domId("mdContent").innerHTML +=
@@ -131,8 +151,12 @@
         }
     }
 
-    norcia.load(function (config) {
-        loadArticleContent(config)
-    })
+    let norciaConfig;
+    ajaxGetConfig(function (config) {
+        norciaConfig = config;
+        loadBlogConfig(norciaConfig);
+        loadArticleContent(norciaConfig);
+    });
+
 </script>
 </html>

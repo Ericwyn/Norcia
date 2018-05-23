@@ -2,50 +2,52 @@ function NorciaConfig() {
     let head;
     let introduce;
     let github;
-    let weibo;
+    let mail;
     let articles;
-    //解析 json文件，传入一大堆回调函数，来规避 ajax 无法同步运行的问题
-    this.load = function (callback) {
-        if (sessionStorage.getItem("config") === null){
-            ajax_get(
-                "config.json",
-                null,
-                function (responseText) {
-                    sessionStorage.setItem("config",responseText);
-                    let json = JSON.parse(responseText);
-                    this.head = json['head'];
-                    this.introduce = json['introduce'];
-                    this.github = json['github'];
-                    this.weibo = json['weibo'];
-                    this.articles = [];
-                    let articlesJson = json['articles'];
-                    for (let i = 0; i < articlesJson.length; i++) {
-                        let articleTemp = new Article();
-                        articleTemp.parseArticleJson(articlesJson[i]);
-                        this.articles[i] = articleTemp;
-                    }
-                    callback(this);
-                },
-                function (status) {
-                    console.log(status);
+}
+
+function ajaxGetConfig(callback) {
+    if (sessionStorage.getItem("config") === null){
+        ajax_get(
+            "config.json",
+            null,
+            function (responseText) {
+                sessionStorage.setItem("config",responseText);
+                let json = JSON.parse(responseText);
+                let resConfig = new NorciaConfig();
+                resConfig.head = json['head'];
+                resConfig.introduce = json['introduce'];
+                resConfig.github = json['github'];
+                resConfig.mail = json['mail'];
+                resConfig.articles = [];
+                let articlesJson = json['articles'];
+                for (let i = 0; i < articlesJson.length; i++) {
+                    let articleTemp = new Article();
+                    articleTemp.parseArticleJson(articlesJson[i]);
+                    resConfig.articles[i] = articleTemp;
                 }
-            );
-        }else {
-            let responseText = sessionStorage.getItem("config");
-            let json = JSON.parse(responseText);
-            this.head = json['head'];
-            this.introduce = json['introduce'];
-            this.github = json['github'];
-            this.weibo = json['weibo'];
-            this.articles = [];
-            let articlesJson = json['articles'];
-            for (let i = 0; i < articlesJson.length; i++) {
-                let articleTemp = new Article();
-                articleTemp.parseArticleJson(articlesJson[i]);
-                this.articles[i] = articleTemp;
+                callback(resConfig);
+            },
+            function (status) {
+                console.log(status);
             }
-            callback(this);
+        );
+    }else {
+        let responseText = sessionStorage.getItem("config");
+        let json = JSON.parse(responseText);
+        let resConfig = new NorciaConfig();
+        resConfig.head = json['head'];
+        resConfig.introduce = json['introduce'];
+        resConfig.github = json['github'];
+        resConfig.mail = json['mail'];
+        resConfig.articles = [];
+        let articlesJson = json['articles'];
+        for (let i = 0; i < articlesJson.length; i++) {
+            let articleTemp = new Article();
+            articleTemp.parseArticleJson(articlesJson[i]);
+            resConfig.articles[i] = articleTemp;
         }
+        callback(resConfig);
     }
 }
 
