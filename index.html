@@ -39,6 +39,7 @@
     <div>
         <button class="mdui-btn mdui-center mdui-color-theme-400"
                 id="load_more_btn"
+                style="display: none"
                 onclick="loadIndexCard(norciaConfig)">
             加载更多
         </button>
@@ -49,11 +50,11 @@
 
     <div class="mdui-container mdui-appbar-with-toolbar">
         <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white" id="drawer">
-            <div style="height: 30%;background: #3F51B5 url('img/brand.png');">
+            <div style="min-height: 250px; height: 30%; background: #3F51B5 url('img/brand.png');">
                 <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="img/logo.jpg"/>
                 <div class="mdui-typo mdui-m-l-4">
-                    <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong>Norcia
-                        Blog</strong></h4>
+                    <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">
+                        My Blog</strong></h4>
                     <p class="mdui-text-color-white mdui-m-t-0 name-mail-line-height" id="mail"></p>
                 </div>
             </div>
@@ -136,6 +137,7 @@
     ajaxGetConfig(function (config) {
         norciaConfig = config;
         domId("loading").style.display="none";
+        domId("load_more_btn").style.display = "block";
         loadBlogConfig(norciaConfig);
         loadIndexCard(norciaConfig)
     });

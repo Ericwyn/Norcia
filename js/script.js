@@ -102,8 +102,8 @@ function loadNavigation(dom,close) {
                 <div style="height: 30%;background: #3F51B5 url('img/brand.png');">
                     <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="img/logo.jpg"/>
                     <div class="mdui-typo mdui-m-l-4">
-                        <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong>Norcia
-                            Blog</strong></h4>
+                        <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">
+                        My Blog</strong></h4>
                         <p class="mdui-text-color-white mdui-m-t-0 name-mail-line-height" id="mail"></p>
                     </div>
                 </div>
@@ -144,6 +144,7 @@ function loadNavigation(dom,close) {
 function loadBlogConfig(norcia) {
     document.title = norcia.head;
     domId("mail").innerHTML = norcia.mail;
+    domId("blogName").innerHTML = norcia.head;
     console.log(norcia);
     github = norcia.github;
 }
