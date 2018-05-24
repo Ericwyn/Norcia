@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="css/mdui.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/mdui.min.js"></script>
 </head>
 <style type="text/css">
 </style>
 <body class="mdui-theme-accent-pink mdui-theme-primary-indigo" id="body">
-    <header class="mdui-color-theme"
-            style="width: 100%; min-height: 35%;z-index: -1;position: absolute; ">
+    <header class="mdui-color-theme blog-pages-header">
     </header>
 
     <div class="mdui-toolbar mdui-color-theme" id="test">
@@ -29,14 +27,14 @@
         <div class="mdui-col-md-8 mdui-col-sm-12 ">
             <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
                 <div >
-                    <h1 id="title" style="font-weight: bolder">
+                    <h1 id="title" class="bold-font-weight">
                         <!--标题所在-->
                     </h1>
                     <!--设置创建时间-->
-                    <div class="mdui-typo-body-1" style="display: inline">
+                    <div class="mdui-typo-body-1 inline-display">
                         创建时间 : <span id ="create" class="mdui-text-color-pink"></span>
                     </div>
-                    <div class="mdui-typo-body-1 mdui-m-l-3" style="display: inline">
+                    <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
                         最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink"></span>
                     </div>
                 </div>
@@ -47,7 +45,7 @@
                     <div class="mdui-m-t-5"></div>
                     <div class="mdui-center mdui-spinner mdui-m-t-5"></div>
                     <div class="mdui-typo mdui-m-t-5 mdui-m-b-5">
-                        <h4 style="text-align: center">正在载入中，请稍后 n(*≧▽≦*)n</h4>
+                        <h4 class="text-align-center">正在载入中，请稍后 n(*≧▽≦*)n</h4>
                     </div>
                 </div>
                 <div id="mdContent">
@@ -67,8 +65,7 @@
                     </div>
                 </div>
                 <div class="mdui-m-a-5">
-                    <button class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised"
-                            style="height: 56px;width: 56px;">
+                    <button class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
                         赏
                     </button>
                 </div>
@@ -81,11 +78,11 @@
             </div>
 
             <div id="preAndNext" class="">
-                <div id="prePage" class="mdui-float-left" style="text-align: left">
+                <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3 id="preTitle" onclick="gotoPrePage()"></h3>
                 </div>
-                <div id="nextPage" class="mdui-float-right" style="text-align: right">
+                <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3 id="nextTitle" onclick="gotoNextPage()"></h3>
                 </div>
@@ -95,6 +92,7 @@
         <div class="mdui-col-md-2 mdui-col-sm-0"></div>
     </div>
 </body>
+<script src="js/mdui.min.js"></script>
 <script src="js/marked.js"></script>
 <script src="js/norcia.js"></script>
 <script src="js/script.js"></script>

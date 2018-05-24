@@ -98,8 +98,8 @@ func main() {
 
 //用户输入标签，或者是从旧的标签里面选一个
 func inputDocumentsTag(title string,config BlogConfig) string{
-	tagMap := make(map[int64]string)
-	var tagCount int64
+	tagMap := make(map[int]string)
+	var tagCount int
 	tagCount = 0
 	for _,article:= range config.Articles{
 		tagsTemp := strings.Split(article.Tag,",")
@@ -118,9 +118,14 @@ func inputDocumentsTag(title string,config BlogConfig) string{
 		}
 	}
 	fmt.Println("\n以下为已有的标签及编号：")
-	for i,tagTemp := range tagMap{
-		fmt.Println("\t",i,".",tagTemp)
+
+	//for i,tagTemp := range tagMap{
+	//	fmt.Println("\t",i,".",tagTemp)
+	//}
+	for i :=0;i<len(tagMap);i++{
+		fmt.Println("\t",i,".",tagMap[i])
 	}
+
 	fmt.Printf("请输入文章 ' %s ' 的新标签名称，或者输入已有标签的序号，多个输入之间使用空格分隔 : \n",title)
 	reader := bufio.NewReader(os.Stdin)
 	input, _, _ := reader.ReadLine()
@@ -129,7 +134,7 @@ func inputDocumentsTag(title string,config BlogConfig) string{
 	for i,tag := range inputTemp{
 		flag,num :=  isInt(tag)
 		if flag {
-			if tagMap[num] == "" {
+			if tagMap[(num)] == "" {
 				res += tag
 			}else {
 				res += tagMap[num]
@@ -144,12 +149,12 @@ func inputDocumentsTag(title string,config BlogConfig) string{
 	return res
 }
 
-func isInt(str string)( bool,int64){
-	num,err := strconv.ParseInt(str,0,64)
+func isInt(str string)( bool,int){
+	num,err := strconv.ParseInt(str,0,32)
 	if err != nil {
 		return false,-1
 	}else {
-		return true,num
+		return true,int(num)
 	}
 }
 

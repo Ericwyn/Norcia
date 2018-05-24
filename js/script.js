@@ -79,8 +79,9 @@ function bindArticleTags(tags,randomColor) {
         if (randomColor){
             colorClass = colors[(ran+i)%temp.length];
         }
-        tagHtml += `<button class="mdui-btn mdui-ripple ${colorClass} mdui-text-color-white mdui-shadow-1 mdui-m-x-1">
-                ${temp[i]}
+        tagHtml += `<button class="mdui-btn mdui-ripple ${colorClass} 
+            mdui-text-color-white mdui-shadow-1 mdui-m-x-1 none-text-transform">
+                ${temp[i]}      
             </button>`;
     }
     return tagHtml;
@@ -99,7 +100,7 @@ function loadNavigation(dom,close) {
     domId(dom).innerHTML +=
         `<div class="mdui-container mdui-appbar-with-toolbar">
             <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white ${closeClass}" id="drawer">
-                <div style="height: 30%;background: #3F51B5 url('img/brand.png');">
+                <div class="navigation-bar-header">
                     <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="img/logo.jpg"/>
                     <div class="mdui-typo mdui-m-l-4">
                         <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">

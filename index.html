@@ -5,7 +5,6 @@
     <title></title>
     <!--引入mdui-->
     <link rel="stylesheet" href="css/mdui.min.css">
-    <script src="js/mdui.min.js"></script>
     <!--引入自定义css-->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -31,26 +30,25 @@
             <div class="mdui-m-t-5"></div>
             <div class="mdui-center mdui-spinner mdui-m-t-5"></div>
             <div class="mdui-typo mdui-m-t-5 mdui-m-b-5">
-                <h4 style="text-align: center">正在载入中，请稍后 n(*≧▽≦*)n</h4>
+                <h4 class="text-align-center">正在载入中，请稍后 n(*≧▽≦*)n</h4>
             </div>
         </div>
     </div>
 
     <div>
-        <button class="mdui-btn mdui-center mdui-color-theme-400"
+        <button class="mdui-btn mdui-center mdui-color-theme-400 none-display"
                 id="load_more_btn"
-                style="display: none"
                 onclick="loadIndexCard(norciaConfig)">
             加载更多
         </button>
     </div>
-    <div class=" mdui-typo mdui-m-t-4" id="foot" style="text-align: center">
+    <div class=" mdui-typo mdui-m-t-4 text-align-center" id="foot">
         <p class="mdui-center mdui-typo-subheading-opacity ">Power By <a href="https://github.com/Besfim/Norcia">Norcia</a></p>
     </div>
 
     <div class="mdui-container mdui-appbar-with-toolbar">
         <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white" id="drawer">
-            <div style="min-height: 250px; height: 30%; background: #3F51B5 url('img/brand.png');">
+            <div class="navigation-bar-header">
                 <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="img/logo.jpg"/>
                 <div class="mdui-typo mdui-m-l-4">
                     <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">
@@ -60,9 +58,9 @@
             </div>
             <ul class="mdui-list">
                 <br>
-                <li class="mdui-list-item mdui-ripple" onclick="">
+                <li class="mdui-list-item mdui-ripple" onclick="gotoIndex()">
                     <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">home</i>
-                    <div class="mdui-list-item-content" onclick="gotoIndex()">首页 Home</div>
+                    <div class="mdui-list-item-content">首页 Home</div>
                 </li>
 
                 <br>
@@ -92,6 +90,7 @@
 
 </body>
 <!--引入自定义css-->
+<script src="js/mdui.min.js"></script>
 <script src="js/script.js"></script>
 <script src="js/norcia.js"></script>
 <script type="text/javascript">
