@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="css/mdui.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="google-code-prettify/prettify.css" />
 </head>
 <style type="text/css">
 </style>
@@ -48,7 +49,7 @@
                         <h4 class="text-align-center">正在载入中，请稍后 n(*≧▽≦*)n</h4>
                     </div>
                 </div>
-                <div id="mdContent">
+                <div id="mdContent" class="prettyprint">
                     <!-- markdown 转换成的 HTML 的存放地址-->
                 </div>
                 <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
@@ -92,10 +93,11 @@
         <div class="mdui-col-md-2 mdui-col-sm-0"></div>
     </div>
 </body>
-<script src="js/mdui.min.js"></script>
-<script src="js/marked.js"></script>
-<script src="js/norcia.js"></script>
-<script src="js/script.js"></script>
+<script type="text/javascript" src="js/mdui.min.js"></script>
+<script type="text/javascript" src="js/marked.js"></script>
+<script type="text/javascript" src="js/norcia.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="google-code-prettify/prettify.js"></script>
 <script>
     loadNavigation("body",true);
     const inst = new mdui.Drawer('#drawer', {swipe: true});
@@ -108,6 +110,16 @@
         domId("tags").innerHTML = bindArticleTags(article.tag,true);
         domId("currentLink").innerHTML+=
             `原始链接 :<a href="${window.location.href}">${window.location.href}</a>`
+    }
+
+    //对所有 code 标签引入代码着色
+    function loadPrettyPrint() {
+        let codes = document.getElementsByTagName("code");
+        for (let k=0;k<codes.length;k++){
+            let classTemp = document.getElementsByTagName("code")[k].getAttribute("class");
+            document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
+        }
+        prettyPrint()
     }
 
     //TODO:当配置文件存在但是文章不存在的情况
@@ -127,6 +139,7 @@
                 norciaConfig.articles[i].loadContent(function (mdDocument) {
                     domId("loading").style.display = "none";
                     domId("mdContent").innerHTML += marked(mdDocument);
+                    loadPrettyPrint();
                 });
                 loadSuccess = true;
                 if (i !== norciaConfig.articles.length-1){
