@@ -10,6 +10,10 @@ import (
 	"strings"
 	"sort"
 	"strconv"
+	"log"
+	"path/filepath"
+	"net/http"
+	"flag"
 )
 
 /**
@@ -43,9 +47,35 @@ const docDirName string = "document/"
 // Norcia 多语言支持
 var language = "cn"
 //const languageMap = initLanguageMap()
+
+// Preview 服务的运行端口
+var previewFlag = flag.Bool("p",false,"run a Web Server for blog preview")
+
 func main() {
-	//var oldArticleNum = 0
+	flag.Parse()
 	printHeader()
+	if *previewFlag {
+		configUpdateServer()
+		previewServer()
+	}else {
+		configUpdateServer()
+	}
+}
+
+func previewServer() {
+	h := http.FileServer(http.Dir(getCurrentDirectory()))
+	fmt.Println()
+	fmt.Println("---------- Norcia 博客预览服务 ----------")
+	fmt.Println()
+	fmt.Println("请访问: http://localhost:8666/index.html ")
+
+	err := http.ListenAndServe(":8666", h)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
+}
+
+func configUpdateServer()  {
 	updateNum := 0
 	createNum := 0
 	//var deleteNum = 0
@@ -119,9 +149,6 @@ func inputDocumentsTag(title string,config BlogConfig) string{
 	}
 	fmt.Println("\n以下为已有的标签及编号：")
 
-	//for i,tagTemp := range tagMap{
-	//	fmt.Println("\t",i,".",tagTemp)
-	//}
 	for i :=0;i<len(tagMap);i++{
 		fmt.Println("\t",i,".",tagMap[i])
 	}
@@ -300,11 +327,20 @@ func makeMap(lang []string) map[string]string{
 }
 
 func printHeader() {
-	fmt.Println(" _   _                _       ")
-	fmt.Println("| \\ | | ___  _ __ ___(_) __ _ ")
-	fmt.Println("|  \\| |/ _ \\| '__/ __| |/ _` |")
-	fmt.Println("| |\\  | (_) | | | (__| | (_| |")
-	fmt.Println("|_| \\_|\\___/|_|  \\___|_|\\__,_|")
+	fmt.Println("     _   _                _       ")
+	fmt.Println("    | \\ | | ___  _ __ ___(_) __ _ ")
+	fmt.Println("    |  \\| |/ _ \\| '__/ __| |/ _` |")
+	fmt.Println("    | |\\  | (_) | | | (__| | (_| |")
+	fmt.Println("    |_| \\_|\\___/|_|  \\___|_|\\__,_|")
+}
+
+//获取当前的程序文件夹
+func getCurrentDirectory() string {
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		log.Fatal(err)
+	}
+	return strings.Replace(dir, "\\", "/", -1)
 }
 
 func getStringsLan(languageMap map[string]map[string]string,key string) string{
