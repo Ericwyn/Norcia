@@ -66,7 +66,8 @@ Norcia 为以下三个平台提供打包好的二进制程序
         |_| \_|\___/|_|  \___|_|\__,_|
         
         更新了 0 个文档, 并且创建了 0 个文档 
-        
+
+
 ### Norcia.js
 `Norcia.js` 是　`Norcia`的　js 工具包，封装好了 Norcia 一些前端需要用到的函数，使用示例如下
     
@@ -86,3 +87,35 @@ Norcia 为以下三个平台提供打包好的二进制程序
             console.log(configTemp.articles[0].title);
         }
     ]);
+
+## Build
+运行一下命令，将会自动构建适用于 Linux, Mac OS, Windows 的程序
+
+    sh build.sh
+    
+如果构建成功，将会有以下显示
+
+        _   _                _       
+       | \ | | ___  _ __ ___(_) __ _ 
+       |  \| |/ _ \| '__/ __| |/ _  |
+       | |\  | (_) | | | (__| | (_| |
+       |_| \_|\___/|_|  \___|_|\__,_|
+    ----------build script--------------
+    
+    start build for linux_amd64
+    build for linux_amd64 successful
+    ------------------------------------
+    
+    start build for drawin_amd64
+    build for drawin_amd64 successful 
+    ------------------------------------
+    
+    start build for window_amd64
+    build for window_amd64 successful 
+    ------------------------------------
+    
+    finish build in 
+             ./Norcia_linux_amd64
+             ./Norcia_drawin_amd64
+             ./Norcia_win_amd64.exe
+    ------------------------------------
