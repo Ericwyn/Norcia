@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="css/mdui.min.css">
     <!--引入自定义css-->
     <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/mdui.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/norcia.js"></script>
 </head>
 <body class="mdui-theme-accent-pink mdui-theme-primary-blue-grey mdui-drawer-body-left" id = "body">
     <div class="mdui-toolbar mdui-color-theme" id="toolbar">
@@ -23,7 +26,6 @@
                     class="mdui-icon material-icons">close</i></button>
         </div>
     </div>
-
     <!--页面内容放置区域-->
     <div class="mdui-container doc-container mdui-m-t-4" id = "articles">
         <div id="loading">
@@ -34,7 +36,6 @@
             </div>
         </div>
     </div>
-
     <div>
         <button class="mdui-btn mdui-center mdui-color-theme-400 none-display"
                 id="load_more_btn"
@@ -87,59 +88,54 @@
             </ul>
         </div>
     </div>
+    <script type="text/javascript">
 
-</body>
-<!--引入自定义css-->
-<script type="text/javascript" src="js/mdui.min.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
-<script type="text/javascript" src="js/norcia.js"></script>
-<script type="text/javascript">
+        const inst = new mdui.Drawer('#drawer', {swipe: true});
 
-    const inst = new mdui.Drawer('#drawer', {swipe: true});
-
-    //首页文章动态加载 flag,记录文章加载的记录
-    let articleCount = 0;
-    /**
-     * 载入首页的文章卡片
-     * @param config
-     */
-    function loadIndexCard(config) {
-        let loadNum = 5;
-        let startNum = articleCount;
-        // 是否从其他页面返回来
-        if (sessionStorage.getItem("loadNum")!==null){
-            articleCount = sessionStorage.getItem("loadNum");
-            articleCount = parseInt(articleCount);
-            sessionStorage.removeItem("loadNum");
-            loadNum = 0;
-            startNum = 0;
-        }
-        for (let i = startNum;i<config.articles.length && i<articleCount+loadNum;i++){
-            domId("articles").innerHTML +=
-                "\n"
-                +bindIndexArticleCard(config.articles[i]);
-            if (i === config.articles.length-1){
-                domId("load_more_btn").disabled = true;
-                domId("load_more_btn").innerText = " 我可是有底线的，哼 ╭(╯^╰)╮ ";
+        //首页文章动态加载 flag,记录文章加载的记录
+        let articleCount = 0;
+        /**
+         * 载入首页的文章卡片
+         * @param config
+         */
+        function loadIndexCard(config) {
+            let loadNum = 5;
+            let startNum = articleCount;
+            // 是否从其他页面返回来
+            if (sessionStorage.getItem("loadNum")!==null){
+                articleCount = sessionStorage.getItem("loadNum");
+                articleCount = parseInt(articleCount);
+                sessionStorage.removeItem("loadNum");
+                loadNum = 0;
+                startNum = 0;
+            }
+            for (let i = startNum;i<config.articles.length && i<articleCount+loadNum;i++){
+                domId("articles").innerHTML +=
+                    "\n"
+                    +bindIndexArticleCard(config.articles[i]);
+                if (i === config.articles.length-1){
+                    domId("load_more_btn").disabled = true;
+                    domId("load_more_btn").innerText = " 我可是有底线的，哼 ╭(╯^╰)╮ ";
+                }
+            }
+            articleCount = articleCount+loadNum;
+            //如果有记录浏览位置的话，就跳转到浏览位置
+            if (sessionStorage.getItem("scrollIndex")!==null){
+                document.body.scrollTop = sessionStorage.getItem("scrollIndex");
+                sessionStorage.removeItem("scrollIndex");
             }
         }
-        articleCount = articleCount+loadNum;
-        //如果有记录浏览位置的话，就跳转到浏览位置
-        if (sessionStorage.getItem("scrollIndex")!==null){
-            document.body.scrollTop = sessionStorage.getItem("scrollIndex");
-            sessionStorage.removeItem("scrollIndex");
-        }
-    }
 
-    let norciaConfig;
-    // 载入 config
-    ajaxGetConfig(function (config) {
-        norciaConfig = config;
-        domId("loading").style.display="none";
-        domId("load_more_btn").style.display = "block";
-        loadBlogConfig(norciaConfig);
-        loadIndexCard(norciaConfig)
-    });
-
-</script>
+        let norciaConfig;
+        // 载入 config
+        ajaxGetConfig(function (config) {
+            norciaConfig = config;
+            domId("loading").style.display="none";
+            domId("load_more_btn").style.display = "block";
+            loadBlogConfig(norciaConfig);
+            loadIndexCard(norciaConfig)
+        });
+    </script>
+</body>
+<!--引入自定义css-->
 </html>
