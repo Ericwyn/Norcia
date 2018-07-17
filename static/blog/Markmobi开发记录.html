@@ -1,0 +1,266 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Markmobi开发记录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
+    <link rel="stylesheet" href="/css/mdui.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/google-code-prettify/prettify.css" />
+</head>
+<style type="text/css">
+</style>
+<body class="mdui-theme-accent-pink mdui-theme-primary-teal" id="body">
+<header class="mdui-color-theme blog-pages-header">
+</header>
+
+<div class="mdui-toolbar mdui-color-theme" id="test">
+    <button onclick="inst.toggle()" class="mdui-btn mdui-btn-icon mdui-text-color-white">
+        <i class="mdui-icon material-icons">menu</i>
+    </button>
+    <div class="mdui-toolbar-spacer"></div>
+    <button class="mdui-btn mdui-btn-icon" onclick="showShareCode()"><i class="mdui-icon material-icons">share</i></button>
+</div>
+
+<div class="mdui-container-fluid mdui-m-t-5">
+    <!--占位-->
+    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
+    <!--内容主要显示区域-->
+    <div class="mdui-col-md-8 mdui-col-sm-12 ">
+        <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
+            <div >
+                <h1 id="title" class="bold-font-weight">
+                    <!--标题所在-->Markmobi开发记录
+                </h1>
+                <!--设置创建时间-->
+                <div class="mdui-typo-body-1 inline-display">
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-04-05 16:34</span>
+                </div>
+                <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-05-23 14:44</span>
+                </div>
+            </div>
+            <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
+                <hr/>
+            </div>
+            <div id="mdContent" class="prettyprint">
+                <h2>前言</h2>
+
+<p>自己使用 Kindle 已经有好几年的历史了，从高中时期看各种古文，后来一口气的看一大堆小说，再到后来看看一些技术书籍，而最近发现 Kindle 的另外一个用处就是看 Github 上面的一些电子书籍。</p>
+
+<p>Github 上面是有很多的技术书籍的，因为 Github 有着开放和包容的特性，所以很多的人会翻译各种技术专业的文档或者相关的书，并变成一个 repo ，后续不断更新和提交。从这看来，Github 其实像是一个大的书库。另外哪怕不是书籍，Github 上面也有很多可能并不太适合在电脑上面阅读的 README，以及那种超长的那种项目文档。某天我翻阅的时候，忽然发现或许拿 Kindle 来阅读，应该会舒服很多吧。于是就开始了探索如何把 Github 上面的文档挪到 Kindle 上面阅读的问题。准确的说来，这个问题应该是——如何让 Markdown 文档变成合适 Kindle 存储和阅读的 mobi 文件。</p>
+
+<p>那既然说起将 Markdown 文件变成书，变成 Mobi，大家可能马上就可以想到 Gitbook。毕竟人家有下载按钮，有直接变成 Mobi 格式的功能。可是最大的问题在于并不是所有 Github 上面的 repo 都同样的在 Gitbook 拥有一个 repo 啊，所以说到底，还是需要一个工具来帮我们转换。</p>
+
+<p>可惜，在我 google 了巨久之后，我也没有发现什么工具能够直接输入一个 markdown 文件，输出一个 mobi 文件。比较曲折的过程是 ：
+ - 使用 <code>pandoc</code> 将 markdown 转换成 html
+ - 使用 <code>KindleGen</code> 再将 html 转换成 mobi</p>
+
+<p>虽然曲折，但是按着流程操作了两遍，发现真的还行来着，毕竟只要是 mobi 就可以，字体大小什么的都可以交给 kindle 设置。</p>
+
+<p>可是每次都这么操作真的是很麻烦，作为一个程序员自然就想写一个工具过来把这些步骤放到一次完成啦，甚至是做成一个在线工具，直接上传 markdown 然后转换成 mobi ，并提供下载链接</p>
+
+<p>于是就写了个 <code>Markmobi</code></p>
+
+<p>实际上这只是一个调用 <code>pandoc</code> 和 <code>kindleGen</code> 的整合工具而已，内里还是使用 <code>pandoc</code>和<code>kindleGen</code>在工作</p>
+
+<p>## Markdown 文档要求
+  - 文档的资源文件夹（如图片存放文件夹等），需要与markdown 放在同一目录下，且使用文档中需要使用相对路径进行引用
+  - 文档的命名不可包含空格</p>
+
+<p>## 转换过程
+  - markdown &ndash;&gt; HTML
+  - HTML &mdash;&mdash;&gt; Mobi</p>
+
+<p>## 依赖
+ ### 1 , Pandoc
+  - 安装方法</p>
+
+<pre><code>    apt-get install pandoc
+</code></pre>
+
+<p>### 2 , KindleGen
+  - 去 Kindle 官网上面找、或者 Google 搜索一下就好了</p>
+
+<p>## 配置
+  - <code>markmobi.cfg</code> 文件，需要设置 Kindlegen 的绝对路径</p>
+
+<pre><code>    KINDLEGEN_PATH = /media/ericwyn/kindlegen ;
+</code></pre>
+
+<p>## 运行示例
+  - 转换成功</p>
+
+<pre><code>     check KindleGen successful
+     Version : V2.9 
+     check Pandoc successful
+     version : 1.16.0.2
+     build success
+     /media/Java并发_convert.mobi
+
+     Process finished with exit code 0
+</code></pre>
+
+<ul>
+<li><p>转换失败</p>
+
+<pre><code> check KindleGen successful
+ Version : V2.9 
+ check Pandoc successful
+ version : 1.16.0.2
+ build fail
+
+
+ ----------------------- log -----------------------
+
+
+ *************************************************************
+  Amazon kindlegen(Linux) V2.9 build 1028-0897292 
+  A command line e-book compiler 
+  Copyright Amazon.com and its Affiliates 2014 
+ *************************************************************
+
+
+ Error(kindlegen):E30005: Could not find file  题解_convert.mobi
+
+
+ Process finished with exit code 0
+</code></pre></li>
+</ul>
+
+<h2>源码所在</h2>
+
+<p><a href="https://github.com/Ericwyn/Markmobi/">Github_Markmobi</a></p>
+
+<p>代码是使用 Java 写的，说实话总觉得用起来还是有点麻烦，并且效率也不怎么高，不过好处是我能够用这个在外面套一个 Spring Boot 和一个简单的前端之后，写成一个在线服务</p>
+
+<p>当然啦～有机会的话还是觉得用 Go 来重写会比较好，交叉编译成三端二进制这一点我能吹爆！</p>
+
+                <!-- markdown 转换成的 HTML 的存放地址-->
+            </div>
+            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
+                <hr/>
+            </div>
+            <!--显示文章外的信息-->
+            <div>
+                <div class="mdui-typo mdui-typo-subheading-opacity">
+                    <ul>
+                        <li id = "currentLink">
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mdui-m-a-5">
+                <button class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
+                    赏
+                </button>
+            </div>
+            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
+                <hr/>
+            </div>
+            <div class="mdui-m-t-2 mdui-m-b-2" id="tags">
+
+            </div>
+        </div>
+
+        <div id="preAndNext" class="">
+            <div id="prePage" class="mdui-float-left text-align-left">
+                <p >< 上一篇</p>
+                <h3>
+                    <a href="/blog/毕业惜别自题四首.html" class="mdui-text-color-black-text pre-next-title">毕业惜别自题四首.html</a>
+                </h3>
+            </div>
+            <div id="nextPage" class="mdui-float-right text-align-right">
+                <p >下一篇 ></p>
+                <h3>
+                    <a href="/blog/腾讯云CVM安装Win10.html" class="mdui-text-color-black-text pre-next-title">腾讯云CVM安装Win10.html</a>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <!--占位-->
+    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
+</div>
+
+<div class="mdui-container mdui-appbar-with-toolbar">
+    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white mdui-drawer-close" id="drawer">
+        <div class="navigation-bar-header">
+            <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="/img/logo.jpg"/>
+            <div class="mdui-typo mdui-m-l-4">
+                <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">
+                Ericwyn's Blog</strong></h4>
+                <p class="mdui-text-color-white mdui-m-t-0 name-mail-line-height" id="mail"></p>
+            </div>
+        </div>
+        <ul class="mdui-list">
+            <br>
+            <a href="/index.html">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">home</i>
+                    <div class="mdui-list-item-content inline-display">首页 Home</div>
+                </li>
+            </a>
+            <br>
+            <a href="/archives.html">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">archive</i>
+                    <div class="mdui-list-item-content inline-display">归档 Archives</div>
+                </li>
+            </a>
+            <br>
+
+            <a href="">
+                <li class="mdui-list-item mdui-ripple" >
+                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">attach_file</i>
+                    <div class="mdui-list-item-content inline-display">标签 Tag</div>
+                </li>
+            </a>
+
+            <br>
+            <li class="mdui-subheader">链接</li>
+            <a href="http://github.com/Ericwyn">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon material-icons mdui-text-color-grey">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+                    </i>
+                    <div class="mdui-list-item-content inline-display ">Github</div>
+                </li>
+            </a>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/js/mdui.min.js"></script>
+<script type="text/javascript" src="/js/marked.js"></script>
+<script type="text/javascript" src="/js/norcia.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+<script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/jr-qrcode.js"></script>
+<script>
+    const inst = new mdui.Drawer('#drawer', {swipe: true});
+    domId("currentLink").innerHTML+=
+            `原始链接 :<a href="${window.location.href}">${window.location.href}</a>`;
+
+    //对所有 code 标签引入代码着色
+    let codes = document.getElementsByTagName("code");
+    for (let k=0;k<codes.length;k++){
+        let classTemp = document.getElementsByTagName("code")[k].getAttribute("class");
+        document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
+    }
+
+    prettyPrint();
+
+    function showShareCode() {
+        mdui.dialog({
+            title: '',
+            content: `<img class="mdui-center mdui-m-t-2" src = ${jrQrcode.getQrBase64(window.location.href)} style="height:150px;width:150px" >
+                        <div class="mdui-text-center mdui-m-t-2">扫一扫二维码即可分享</div>`,
+            buttons: [
+                {
+                    text: '取消'
+                }
+            ]
+        });
+    }
+</script>
+</html>

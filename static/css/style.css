@@ -88,3 +88,7 @@ table tr:nth-child(even) {
 .none-text-transform{
     text-transform: none;
 }
+
+.pre-next-title{
+    text-decoration: none;
+}

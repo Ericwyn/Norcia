@@ -1,0 +1,198 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>腾讯云CVM安装Win10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
+    <link rel="stylesheet" href="/css/mdui.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/google-code-prettify/prettify.css" />
+</head>
+<style type="text/css">
+</style>
+<body class="mdui-theme-accent-pink mdui-theme-primary-teal" id="body">
+<header class="mdui-color-theme blog-pages-header">
+</header>
+
+<div class="mdui-toolbar mdui-color-theme" id="test">
+    <button onclick="inst.toggle()" class="mdui-btn mdui-btn-icon mdui-text-color-white">
+        <i class="mdui-icon material-icons">menu</i>
+    </button>
+    <div class="mdui-toolbar-spacer"></div>
+    <button class="mdui-btn mdui-btn-icon" onclick="showShareCode()"><i class="mdui-icon material-icons">share</i></button>
+</div>
+
+<div class="mdui-container-fluid mdui-m-t-5">
+    <!--占位-->
+    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
+    <!--内容主要显示区域-->
+    <div class="mdui-col-md-8 mdui-col-sm-12 ">
+        <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
+            <div >
+                <h1 id="title" class="bold-font-weight">
+                    <!--标题所在-->腾讯云CVM安装Win10
+                </h1>
+                <!--设置创建时间-->
+                <div class="mdui-typo-body-1 inline-display">
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-03-14 22:12</span>
+                </div>
+                <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-05-23 15:24</span>
+                </div>
+            </div>
+            <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
+                <hr/>
+            </div>
+            <div id="mdContent" class="prettyprint">
+                <p>##前言
+遇到一个奇怪的需求,某个软件只能在win10上面运行,而在win server 环境下会迷幻出错,本身租用了一台腾讯云CVM 想着拿来做运算,结果gg了,无奈之下只能尝试安装系统为 Win10.这里吐槽一下,为毛各个云服务器厂商就是不提供win10系统呢(难道是因为要付费么</p>
+
+<h2>准备工作</h2>
+
+<ul>
+<li>你的CVM 必须是安装了 windows server 某个版本的(推荐2016版本,毕竟与win10 同一世代</li>
+<li>在腾讯云上下载了 win10 的安装镜像iso</li>
+<li>备份了驱动
+这里额外说一下驱动备份,起初我天真地认为 驱动精灵就能够解决,后面发现驱动精灵居然不支持server 系统&hellip;只好百度一个个找了,找到一个的<code>DiverMax</code>,下载下来之后按着提示备份了一遍驱动,后面又害怕翻车,所以又下载了一个 万能网卡驱动备用</li>
+<li>一个与C盘隔离开的系统分区(可以是从原来的系统盘分区,也可以是挂载的云硬盘,我这边是用云硬盘</li>
+<li><strong>重要</strong> :记下来网络连接的信息,包括ipv4地址,网管,dns服务器等等,因为不然的话重装了之后会无法联网,哪怕有网卡驱动也不行的</li>
+</ul>
+
+<h2>重装</h2>
+
+<p>加压iso文件,选择 <code>setup.exe</code>,按照操作一步一步进行就是了,期间远程连接会断开,使用腾讯云控制台哪里的<code>Webvnc</code>再登录就好了</p>
+
+<h2>后续</h2>
+
+<ul>
+<li>安装好之后发现好像并不用安装网卡驱动,然后我重新设置一下网络连接信息就可以联网了</li>
+</ul>
+
+                <!-- markdown 转换成的 HTML 的存放地址-->
+            </div>
+            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
+                <hr/>
+            </div>
+            <!--显示文章外的信息-->
+            <div>
+                <div class="mdui-typo mdui-typo-subheading-opacity">
+                    <ul>
+                        <li id = "currentLink">
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mdui-m-a-5">
+                <button class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
+                    赏
+                </button>
+            </div>
+            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
+                <hr/>
+            </div>
+            <div class="mdui-m-t-2 mdui-m-b-2" id="tags">
+
+            </div>
+        </div>
+
+        <div id="preAndNext" class="">
+            <div id="prePage" class="mdui-float-left text-align-left">
+                <p >< 上一篇</p>
+                <h3>
+                    <a href="/blog/Markmobi开发记录.html" class="mdui-text-color-black-text pre-next-title">Markmobi开发记录.html</a>
+                </h3>
+            </div>
+            <div id="nextPage" class="mdui-float-right text-align-right">
+                <p >下一篇 ></p>
+                <h3>
+                    <a href="/blog/使用Jitpack发布Github项目.html" class="mdui-text-color-black-text pre-next-title">使用Jitpack发布Github项目.html</a>
+                </h3>
+            </div>
+        </div>
+    </div>
+    <!--占位-->
+    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
+</div>
+
+<div class="mdui-container mdui-appbar-with-toolbar">
+    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white mdui-drawer-close" id="drawer">
+        <div class="navigation-bar-header">
+            <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="/img/logo.jpg"/>
+            <div class="mdui-typo mdui-m-l-4">
+                <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">
+                Ericwyn's Blog</strong></h4>
+                <p class="mdui-text-color-white mdui-m-t-0 name-mail-line-height" id="mail"></p>
+            </div>
+        </div>
+        <ul class="mdui-list">
+            <br>
+            <a href="/index.html">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">home</i>
+                    <div class="mdui-list-item-content inline-display">首页 Home</div>
+                </li>
+            </a>
+            <br>
+            <a href="/archives.html">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">archive</i>
+                    <div class="mdui-list-item-content inline-display">归档 Archives</div>
+                </li>
+            </a>
+            <br>
+
+            <a href="">
+                <li class="mdui-list-item mdui-ripple" >
+                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">attach_file</i>
+                    <div class="mdui-list-item-content inline-display">标签 Tag</div>
+                </li>
+            </a>
+
+            <br>
+            <li class="mdui-subheader">链接</li>
+            <a href="http://github.com/Ericwyn">
+                <li class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon material-icons mdui-text-color-grey">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+                    </i>
+                    <div class="mdui-list-item-content inline-display ">Github</div>
+                </li>
+            </a>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/js/mdui.min.js"></script>
+<script type="text/javascript" src="/js/marked.js"></script>
+<script type="text/javascript" src="/js/norcia.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+<script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
+<script type="text/javascript" src="/js/jr-qrcode.js"></script>
+<script>
+    const inst = new mdui.Drawer('#drawer', {swipe: true});
+    domId("currentLink").innerHTML+=
+            `原始链接 :<a href="${window.location.href}">${window.location.href}</a>`;
+
+    //对所有 code 标签引入代码着色
+    let codes = document.getElementsByTagName("code");
+    for (let k=0;k<codes.length;k++){
+        let classTemp = document.getElementsByTagName("code")[k].getAttribute("class");
+        document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
+    }
+
+    prettyPrint();
+
+    function showShareCode() {
+        mdui.dialog({
+            title: '',
+            content: `<img class="mdui-center mdui-m-t-2" src = ${jrQrcode.getQrBase64(window.location.href)} style="height:150px;width:150px" >
+                        <div class="mdui-text-center mdui-m-t-2">扫一扫二维码即可分享</div>`,
+            buttons: [
+                {
+                    text: '取消'
+                }
+            ]
+        });
+    }
+</script>
+</html>
