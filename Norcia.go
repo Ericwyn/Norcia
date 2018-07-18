@@ -275,26 +275,26 @@ func generateSiteMap(config BlogConfig)  {
 		"    <url>\n"+
 		"    	<loc>"+domain+"blog/"+article.Link+".html"+"</loc>\n"+
 		"    	<lastmod>"+ timeTemp.Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>0.8</priority>"+
+		"    	<priority>0.8</priority>\n"+
 		"    </url>\n"
 	}
 	tml +=
 		"    <url>\n"+
 		"    	<loc>"+domain+"</loc>\n"+
 		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>0.8</priority>"+
+		"    	<priority>0.8</priority>\n"+
 		"    </url>\n"
 	tml +=
 		"    <url>\n"+
 		"    	<loc>"+domain+"archives.html"+"</loc>\n"+
 		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>0.8</priority>"+
+		"    	<priority>0.8</priority>\n"+
 		"    </url>\n"
 	tml +=
 		"    <url>\n"+
 		"    	<loc>"+domain+"archives.html"+"</loc>\n"+
 		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>0.8</priority>"+
+		"    	<priority>0.8</priority>\n"+
 		"    </url>\n"
 	tml += "</urlset>"
 	writeStringToFile(tml,staticPath+"sitemap.xml")
