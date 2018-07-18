@@ -105,6 +105,10 @@ func configUpdateServer()  {
 		var temp Article
 		articleFromConfig, successFlag := getArticleFromConfigByTitle(title, blogconfig)
 		if successFlag == 1 {
+			//修改旧版本默认为空的 Link
+			if articleFromConfig.Link == "" {
+				articleFromConfig.Link = articleFromConfig.Title
+			}
 			//如果能够找到旧的文件
 			//最后修改时间没变
 			if articleFromConfig.Update == substr(updateTime.String(), 0, 16) {
@@ -116,6 +120,7 @@ func configUpdateServer()  {
 					Update: substr(updateTime.String(), 0, 16),
 					Create: articleFromConfig.Create,
 					Mini:   miniDoc,
+					Link:   articleFromConfig.Link,
 				}
 				updateNum++
 			}
@@ -123,10 +128,11 @@ func configUpdateServer()  {
 			//如果无法找到旧的文件,证明文件时新建的!
 			temp = Article{
 				Title:  title,
-				Tag:    inputDocumentsTag(title,blogconfig),
+				Tag:    inputNewDocumentsTag(title,blogconfig),
 				Update: substr(updateTime.String(), 0, 16),
 				Create: substr(updateTime.String(), 0, 16),
 				Mini:   miniDoc,
+				Link:   inputNewDocumentLink(title),
 			}
 			createNum++
 		}
@@ -135,8 +141,8 @@ func configUpdateServer()  {
 	sort.Sort(articleList(articles))
 	blogconfig.Articles = articles
 	outputNewBlogConfig(blogconfig)
-	fmt.Printf(getStringsLan("update_info"), updateNum , createNum)
 	generateStaticPages(blogconfig)
+	fmt.Printf(getStringsLan("update_info"), updateNum , createNum)
 }
 
 //生成静态页面
@@ -145,7 +151,7 @@ func generateStaticPages(config BlogConfig) {
 	writeStringToFile(bindIndex(config),staticPath+"index.html")
 	// blog 页面
 	for i,article := range config.Articles{
-		writeStringToFile(bindBlog(config,i),staticPath+"blog/"+article.Title+".html")
+		writeStringToFile(bindBlog(config,i),staticPath+"blog/"+article.Link+".html")
 	}
 	// config.json
 	writeStringToFile(generateConfigJson(config), staticPath+"config.json")
@@ -177,6 +183,7 @@ func bindCardAndArticle(config BlogConfig) string {
 			"Create":article.Create,
 			"Update":article.Update,
 			"Mini":article.Mini,
+			"Link":article.Link,
 		}
 		res += "\n"+ bindDateToTmpl(tmpl,data)
 		if i >= 5 {
@@ -240,7 +247,7 @@ func bindDateToTmpl(tmpl string, data map[string]string) string {
 
 
 //用户输入标签，或者是从旧的标签里面选一个
-func inputDocumentsTag(title string,config BlogConfig) string{
+func inputNewDocumentsTag(title string,config BlogConfig) string{
 	tagMap := make(map[int]string)
 	var tagCount int
 	tagCount = 0
@@ -289,6 +296,17 @@ func inputDocumentsTag(title string,config BlogConfig) string{
 	return res
 }
 
+//用户输入标签，或者是从旧的标签里面选一个
+func inputNewDocumentLink(title string) string{
+	fmt.Println(getStringsLan("input_link"))
+	reader := bufio.NewReader(os.Stdin)
+	input, _, _ := reader.ReadLine()
+	if strings.Replace(string(input)," ","",-1) != "" {
+		return strings.Replace(string(input)," ","",-1)
+	}
+	return title
+}
+
 func isInt(str string)( bool,int){
 	num,err := strconv.ParseInt(str,0,32)
 	if err != nil {
@@ -331,6 +349,7 @@ type Article struct {
 	Create string `json:"create"`
 	Update string `json:"update"`
 	Mini   string `json:"mini"`
+	Link   string `json:"link"`
 }
 
 //排序 Article
@@ -482,6 +501,10 @@ func initLanguageMap(languageMap *map[string]map[string]string){
 	(*languageMap)["visit_host"] = makeMap([]string{
 		"请访问: http://localhost:8666/index.html",
 		"Visit: http://localhost:8666/index.html",
+	})
+	(*languageMap)["input_link"] = makeMap([]string{
+		"请输入文章的访问 Link , 默认为该文章的标题",
+		"Please enter the article access link, the default is the title of this article",
 	})
 
 }

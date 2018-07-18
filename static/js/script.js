@@ -21,14 +21,16 @@ function getUrlParam(name) {
  * @param article
  * @returns {string}
  */
+var test ;
 function bindIndexArticleCard(article) {
     let tags = article.tag;
     let tagHtml = bindArticleTags(tags,true);
+    test = article;
     let head =
         `<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
         <div class="mdui-card-primary">
             <div class="mdui-card-primary-title ">
-                <a href="blog/${article.title}.html">${article.title}</a>
+                <a href="blog/${article.link}.html" target="_blank">${article.title}</a>
             </div>
             <div class="mdui-card-primary-subtitle">${article.create}</div>
         </div>
@@ -162,18 +164,5 @@ let github = "";
 function gotoGithub() {
     if (github !== ""){
         window.location.href = github;
-    }
-}
-
-let nextPage = "";
-let prePage = "";
-function gotoPrePage() {
-    if (prePage !== ""){
-        window.location.href = "blog.html?title="+prePage;
-    }
-}
-function gotoNextPage() {
-    if (nextPage !== ""){
-        window.location.href = "blog.html?title="+ nextPage;
     }
 }

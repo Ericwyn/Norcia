@@ -58,25 +58,15 @@ function Article() {
     let update;
     let mini;
     let content;
+    let link;
     this.parseArticleJson = function (json) {
         this.title = json.title;
         this.tag = json.tag;
         this.create = json.create;
         this.update = json.update;
         this.mini = json.mini;
+        this.link = json.link;
     };
-    this.loadContent = function (callback) {
-        ajax_get(
-            "document/"+this.title+".md",
-            null,
-            function (mdDocument) {
-                callback(mdDocument)
-            },
-            function (status) {
-                console.log(status);
-            }
-        );
-    }
 }
 
 /**
