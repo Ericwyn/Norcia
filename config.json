@@ -3,6 +3,7 @@
 	"introduce": "Coding myself",
 	"github": "http://github.com/Ericwyn",
 	"mail": "Coding myself",
+	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
 			"title": "iMCPortal-连接过程解析及Golang实现",

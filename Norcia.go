@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"flag"
 	"gopkg.in/russross/blackfriday.v2"
+	"time"
 )
 
 /**
@@ -57,6 +58,9 @@ var languageMap map[string]map[string]string
 var previewFlag = flag.Bool("p",false,"run a Web Server for blog preview")
 // 是否以英文显示
 var useEn = flag.Bool("en",false,"run with English")
+
+// 生成网站地图
+var genSiteMap= flag.Bool("g",false,"generate the SiteMap xml for your static blog")
 
 var staticPath = "static/"
 
@@ -142,6 +146,9 @@ func configUpdateServer()  {
 	blogconfig.Articles = articles
 	outputNewBlogConfig(blogconfig)
 	generateStaticPages(blogconfig)
+	if *genSiteMap {
+		generateSiteMap(blogconfig)
+	}
 	fmt.Printf(getStringsLan("update_info"), updateNum , createNum)
 }
 
@@ -193,6 +200,7 @@ func bindCardAndArticle(config BlogConfig) string {
 	return res
 }
 
+// 渲染 blog tag 页面
 func bindBlogTag(article Article) string {
 	var res string
 	var tmpl = readFileToString("temple/blogTag.html")
@@ -203,25 +211,27 @@ func bindBlogTag(article Article) string {
 	return res
 }
 
-func bindAllBlog() {
-
-}
-
-// 渲染所有的 blog 页面
+// 渲染 blog 页
 func bindBlog(config BlogConfig,n int) string {
 	var tmpl = readFileToString("temple/blog.html")
 	article := config.Articles[n]
 	var preTitle string
 	var nextTitle string
+	var preLink string
+	var nextLink string
 	if n > 0 {
-		preTitle = config.Articles[n-1].Title+".html"
+		preTitle = config.Articles[n-1].Title
+		preLink = config.Articles[n-1].Link+".html"
 	}else {
 		preTitle = ""
+		preLink = ""
 	}
 	if n < len(config.Articles)-1 {
-		nextTitle = config.Articles[n+1].Title+".html"
+		nextTitle = config.Articles[n+1].Title
+		nextLink = config.Articles[n+1].Link+".html"
 	}else {
 		nextTitle = ""
+		nextLink = ""
 	}
 	data := map[string]string {
 		"Title":article.Title,
@@ -229,7 +239,10 @@ func bindBlog(config BlogConfig,n int) string {
 		"Update":article.Update,
 		"Content":string(blackfriday.Run([]byte(readFileToString("document/"+article.Title+".md")))),
 		"PreTitle":preTitle,
+		"PreLink":preLink,
 		"NextTitle":nextTitle,
+		"NextLink":nextLink,
+
 		"Head":config.Head,
 		"Introduce":config.Introduce,
 		"Github":config.Github,
@@ -243,6 +256,48 @@ func bindDateToTmpl(tmpl string, data map[string]string) string {
 		tmpl = strings.Replace(tmpl,"{{."+key+"}}",value,-1)
 	}
 	return tmpl
+}
+
+// 生成 siteMap 方便搜索引擎索引
+func generateSiteMap(config BlogConfig)  {
+	if config.Domain == "" {
+		return
+	}
+	tml := readFileToString("temple/sitemap.xml")
+	tml = strings.Replace(tml,"</urlset>","",-1)
+	domain := config.Domain
+	if !strings.HasSuffix(domain, "/") {
+		domain = domain+"/"
+	}
+	for _,article := range config.Articles {
+		timeTemp,_ := time.Parse("2006-01-02 15:04",article.Update)
+		tml +=
+		"    <url>\n"+
+		"    	<loc>"+domain+"blog/"+article.Link+".html"+"</loc>\n"+
+		"    	<lastmod>"+ timeTemp.Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
+		"    	<priority>0.8</priority>"+
+		"    </url>\n"
+	}
+	tml +=
+		"    <url>\n"+
+		"    	<loc>"+domain+"</loc>\n"+
+		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
+		"    	<priority>0.8</priority>"+
+		"    </url>\n"
+	tml +=
+		"    <url>\n"+
+		"    	<loc>"+domain+"archives.html"+"</loc>\n"+
+		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
+		"    	<priority>0.8</priority>"+
+		"    </url>\n"
+	tml +=
+		"    <url>\n"+
+		"    	<loc>"+domain+"archives.html"+"</loc>\n"+
+		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
+		"    	<priority>0.8</priority>"+
+		"    </url>\n"
+	tml += "</urlset>"
+	writeStringToFile(tml,staticPath+"sitemap.xml")
 }
 
 
@@ -340,6 +395,7 @@ type BlogConfig struct {
 	Introduce string    `json:"introduce"`
 	Github    string    `json:"github"`
 	Mail      string    `json:"mail"`
+	Domain	  string	`json:"domain"`
 	Articles  []Article `json:"articles"`
 }
 
