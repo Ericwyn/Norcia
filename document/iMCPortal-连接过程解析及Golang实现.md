@@ -6,7 +6,7 @@
 ## 1.1 获取 cookie
 访问学校 iMC portal 页面之后会发现有以下的一些页面请求
 
-![](https://leanote.meetwhy.com/api/file/getImage?fileId=5b4edddf0f4d240969000023)
+![](http://ww1.sinaimg.cn/large/ae1a7c45gy1ftfjvp7kftj20t20dqmzl.jpg)
 
 emmm ? 所以学校 iMC portal 后台还是用 java 写的, 页面还是 jsp ????
 
@@ -50,11 +50,11 @@ base64 解密结果之后可以得到
 ## 1.2 登录
 尝试登录的时候,发现接口的地址是 `portal/pws?t=li`, 一个 POST 请求
 
-![](https://leanote.meetwhy.com/api/file/getImage?fileId=5b4edddf0f4d240969000024)
+![](http://ww1.sinaimg.cn/large/ae1a7c45gy1ftfjw2nyrfj21150k3dlg.jpg)
 
 在这里我们就能看到之前获得的 cookie 的用处了
 
-![](https://leanote.meetwhy.com/api/file/getImage?fileId=5b4edddf0f4d240969000025)
+![](http://ww1.sinaimg.cn/large/ae1a7c45gy1ftfjw93p75j211l0jvgoy.jpg)
 
 而在具体的 POST 的数据上面, 有以下的内容
 
@@ -161,7 +161,7 @@ base64 解密结果之后可以得到
 ## 1.3 登录成功
 当我们输入正确的帐号和密码后, 网页上的变化是, 跳转到了一个 已登录的提示页面, 从 Chrome 看到的请求有以下这些
 
-![](https://leanote.meetwhy.com/api/file/getImage?fileId=5b4efd660f4d240969000026)
+![](http://ww1.sinaimg.cn/large/ae1a7c45gy1ftfjwehcl5j20ya0htq8r.jpg)
 
 出去对静态资源的请求, 剩下的就是
 
