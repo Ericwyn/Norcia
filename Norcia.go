@@ -286,14 +286,14 @@ func generateSiteMap(config BlogConfig)  {
 		"    <url>\n"+
 		"    	<loc>"+domain+"blog/"+article.Link+".html"+"</loc>\n"+
 		"    	<lastmod>"+ timeTemp.Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>1.5</priority>\n"+
+		"    	<priority>1.0</priority>\n"+
 		"    </url>\n"
 	}
 	tml +=
 		"    <url>\n"+
 		"    	<loc>"+domain+"</loc>\n"+
 		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>1.0</priority>\n"+
+		"    	<priority>0.9</priority>\n"+
 		"    </url>\n"
 	tml +=
 		"    <url>\n"+
