@@ -36,7 +36,7 @@
                     创建时间 : <span id ="create" class="mdui-text-color-pink">2018-04-23 19:52</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-05-23 14:52</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-07-19 22:16</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
@@ -49,43 +49,47 @@
 
 <h3>其（一）</h3>
 
-<p>淅水荷花今又红</p>
+<pre><code>    淅水荷花今又红 
 
-<p>年华易逝总匆匆</p>
+    年华易逝总匆匆 
 
-<p>只欲为君折赠远</p>
+    只欲为君折赠远 
 
-<p>相逢仍记旧音容</p>
+    相逢仍记旧音容
+</code></pre>
 
 <h3>其（二）</h3>
 
-<p>骊歌今日对苍穹</p>
+<pre><code>    骊歌今日对苍穹 
 
-<p>而后青山隔万重</p>
+    而后青山隔万重 
 
-<p>杯酒浮沉且饮尽</p>
+    杯酒浮沉且饮尽 
 
-<p>何妨天下拭襟胸</p>
+    何妨天下拭襟胸
+</code></pre>
 
 <h3>其（三）</h3>
 
-<p>且推杯盏诉衷肠</p>
+<pre><code>    且推杯盏诉衷肠 
 
-<p>而后天涯两渺茫</p>
+    而后天涯两渺茫 
 
-<p>零落红尘三万丈</p>
+    零落红尘三万丈 
 
-<p>一壶浊酒为君藏</p>
+    一壶浊酒为君藏
+</code></pre>
 
 <h3>其（四）</h3>
 
-<p>当时年少轻别离</p>
+<pre><code>    当时年少轻别离 
 
-<p>数度春衫醉锦几</p>
+    数度春衫醉锦几 
 
-<p>千古长亭流泪处</p>
+    千古长亭流泪处 
 
-<p>问君何日是归期</p>
+    问君何日是归期
+</code></pre>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -103,7 +107,7 @@
                 </div>
             </div>
             <div class="mdui-m-a-5">
-                <button class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
+                <button onclick="showFeedFoodQR()" class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
                     赏
                 </button>
             </div>
@@ -202,17 +206,5 @@
 
     prettyPrint();
 
-    function showShareCode() {
-        mdui.dialog({
-            title: '',
-            content: `<img class="mdui-center mdui-m-t-2" src = ${jrQrcode.getQrBase64(window.location.href)} style="height:150px;width:150px" >
-                        <div class="mdui-text-center mdui-m-t-2">扫一扫二维码即可分享</div>`,
-            buttons: [
-                {
-                    text: '取消'
-                }
-            ]
-        });
-    }
 </script>
 </html>

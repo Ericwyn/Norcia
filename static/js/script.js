@@ -167,5 +167,22 @@ function gotoGithub() {
     }
 }
 
-// 链接收录到百度
-(function(){var c=document.createElement("script");var b=window.location.protocol.split(":")[0];if(b==="https"){c.src="https://zz.bdstatic.com/linksubmit/push.js"}else{c.src="http://push.zhanzhang.baidu.com/push.js"}var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(c,a)})();
+function showShareCode() {
+    mdui.dialog({
+        title: '',
+        content: `<img class="mdui-center mdui-m-t-2" src = ${jrQrcode.getQrBase64(window.location.href)} style="height:150px;width:150px" >
+                        <div class="mdui-text-center mdui-m-t-2">扫一扫二维码即可分享</div>`,
+        buttons: [
+            {
+                text: '取消'
+            }
+        ]
+    });
+}
+
+function showFeedFoodQR() {
+    mdui.dialog({
+        title: '',
+        content: `<img class="mdui-center mdui-m-t-2" src = "/img/feedFood.jpg" style="height: 20em" >`,
+    });
+}

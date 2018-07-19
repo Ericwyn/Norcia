@@ -163,7 +163,7 @@ func generateStaticPages(config BlogConfig) {
 	// config.json
 	writeStringToFile(generateConfigJson(config), staticPath+"config.json")
 	// archive 页面
-	writeStringToFile(readFileToString("temple/archives.html"),staticPath+"archives.html")
+	writeStringToFile(bindArchives(config),staticPath+"archives.html")
 }
 
 // 渲染 index 页面
@@ -209,6 +209,17 @@ func bindBlogTag(article Article) string {
 		res += "\n"+bindDateToTmpl(tmpl,data)
 	}
 	return res
+}
+
+func bindArchives(config BlogConfig) string{
+	var tmpl = readFileToString("temple/archives.html")
+	data := map[string]string{
+		"Head":config.Head,
+		"Introduce":config.Introduce,
+		"Github":config.Github,
+		"Mail":config.Mail,
+	}
+	return bindDateToTmpl(tmpl,data)
 }
 
 // 渲染 blog 页
@@ -472,7 +483,6 @@ func cleanMarkdownDoc(mkDoc string) string {
 	mkDoc = strings.Replace(mkDoc, "**", "", -1)
 	mkDoc = strings.Replace(mkDoc, "-", "", -1)
 	mkDoc = strings.Replace(mkDoc, "+", "", -1)
-	mkDoc = strings.Replace(mkDoc, ">", "", -1)
 	mkDoc = strings.Replace(mkDoc, "-", "", -1)
 	mkDoc = strings.Replace(mkDoc, "|", "", -1)
 	mkDoc = strings.Replace(mkDoc, "\r", " ", -1)
