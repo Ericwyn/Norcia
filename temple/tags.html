@@ -1,11 +1,12 @@
-<html lang="en">
+<html lang="en" xmlns:https="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>{{.Title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
-    <link rel="stylesheet" href="/css/mdui.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/google-code-prettify/prettify.css" />
+    <title>{{.Head}} Archives</title>
+    <!--引入mdui-->
+    <link rel="stylesheet" href="css/mdui.min.css">
+    <!--引入自定义css-->
+    <link rel="stylesheet" href="css/style.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122677247-1"></script>
     <script>
@@ -15,88 +16,29 @@
         gtag('config', 'UA-122677247-1');
     </script>
 </head>
-<style type="text/css">
-</style>
-<body class="mdui-theme-accent-pink mdui-theme-primary-teal" id="body">
-<header class="mdui-color-theme blog-pages-header">
-</header>
-
-<div class="mdui-toolbar mdui-color-theme" id="test">
+<body class="mdui-theme-accent-pink mdui-theme-primary-teal mdui-drawer-body-left" id="body">
+<div class="mdui-toolbar mdui-color-theme" id="toolbar">
     <button onclick="inst.toggle()" class="mdui-btn mdui-btn-icon mdui-text-color-white">
         <i class="mdui-icon material-icons">menu</i>
     </button>
+    <p class="mdui-typo-headline mdui-text-color-white">归档</p>
     <div class="mdui-toolbar-spacer"></div>
-    <button class="mdui-btn mdui-btn-icon" onclick="showShareCode()"><i class="mdui-icon material-icons">share</i></button>
+    <div class="mdui-textfield mdui-textfield-expandable mdui-float-right mdui-text-color-white">
+        <button class="mdui-textfield-icon mdui-btn mdui-btn-icon "><i
+                class="mdui-icon material-icons">search</i></button>
+        <input class="mdui-textfield-input mdui-color-white" type="text" placeholder="Search"/>
+        <button class="mdui-textfield-close mdui-btn mdui-btn-icon "><i
+                class="mdui-icon material-icons">close</i></button>
+    </div>
 </div>
 
-<div class="mdui-container-fluid mdui-m-t-5">
-    <!--占位-->
-    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
-    <!--内容主要显示区域-->
-    <div class="mdui-col-md-8 mdui-col-sm-12 ">
-        <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
-            <div >
-                <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->{{.Title}}
-                </h1>
-                <!--设置创建时间-->
-                <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">{{.Create}}</span>
-                </div>
-                <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">{{.Update}}</span>
-                </div>
-            </div>
-            <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
-                <hr/>
-            </div>
-            <div id="mdContent" class="prettyprint">
-                {{.Content}}
-                <!-- markdown 转换成的 HTML 的存放地址-->
-            </div>
-            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
-                <hr/>
-            </div>
-            <!--显示文章外的信息-->
-            <div>
-                <div class="mdui-typo mdui-typo-subheading-opacity">
-                    <ul>
-                        <li id = "currentLink">
+<!--页面内容放置区域-->
+<div class="mdui-container doc-container mdui-m-t-4" id="tags">
 
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mdui-m-a-5">
-                <button onclick="showFeedFoodQR()" class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
-                    赏
-                </button>
-            </div>
-            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
-                <hr/>
-            </div>
-            <div class="mdui-m-t-2 mdui-m-b-2" id="tags">
+</div>
 
-            </div>
-        </div>
+<div class="mdui-container doc-container mdui-m-t-4" id="articles">
 
-        <div id="preAndNext" class="">
-            <div id="prePage" class="mdui-float-left text-align-left">
-                <p >< 上一篇</p>
-                <h3>
-                    <a href="/blog/{{.PreLink}}" class="mdui-text-color-black-text pre-next-title">{{.PreTitle}}</a>
-                </h3>
-            </div>
-            <div id="nextPage" class="mdui-float-right text-align-right">
-                <p >下一篇 ></p>
-                <h3>
-                    <a href="/blog/{{.NextLink}}" class="mdui-text-color-black-text pre-next-title">{{.NextTitle}}</a>
-                </h3>
-            </div>
-        </div>
-    </div>
-    <!--占位-->
-    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
 </div>
 
 <div class=" mdui-typo mdui-m-t-4 text-align-center" id="foot">
@@ -104,12 +46,12 @@
 </div>
 
 <div class="mdui-container mdui-appbar-with-toolbar">
-    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white mdui-drawer-close" id="drawer">
+    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white" id="drawer">
         <div class="navigation-bar-header">
             <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="/img/logo.jpg"/>
             <div class="mdui-typo mdui-m-l-4">
                 <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">
-                {{.Head}}</strong></h4>
+                    {{.Head}}</strong></h4>
                 <p class="mdui-text-color-white mdui-m-t-0 name-mail-line-height" id="introduce">{{.Introduce}}</p>
             </div>
         </div>
@@ -131,7 +73,7 @@
             <br>
 
             <a href="/tags.html">
-                <li class="mdui-list-item mdui-ripple" >
+                <li class="mdui-list-item mdui-ripple">
                     <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">attach_file</i>
                     <div class="mdui-list-item-content inline-display">标签 Tag</div>
                 </li>
@@ -150,26 +92,69 @@
         </ul>
     </div>
 </div>
-</body>
-<script type="text/javascript" src="/js/mdui.min.js"></script>
-<script type="text/javascript" src="/js/marked.js"></script>
-<script type="text/javascript" src="/js/norcia.js"></script>
-<script type="text/javascript" src="/js/script.js"></script>
-<script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
-<script type="text/javascript" src="/js/jr-qrcode.js"></script>
-<script>
-    const inst = new mdui.Drawer('#drawer', {swipe: true});
-    domId("currentLink").innerHTML+=
-            `原始链接 :<a href="${window.location.href}">${window.location.href}</a>`;
 
-    //对所有 code 标签引入代码着色
-    let codes = document.getElementsByTagName("code");
-    for (let k=0;k<codes.length;k++){
-        let classTemp = document.getElementsByTagName("code")[k].getAttribute("class");
-        document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
+</body>
+<!--引入自定义css-->
+<script type="text/javascript" src="/js/mdui.min.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+<script type="text/javascript" src="/js/norcia.js"></script>
+<script type="text/javascript">
+    const inst = new mdui.Drawer('#drawer', {swipe: true});
+
+    let norciaConfig;
+    // 载入 config
+    ajaxGetConfig(function (config) {
+        norciaConfig = config;
+        loadTags(config)
+    });
+
+    //载入 tags
+    function loadTags(config) {
+        let tagSet = new Set();
+        config.articles.forEach(function (arcicle, index, array) {
+            arcicle.tag.split(",").forEach(function (value, index, array) {
+                tagSet.add(value);
+            });
+        });
+        let loadFirstFlag = true;
+        tagSet.forEach(function (value, key, obj) {
+            domId("tags").innerHTML += bindTagsTag(value,true)
+            if (loadFirstFlag) {
+                loadTagsArticles(value);
+                loadFirstFlag = false;
+            }
+        })
     }
 
-    prettyPrint();
+    function bindTagsTag(tag,randomColor) {
+        let tagHtml = "";
+        let colors = [
+            "mdui-color-deep-orange-400",
+            "mdui-color-teal-400",
+            "mdui-color-red-400",
+            "mdui-color-lime",
+            "mdui-color-pink-400",
+            "mdui-color-blue-grey-400"
+        ];
+        let colorClass = "mdui-color-theme-accent";
+        let ran = getRandom(0,colors.length-1);
+        if (randomColor){
+            colorClass = colors[ran];
+        }
+        tagHtml +=
+        `<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag" onclick="loadTagsArticles('${tag}')">
+            <span class="mdui-chip-title">${tag}</span>
+        </div>`;
+        return tagHtml;
+    }
 
+    function loadTagsArticles(tagName) {
+        domId("articles").innerHTML = "";
+        norciaConfig.articles.forEach(function (article, index, array) {
+            if (article.tag.indexOf(tagName)!==-1){
+                domId("articles").innerHTML += bindArchiveArticle(article)
+            }
+        })
+    }
 </script>
 </html>

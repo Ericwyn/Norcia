@@ -164,6 +164,7 @@ func generateStaticPages(config BlogConfig) {
 	writeStringToFile(generateConfigJson(config), staticPath+"config.json")
 	// archive 页面
 	writeStringToFile(bindArchives(config),staticPath+"archives.html")
+	writeStringToFile(bindTags(config),staticPath+"tags.html")
 }
 
 // 渲染 index 页面
@@ -213,6 +214,17 @@ func bindBlogTag(article Article) string {
 
 func bindArchives(config BlogConfig) string{
 	var tmpl = readFileToString("temple/archives.html")
+	data := map[string]string{
+		"Head":config.Head,
+		"Introduce":config.Introduce,
+		"Github":config.Github,
+		"Mail":config.Mail,
+	}
+	return bindDateToTmpl(tmpl,data)
+}
+
+func bindTags(config BlogConfig) string{
+	var tmpl = readFileToString("temple/tags.html")
 	data := map[string]string{
 		"Head":config.Head,
 		"Introduce":config.Introduce,

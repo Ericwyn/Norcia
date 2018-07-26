@@ -92,3 +92,9 @@ table tr:nth-child(even) {
 .pre-next-title{
     text-decoration: none;
 }
+
+.blog-tag{
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 20px;
+}
