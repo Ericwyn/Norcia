@@ -133,21 +133,5 @@
         loadArcives(config)
     });
 
-    function bindArchiveArticle(article){
-        return `<div class="mdui-col-xs-12 mdui-col-md-6 mdui-col-sm-12 mdui-m-t-1">
-            <div class="mdui-card mdui-typo mdui-hoverable">
-                <div class="mdui-p-x-2">
-                    <h4 class="mdui-typo">
-                        <a href="/blog/${article.link}.html">${article.title}</a>
-                    </h4>
-                    <div class="mdui-card-primary-subtitle">${article.create}</div>
-                </div>
-                <div class="mdui-card-actions mdui-m-b-2">
-                    ${bindArticleTags(article.tag,true)}
-                </div>
-            </div>
-        </div>`
-    }
-
 </script>
 </html>

@@ -37,7 +37,7 @@
 <!--页面内容放置区域-->
 <div class="mdui-container doc-container mdui-m-t-4" id = "articles">
     
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
             <a href="blog/iMCPortal.html" target="_blank">iMCPortal-连接过程解析及Golang实现</a>
@@ -61,7 +61,7 @@
         <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
     </div>
 </div>
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
             <a href="blog/norcia-document.html" target="_blank">Norcia文档</a>
@@ -82,7 +82,7 @@
         <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
     </div>
 </div>
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
             <a href="blog/markdown-test.html" target="_blank">markdown测试文档</a>
@@ -103,7 +103,7 @@
         <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
     </div>
 </div>
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
             <a href="blog/graduate-1804.html" target="_blank">毕业惜别自题四首</a>
@@ -121,7 +121,7 @@
         <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
     </div>
 </div>
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
             <a href="blog/Markmobi.html" target="_blank">Markmobi开发记录</a>
@@ -139,7 +139,7 @@
         <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
     </div>
 </div>
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable">
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
             <a href="blog/install-win10-in-tencent-cvm.html" target="_blank">腾讯云CVM安装Win10</a>
@@ -235,6 +235,9 @@
      * @param config
      */
     function loadIndexCard(config) {
+        domId("articles").childNodes.forEach(function (value, index, Obj) {
+            value.className = (""+value.className).replace("gradient-wrapper","");
+        });
         if(articleCount>=config.articles.length){
             domId("load_more_btn").disabled = true;
             domId("load_more_btn").innerText = " 我可是有底线的，哼 ╭(╯^╰)╮ ";

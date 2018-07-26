@@ -115,6 +115,9 @@
      * @param config
      */
     function loadIndexCard(config) {
+        domId("articles").childNodes.forEach(function (value, index, Obj) {
+            value.className = (""+value.className).replace("gradient-wrapper","");
+        });
         if(articleCount>=config.articles.length){
             domId("load_more_btn").disabled = true;
             domId("load_more_btn").innerText = " 我可是有底线的，哼 ╭(╯^╰)╮ ";
