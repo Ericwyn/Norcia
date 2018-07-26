@@ -89,7 +89,7 @@ function bindArticleTags(tags,randomColor) {
 
 //绑定归档页面和 tags 页面的卡片
 function bindArchiveArticle(article){
-    return `<div class="mdui-col-xs-12 mdui-col-md-6 mdui-col-sm-12 mdui-m-t-1 gradient-wrapper mdui-p-b-1 mdui-p-t-1">
+    return `<div class="mdui-col-xs-12 mdui-col-md-6 mdui-col-sm-12 mdui-m-t-1 gradient-wrapper mdui-p-b-1">
             <div class="mdui-card mdui-typo">
                 <div class="mdui-p-x-2">
                     <h4 class="mdui-typo">
