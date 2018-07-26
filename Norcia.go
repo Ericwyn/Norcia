@@ -16,6 +16,7 @@ import (
 	"flag"
 	"gopkg.in/russross/blackfriday.v2"
 	"time"
+	"regexp"
 )
 
 /**
@@ -104,7 +105,7 @@ func configUpdateServer()  {
 		var fileName = file.Name()                                 //文件名
 		var title = strings.Replace(fileName, ".md", "", -1)       //title
 		var docContent = readFileToString(docDirName + fileName)   //文档内容
-		var miniDoc = substr(cleanMarkdownDoc(docContent), 0, 300) //文档缩略
+		var miniDoc = substr(cleanMarkdownDoc(docContent), 0, 250) //文档缩略
 		var updateTime = file.ModTime()                            //更新时间
 		var temp Article
 		articleFromConfig, successFlag := getArticleFromConfigByTitle(title, blogconfig)
@@ -499,6 +500,11 @@ func cleanMarkdownDoc(mkDoc string) string {
 	mkDoc = strings.Replace(mkDoc, "|", "", -1)
 	mkDoc = strings.Replace(mkDoc, "\r", " ", -1)
 	mkDoc = strings.Replace(mkDoc, "\n", " ", -1)
+	//替换图片和 url 链接
+	picReg, _ := regexp.Compile("!\\[.*\\]\\(.*\\)")
+	mkDoc = picReg.ReplaceAllString(mkDoc, "")
+	picReg, _ = regexp.Compile("\\[.*\\]\\(.*\\)")
+	mkDoc = picReg.ReplaceAllString(mkDoc, "")
 	return mkDoc
 }
 

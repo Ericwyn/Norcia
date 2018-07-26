@@ -10,7 +10,7 @@
 			"tag": "且听秋谷,Golang,爬虫",
 			"create": "2018-07-18 16:45",
 			"update": "2018-07-19 22:43",
-			"mini": " 0 前言  最近学校之前开通了 iMC Portal 无线网络, 只是每次都要开启浏览器才可以登录, 并且需要一直开着一个标签, 这是件很麻烦的事情, 而且最近 (20180711) 发现会出现每隔 15 分钟就断线一次的问题, 所以希望通过抓包来了解连接的过程,之后使用 java 或者其他语言实现模拟登录, 并且在断线之后自动重连   1 协议解析  1.1 获取 cookie 访问学校 iMC portal 页面之后会发现有以下的一些页面请求  ![](http://ww1.sinaimg.cn/large/ae1a7c45gy1ftfjvp7kftj20t20dqmzl.jpg)  e",
+			"mini": " 0 前言  最近学校之前开通了 iMC Portal 无线网络, 只是每次都要开启浏览器才可以登录, 并且需要一直开着一个标签, 这是件很麻烦的事情, 而且最近 (20180711) 发现会出现每隔 15 分钟就断线一次的问题, 所以希望通过抓包来了解连接的过程,之后使用 java 或者其他语言实现模拟登录, 并且在断线之后自动重连   1 协议解析  1.1 获取 cookie 访问学校 iMC portal 页面之后会发现有以下的一些页面请求       d         开启 DEBUG 日志打印     o          强制退出之前登录的帐号, 确保帐号已下线, 也要求输入正",
 			"link": "iMCPortal"
 		},
 		{
@@ -26,7 +26,7 @@
 			"tag": "且听秋谷,Norcia",
 			"create": "2018-05-21 19:02",
 			"update": "2018-05-23 15:31",
-			"mini": " 前言 这是一份Markdown 测试文档，用来测试 Norcia 对 markdown 文件的加载和显示   主要内容   Markdown是什么？   谁创造了它？   为什么要使用它？   怎么使用？   谁在用？   尝试一下   正文  1. Markdown是什么？ Markdown是一种轻量级标记语言，它以纯文本形式(*易读、易写、易更改*)编写文档，并最终以HTML格式发布。     Markdown也可以理解为将以MARKDOWN语法编写的语言转换成HTML内容的工具。       2. 谁创造了它？ 它由[Aaron Swartz](http://www.aaronsw.c",
+			"mini": " 前言 这是一份Markdown 测试文档，用来测试 Norcia 对 markdown 文件的加载和显示   主要内容 \u003e  Markdown是什么？ \u003e  谁创造了它？ \u003e  为什么要使用它？ \u003e  怎么使用？ \u003e  谁在用？ \u003e  尝试一下   正文  1. Markdown是什么？ Markdown是一种轻量级标记语言，它以纯文本形式(*易读、易写、易更改*)编写文档，并最终以HTML格式发布。     Markdown也可以理解为将以MARKDOWN语法编写的语言转换成HTML内容的工具。       2. 谁创造了它？ 它由合并成为其合伙人。     2010年创立求进会（Dema",
 			"link": "markdown-test"
 		},
 		{
@@ -66,7 +66,7 @@
 			"tag": "R语言,且听秋谷",
 			"create": "2017-10-13 18:15",
 			"update": "2018-05-23 15:27",
-			"mini": " 设定工作文件目录 打包R package 要求两个目录 分别是    工作目录 （存放 R 代码）          mkdir /home/ericwyn/work            包目录 （存放包）          mkdir /home/ericwyn/Rlibs    默认情况下在mydir是找不到mylib下的包的，因为mylib不在包的搜索路径里，解决这个问题只需要在mydir新建一个文 件`.Rprofile`文件，里面写上：`.liblinks(“/home/wentrue/Rlibs”)`即可。这样在mydir运行R脚本或启动R终 端，mylib就会被添加到包搜索路",
+			"mini": " 设定工作文件目录 打包R package 要求两个目录 分别是    工作目录 （存放 R 代码）          mkdir /home/ericwyn/work            包目录 （存放包）          mkdir /home/ericwyn/Rlibs    默认情况下在mydir是找不到mylib下的包的，因为mylib不在包的搜索路径里，解决这个问题只需要在mydir新建一个文 件`.Rprofile`文件，里面写上：`.libPaths(“/home/wentrue/Rlibs”)`即可。这样在mydir运行R脚本或启动R终 端，mylib就会被添加到包搜索路",
 			"link": "auto-package-of-r"
 		},
 		{
@@ -74,7 +74,7 @@
 			"tag": "Server,且听秋谷",
 			"create": "2017-06-16 19:49",
 			"update": "2018-05-23 18:48",
-			"mini": " 介绍 Linux Dash是一款非常简单的服务器监控程序，可以通过python、php以及LAMP部署运行，此次安装的环境是Ubuntu Server 14.04 LTS,使用Linux Dash的版本是github上面一个同学的2.0汉化版， Github地址是   linuxdash 的汉化版 https://github.com/NoBey/linuxdashzh    安装Git和Python     省略   通过Git安装Linux Dash     git clone https://github.com/NoBey/linuxdashzh.git   修改运行端口     v",
+			"mini": " 介绍 Linux Dash是一款非常简单的服务器监控程序，可以通过python、php以及LAMP部署运行，此次安装的环境是Ubuntu Server 14.04 LTS,使用Linux Dash的版本是github上面一个同学的2.0汉化版， Github地址是   \u003elinuxdash 的汉化版 \u003ehttps://github.com/NoBey/linuxdashzh    安装Git和Python     省略   通过Git安装Linux Dash     git clone https://github.com/NoBey/linuxdashzh.git   修改运行端口    ",
 			"link": "install-linux-dash"
 		},
 		{
