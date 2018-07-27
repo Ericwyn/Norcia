@@ -25,7 +25,7 @@ function bindIndexArticleCard(article) {
     let tags = article.tag;
     let tagHtml = bindArticleTags(tags,true);
     let head =
-        `<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable gradient-wrapper">
+        `<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable index-blog-card gradient-wrapper">
         <div class="mdui-card-primary">
             <div class="mdui-card-primary-title ">
                 <a href="blog/${article.link}.html" target="_blank">${article.title}</a>
