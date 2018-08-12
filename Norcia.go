@@ -165,7 +165,10 @@ func generateStaticPages(config BlogConfig) {
 	writeStringToFile(generateConfigJson(config), staticPath+"config.json")
 	// archive 页面
 	writeStringToFile(bindArchives(config),staticPath+"archives.html")
+	// tags 页面
 	writeStringToFile(bindTags(config),staticPath+"tags.html")
+	// search 页面
+	writeStringToFile(bindSearch(config),staticPath+"search.html")
 }
 
 // 渲染 index 页面
@@ -226,6 +229,17 @@ func bindArchives(config BlogConfig) string{
 
 func bindTags(config BlogConfig) string{
 	var tmpl = readFileToString("temple/tags.html")
+	data := map[string]string{
+		"Head":config.Head,
+		"Introduce":config.Introduce,
+		"Github":config.Github,
+		"Mail":config.Mail,
+	}
+	return bindDateToTmpl(tmpl,data)
+}
+
+func bindSearch(config BlogConfig) string{
+	var tmpl = readFileToString("temple/search.html")
 	data := map[string]string{
 		"Head":config.Head,
 		"Introduce":config.Introduce,
@@ -320,6 +334,12 @@ func generateSiteMap(config BlogConfig)  {
 		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
 		"    	<priority>0.8</priority>\n"+
 		"    </url>\n"
+	tml +=
+		"    <url>\n"+
+			"    	<loc>"+domain+"search.html"+"</loc>\n"+
+			"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
+			"    	<priority>0.8</priority>\n"+
+			"    </url>\n"
 	tml += "</urlset>"
 	writeStringToFile(tml,staticPath+"sitemap.xml")
 	writeStringToFile(tml,staticPath+"sitemap.html")

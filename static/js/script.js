@@ -182,6 +182,10 @@ function gotoGithub() {
     }
 }
 
+function gotoSearch() {
+    window.location.href = "search.html"
+}
+
 function showShareCode() {
     mdui.dialog({
         title: '',
@@ -198,7 +202,7 @@ function showShareCode() {
 function showFeedFoodQR() {
     mdui.dialog({
         title: '',
-        content: `<img class="mdui-center mdui-m-t-2" src = "/img/feedFood.jpg" style="height: 20em" >`,
+        content: domId("feedFoodQE").innerHTML,
     });
 }
 

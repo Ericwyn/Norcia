@@ -1,11 +1,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{.Title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
-    <link rel="stylesheet" href="/css/mdui.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/google-code-prettify/prettify.css" />
+    <title>{{.Head}} Search</title>
+    <link rel="stylesheet" href="css/mdui.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122677247-1"></script>
     <script>
@@ -15,99 +14,32 @@
         gtag('config', 'UA-122677247-1');
     </script>
 </head>
-<style type="text/css">
-</style>
-<body class="mdui-theme-accent-pink mdui-theme-primary-teal" id="body">
-<header class="mdui-color-theme blog-pages-header">
-</header>
 
-<div class="mdui-toolbar mdui-color-theme" id="test">
+<body class="mdui-theme-accent-pink mdui-theme-primary-teal mdui-drawer-body-left" id="body">
+<div class="mdui-toolbar mdui-color-theme" id="toolbar">
     <button onclick="inst.toggle()" class="mdui-btn mdui-btn-icon mdui-text-color-white">
         <i class="mdui-icon material-icons">menu</i>
     </button>
-    <div class="mdui-toolbar-spacer"></div>
-    <button class="mdui-btn mdui-btn-icon" onclick="showShareCode()"><i class="mdui-icon material-icons">share</i></button>
+    <p class="mdui-typo-headline mdui-text-color-white">搜索</p>
 </div>
-
-<div class="mdui-container-fluid mdui-m-t-5">
-    <!--占位-->
-    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
-    <!--内容主要显示区域-->
-    <div class="mdui-col-md-8 mdui-col-sm-12 ">
-        <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
-            <div >
-                <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->{{.Title}}
-                </h1>
-                <!--设置创建时间-->
-                <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">{{.Create}}</span>
-                </div>
-                <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">{{.Update}}</span>
-                </div>
-            </div>
-            <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
-                <hr/>
-            </div>
-            <div id="mdContent" class="prettyprint">
-                {{.Content}}
-                <!-- markdown 转换成的 HTML 的存放地址-->
-            </div>
-            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
-                <hr/>
-            </div>
-            <!--显示文章外的信息-->
-            <div>
-                <div class="mdui-typo mdui-typo-subheading-opacity">
-                    <ul>
-                        <li id = "currentLink">
-
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="mdui-m-a-5">
-                <div id = "feedFoodQE" class="none-display">
-                    <img class="mdui-center mdui-m-t-2" src = "/img/feedFood.jpg" style="height: 20em" >
-                </div>
-                <button onclick="showFeedFoodQR()" class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
-                    赏
-                </button>
-            </div>
-            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
-                <hr/>
-            </div>
-            <div class="mdui-m-t-2 mdui-m-b-2" id="tags">
-
-            </div>
-        </div>
-
-        <div id="preAndNext" class="">
-            <div id="prePage" class="mdui-float-left text-align-left">
-                <p >< 上一篇</p>
-                <h3>
-                    <a href="/blog/{{.PreLink}}" class="mdui-text-color-black-text pre-next-title">{{.PreTitle}}</a>
-                </h3>
-            </div>
-            <div id="nextPage" class="mdui-float-right text-align-right">
-                <p >下一篇 ></p>
-                <h3>
-                    <a href="/blog/{{.NextLink}}" class="mdui-text-color-black-text pre-next-title">{{.NextTitle}}</a>
-                </h3>
-            </div>
+<div class="mdui-container">
+    <div class="mdui-card mdui-typo mdui-m-t-2 mdui-p-x-2 mdui-p-b-2 gradient-wrapper" style="width: 100%">
+        <div id="SearchTrap" class="mdui-textfield mdui-textfield-floating-label">
+            <label class="mdui-textfield-label">搜索标题和缩略</label>
+            <input id="searchInput" class="mdui-textfield-input" type="text" oninput="onInput()" />
         </div>
     </div>
-    <!--占位-->
-    <div class="mdui-col-md-2 mdui-col-sm-0"></div>
+</div>
+<div class="mdui-container doc-container mdui-m-t-4" id="articles">
+</div>
+<div class=" mdui-typo mdui-m-t-4 text-align-center" id="foot">
+    <p class="mdui-center mdui-typo-subheading-opacity ">Power By <a href="https://github.com/Besfim/Norcia">Norcia</a></p>
 </div>
 
-<div class=" mdui-typo mdui-m-t-4 text-align-center" id="foot">
-    <p class="mdui-center mdui-typo mdui-text-color-black-secondary">博客由魔改版 <a href="https://github.com/Besfim/Norcia">Norcia</a> 框架驱动</p>
-</div>
+<a id="circle" href="javascript:;" class="mdui-fab mdui-fab-fixed mdui-ripple"><i class="mdui-icon material-icons">&#xe5d8;</i></a>
 
 <div class="mdui-container mdui-appbar-with-toolbar">
-    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white mdui-drawer-close" id="drawer">
+    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white" id="drawer">
         <div class="navigation-bar-header">
             <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="/img/logo.jpg"/>
             <div class="mdui-typo mdui-m-l-4">
@@ -161,26 +93,84 @@
         </ul>
     </div>
 </div>
+
 </body>
-<script type="text/javascript" src="/js/mdui.min.js"></script>
-<script type="text/javascript" src="/js/marked.js"></script>
-<script type="text/javascript" src="/js/norcia.js"></script>
-<script type="text/javascript" src="/js/script.js"></script>
-<script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
-<script type="text/javascript" src="/js/jr-qrcode.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/norcia.js"></script>
+<script type="text/javascript" src="js/mdui.js"></script>
 <script>
     const inst = new mdui.Drawer('#drawer', {swipe: true});
-    domId("currentLink").innerHTML+=
-            `原始链接 :<a href="${window.location.href}">${window.location.href}</a>`;
 
-    //对所有 code 标签引入代码着色
-    let codes = document.getElementsByTagName("code");
-    for (let k=0;k<codes.length;k++){
-        let classTemp = document.getElementsByTagName("code")[k].getAttribute("class");
-        document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
+    let norciaConfig;
+    // 载入 config
+    ajaxGetConfig(function(config) {
+        norciaConfig = config;
+    });
+
+    function getScrollTop() {
+        let scrollTop = 0;
+        if (document.documentElement && document.documentElement.scrollTop) {
+            scrollTop = document.documentElement.scrollTop;
+        } else if (document.body) {
+            scrollTop = document.body.scrollTop;
+        }
+        return scrollTop;
     }
 
-    prettyPrint();
+    function getClientHeight() {
+        let clientHeight = 0;
+        if (document.body.clientHeight && document.documentElement.clientHeight) {
+            clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
+        } else {
+            clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
+        }
+        return clientHeight;
+    }
 
+    function getScrollHeight() {
+        return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+    }
+
+    document.body.onscroll = function() {
+        let percent = (getScrollTop() / (getScrollHeight() - getClientHeight()));
+        domId("circle").style.backgroundSize = "100% " + percent * 100 + "%";
+        if (window.pageYOffset > 50) {
+            domId("circle").style.bottom = "20px";
+        } else {
+            domId("circle").style.bottom = "-90px";
+        }
+    };
+
+    function scrolltotop() {
+        let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+        if (currentScroll > 0) {
+            window.requestAnimationFrame(scrolltotop);
+            window.scrollTo(0, currentScroll - (currentScroll / 5));
+        }
+    }
+
+    domId("circle").addEventListener("click", function() {
+        scrolltotop();
+    });
+
+    let firstLoad = true;
+
+    function onInput() {
+        let keyValue = domId("searchInput").value;
+        if (!firstLoad && keyValue.trim() !== "") {
+            loadIndexCardByKey(keyValue)
+        }
+        firstLoad = false;
+    }
+
+    function loadIndexCardByKey(key) {
+        domId("articles").innerHTML = "";
+        norciaConfig.articles.forEach(function(article, index, array) {
+            if (article.title.indexOf(key) !== -1 || article.mini.indexOf(key) !== -1) {
+                domId("articles").innerHTML += "\n" + bindIndexArticleCard(article);
+            }
+        })
+    }
 </script>
+
 </html>
