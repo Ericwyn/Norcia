@@ -91,6 +91,9 @@ table tr:nth-child(even) {
 
 .pre-next-title{
     text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 0;
 }
 
 .blog-tag{
@@ -128,4 +131,11 @@ table tr:nth-child(even) {
     animation:
             wrapper-gradient 500ms linear,
             fade-in 500ms linear;
+}
+
+.gitment-comment-header{
+    margin: 12px 15px;
+    color: #666;
+    background-color: #f6f6f6 !important;
+    border-radius: 3px;
 }

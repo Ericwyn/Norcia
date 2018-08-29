@@ -343,22 +343,22 @@
             <div class="mdui-m-t-2 mdui-m-b-2" id="tags">
 
             </div>
-        </div>
-
-        <div id="preAndNext" class="">
-            <div id="prePage" class="mdui-float-left text-align-left">
-                <p >< 上一篇</p>
-                <h3>
-                    <a href="/blog/norcia-document.html" class="mdui-text-color-black-text pre-next-title">Norcia文档</a>
-                </h3>
+            <div id="preAndNext" class="">
+                <div id="prePage" class="mdui-float-left text-align-left">
+                    <p >< 上一篇</p>
+                    <h3>
+                        <a href="/blog/norcia-document.html" class="mdui-text-color-black-text pre-next-title">Norcia文档</a>
+                    </h3>
+                </div>
+                <div id="nextPage" class="mdui-float-right text-align-right">
+                    <p >下一篇 ></p>
+                    <h3>
+                        <a href="/blog/graduate-1804.html" class="mdui-text-color-black-text pre-next-title">毕业惜别自题四首</a>
+                    </h3>
+                </div>
             </div>
-            <div id="nextPage" class="mdui-float-right text-align-right">
-                <p >下一篇 ></p>
-                <h3>
-                    <a href="/blog/graduate-1804.html" class="mdui-text-color-black-text pre-next-title">毕业惜别自题四首</a>
-                </h3>
-            </div>
         </div>
+        <div id = "comments"></div>
     </div>
     <!--占位-->
     <div class="mdui-col-md-2 mdui-col-sm-0"></div>
@@ -434,15 +434,26 @@
     const inst = new mdui.Drawer('#drawer', {swipe: true});
     domId("currentLink").innerHTML+=
             `原始链接 :<a href="${window.location.href}">${window.location.href}</a>`;
-
     //对所有 code 标签引入代码着色
     let codes = document.getElementsByTagName("code");
     for (let k=0;k<codes.length;k++){
         let classTemp = document.getElementsByTagName("code")[k].getAttribute("class");
         document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
     }
-
     prettyPrint();
-
+</script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script>
+    const gitment = new Gitment({
+        id: location.pathname, // optional
+        owner: 'Ericwyn',
+        repo: 'BlogComment',
+        oauth: {
+            client_id: 'faa96e9ea3196d793eb3',
+            client_secret: 'ecf2af0dbdaf560d5aa79e3f649a3e698496271b',
+        },
+    });
+    gitment.render('comments')
 </script>
 </html>
