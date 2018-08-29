@@ -33,7 +33,7 @@
     <!--占位-->
     <div class="mdui-col-md-2 mdui-col-sm-0"></div>
     <!--内容主要显示区域-->
-    <div class="mdui-col-md-8 mdui-col-sm-12 ">
+    <div class="mdui-col-md-8 mdui-col-sm-12" id="articleBody">
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
@@ -95,7 +95,7 @@
             </div>
         </div>
 
-        <div id="preAndNext" class="">
+        <div id="preAndNext">
             <div id="prePage" class="mdui-float-left text-align-left">
                 <p >< 上一篇</p>
                 <h3>
@@ -109,6 +109,9 @@
                 </h3>
             </div>
         </div>
+        <br>
+        <br>
+
     </div>
     <!--占位-->
     <div class="mdui-col-md-2 mdui-col-sm-0"></div>
@@ -180,6 +183,10 @@
 <script type="text/javascript" src="/js/script.js"></script>
 <script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
 <script type="text/javascript" src="/js/jr-qrcode.js"></script>
+
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+
 <script>
     const inst = new mdui.Drawer('#drawer', {swipe: true});
     domId("currentLink").innerHTML+=
@@ -194,5 +201,15 @@
 
     prettyPrint();
 
+    const gitment = new Gitment({
+        id: location.pathname, // optional
+        owner: 'Ericwyn',
+        repo: 'BlogComment',
+        oauth: {
+            client_id: 'faa96e9ea3196d793eb3',
+            client_secret: 'ecf2af0dbdaf560d5aa79e3f649a3e698496271b',
+        },
+    });
+    domId("articleBody").appendChild(gitment.render())
 </script>
 </html>
