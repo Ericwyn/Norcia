@@ -74,6 +74,11 @@
 ![](http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11tazoeqj214y0nymza.jpg)
 填入 git 地址，如果有用户名和密码的话也要设置好
 
+### 3 设置构建触发
+
+![](https://ws1.sinaimg.cn/large/ae1a7c45gy1fv12u9agcoj215h0lrgnz.jpg)
+这里要配置一个 TOKEN，后面要用到
+
 ### 3 配置构建脚本
 ![](http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11vx8m5mj21590pndhv.jpg)
 
@@ -131,11 +136,11 @@
 
 地址的格式是
 
-    https://{你的User ID}:{你的API TOKEN}@{你的服务器域名}/job/{jenkins上面的项目名称}/build?token=wanguo-token
+    https://{你的User ID}:{你的API TOKEN}@{你的服务器域名}/job/{jenkins上面的项目名称}/build?token={远程构建的触发认证TOKEN}
 
 例如
     
-    https://admin:7d77089fq8f86906px5b5d707d13d@jenkins.domains.com/job/Test/build?token=wanguo-token
+    https://admin:7d77089fq8f86906px5b5d707d13d@jenkins.domains.com/job/Test/build?token=Build-TOKEN
 
 填进去之后就可以测试了，如果 Webhook 无法生效的话，可能是 jenkins 设置了跨域访问限制，可以在
 

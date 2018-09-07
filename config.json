@@ -9,7 +9,7 @@
 			"title": "使用 Jenkins 自动构建项目",
 			"tag": "Server,且听秋谷,jenkins",
 			"create": "2018-09-07 16:43",
-			"update": "2018-09-07 16:43",
+			"update": "2018-09-07 16:56",
 			"mini": " 前言 公司项目开发到后期需要放到服务器上面去运行测试，但是不想每次都在本地编译成 jar 之后传到服务器再运行，于是使用 Jenkins 来完成这些步骤   安装 jenkins           需要先安装 java     apt install softwarepropertiescommon     addaptrepository ppa:webupd8team/java     aptget update     aptget install oraclejava8install",
 			"link": "jenkinsSetting"
 		},
