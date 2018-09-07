@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>鹊桥仙 | 七夕</title>
+    <title>使用 Jenkins 自动构建项目</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,32 +37,192 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->鹊桥仙 | 七夕
+                    <!--标题所在-->使用 Jenkins 自动构建项目
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-08-17 22:30</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-09-07 16:43</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-08-18 11:59</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-09-07 16:43</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <p><br></p>
+                <h1>前言</h1>
 
-<pre><code>    彩云鹊影，双星同聚，照世间痴儿女
-    相逢一度誓山河 ，谁能料，别离意趣
+<p>公司项目开发到后期需要放到服务器上面去运行测试，但是不想每次都在本地编译成 jar 之后传到服务器再运行，于是使用 Jenkins 来完成这些步骤</p>
 
-    劝君不如，太白甄起，忘却情愁思绪
-    料想人间姻缘事，也只是，红绳牵与
+<h2>安装 jenkins</h2>
+
+<pre><code># 需要先安装 java
+apt install software-properties-common
+add-apt-repository ppa:webupd8team/java
+apt-get update
+apt-get install oracle-java8-installer
+
+# 安装 jenkins
+wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins-ci.org/debian-stable binary/ &gt; /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
 </code></pre>
 
-<p><br></p>
+<h2>配置 jenkins</h2>
 
-<p>丁酉年七月初七晚 孑然填就</p>
+<pre><code>vim /etc/default/jenkins 
+</code></pre>
+
+<p>修改里面的 http 端口</p>
+
+<h2>caddy 反向代理</h2>
+
+<pre><code>jenkins.domain.com {
+        proxy / localhost:8080 {
+                transparent
+        }
+}
+</code></pre>
+
+<h2>启动</h2>
+
+<pre><code>/etc/init.d/jenkins start
+# 或者 service jenkins start
+</code></pre>
+
+<h2>配置</h2>
+
+<p>访问 <code>jenkins.domain.com</code> 完成配置，
+一般直接选择默认配置就好了
+一开始需要获取默认密码，使用</p>
+
+<pre><code>cat /var/lib/jenkins/secrets/initialAdminPassword
+</code></pre>
+
+<p>可以获取</p>
+
+<h2>获取 API TOKEN</h2>
+
+<ul>
+<li><p>面板右边的系统管理</p></li>
+
+<li><p>管理用户</p></li>
+
+<li><p>用户列表右边的图标</p></li>
+
+<li><p>拿到用户的 USER ID 和 API TOKEN</p>
+
+<p>User ID : root
+   API TOKEN : 7d77089fq8f86906px5b5d707d13d</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11qft8ifj21h60r2af1.jpg" alt="" /></p></li>
+</ul>
+
+<h2>安装<code>Hudson Post build task</code> 插件</h2>
+
+<p>因为我们要让项目在构建成功之后自动运行，所以要手动增加一个插件 <code>Hudson Post build task</code></p>
+
+<h3>1 进入插件管理中心</h3>
+
+<p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11zqqc7nj21h30qjjvv.jpg" alt="" /></p>
+
+<p>搜索到 <code>Hudson Post build task</code> 插件之后安装就好了</p>
+
+<h2>新建项目</h2>
+
+<h3>1 新建</h3>
+
+<p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11pse47cj21h80q5gqb.jpg" alt="" /></p>
+
+<p>一般选择第一个</p>
+
+<h3>2 配置 git 地址</h3>
+
+<p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11tazoeqj214y0nymza.jpg" alt="" />
+填入 git 地址，如果有用户名和密码的话也要设置好</p>
+
+<h3>3 配置构建脚本</h3>
+
+<p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11vx8m5mj21590pndhv.jpg" alt="" /></p>
+
+<p>我的项目是 Spring Boot ，使用 mvn 命令就可以构建了，所以脚本内容如下</p>
+
+<pre><code>echo $WORKSPACE
+echo $pwd
+mvn install -Dmaven.clean.failOnError=false -Djar.forceCreation -Dmaven.test.skip=true
+</code></pre>
+
+<h3>4 设置构建好之后的运行脚本</h3>
+
+<p>由于我们已经安装了 <code>Hudson Post build task</code>，所以能够选择构建之后运行特定的 Shell 脚本</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv122wpze4j21fl0r940t.jpg" alt="" /></p>
+
+<p>脚本内容如下</p>
+
+<pre><code>#!/bin/bash 
+echo &quot;停止之前运行的 jar&quot;
+pid=`ps -ef | grep test-DEBUG-SNAPSHOT-exec | grep -v grep | awk '{print $2}'`
+if [ -n &quot;$pid&quot; ]
+then
+echo &quot;kill -9 的pid:&quot; $pid
+kill -9 $pid
+fi
+# 保持脚本运行
+BUILD_ID=dontKillMe
+
+# 将 jar 复制到运行文件夹
+cp /var/lib/jenkins/workspace/test/target/test-DEBUG-SNAPSHOT* /home/sboot/
+# 启动 jar
+java -jar /home/sboot/test-DEBUG-SNAPSHOT-exec.jar &amp;
+</code></pre>
+
+<h3>5 设置权限</h3>
+
+<p>起初我无法在构建之后运行脚本，一直提示权限不足，后面将 jenkins 设置为 ROOT 权限运行之后，就可以解决了，虽然会有不安全的因素</p>
+
+<p>设置步骤如下</p>
+
+<pre><code>vim /etc/default/jenkins
+# 修改或者增加 JENKINS_USER=&quot;root&quot;
+
+# 然后修改Jenkins home，webroot和日志的所有权
+chown -R root:root /var/lib/jenins
+chown -R root:root /var/cache/jenkins
+chown -R root:root /var/log/jenkins
+
+# 重启 jenkins
+service restart jenkins
+</code></pre>
+
+<h2>设置 webhook</h2>
+
+<p>新建完项目之后我们就可以设置 WebHook 使得我们 push 了之后项目 jenkins 能够知道并有所动作</p>
+
+<p>因为项目是放在 Gitee 上面的，所以这里就以 Gitee 作为示范</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv12cl707ij20zb0prjv3.jpg" alt="" /></p>
+
+<p>地址的格式是</p>
+
+<pre><code>https://{你的User ID}:{你的API TOKEN}@{你的服务器域名}/job/{jenkins上面的项目名称}/build?token=wanguo-token
+</code></pre>
+
+<p>例如</p>
+
+<pre><code>https://admin:7d77089fq8f86906px5b5d707d13d@jenkins.domains.com/job/Test/build?token=wanguo-token
+</code></pre>
+
+<p>填进去之后就可以测试了，如果 Webhook 无法生效的话，可能是 jenkins 设置了跨域访问限制，可以在</p>
+
+<pre><code>系统管理 -&gt; 全局安全配置 -&gt; CSRF Protection
+</code></pre>
+
+<p>设置，取消跨域访问限制</p>
+
+<p>后面的就是测试构建能够成功，以及根据输出来修改构建脚本或者运行脚本吧</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -97,13 +257,13 @@
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/jenkinsSetting.html" class="mdui-text-color-black-text pre-next-title">使用 Jenkins 自动构建项目</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/iMCPortal.html" class="mdui-text-color-black-text pre-next-title">iMCPortal-连接过程解析及Golang实现</a>
+                        <a href="/blog/201877.html" class="mdui-text-color-black-text pre-next-title">鹊桥仙 | 七夕</a>
                     </h3>
                 </div>
             </div>
