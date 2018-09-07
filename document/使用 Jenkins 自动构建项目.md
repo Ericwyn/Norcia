@@ -79,7 +79,7 @@
 ![](https://ws1.sinaimg.cn/large/ae1a7c45gy1fv12u9agcoj215h0lrgnz.jpg)
 这里要配置一个 TOKEN，后面要用到
 
-### 3 配置构建脚本
+### 4 配置构建脚本
 ![](http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11vx8m5mj21590pndhv.jpg)
 
 我的项目是 Spring Boot ，使用 mvn 命令就可以构建了，所以脚本内容如下
@@ -88,7 +88,7 @@
     echo $pwd
     mvn install -Dmaven.clean.failOnError=false -Djar.forceCreation -Dmaven.test.skip=true
 
-### 4 设置构建好之后的运行脚本
+### 5 设置构建好之后的运行脚本
 由于我们已经安装了 `Hudson Post build task`，所以能够选择构建之后运行特定的 Shell 脚本
 
 ![](http://ww1.sinaimg.cn/large/ae1a7c45gy1fv122wpze4j21fl0r940t.jpg)
@@ -111,7 +111,7 @@
     # 启动 jar
     java -jar /home/sboot/test-DEBUG-SNAPSHOT-exec.jar &
 
-### 5 设置权限
+### 6 设置权限
 起初我无法在构建之后运行脚本，一直提示权限不足，后面将 jenkins 设置为 ROOT 权限运行之后，就可以解决了，虽然会有不安全的因素
  
  设置步骤如下

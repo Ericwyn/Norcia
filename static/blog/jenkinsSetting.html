@@ -44,7 +44,7 @@
                     创建时间 : <span id ="create" class="mdui-text-color-pink">2018-09-07 16:43</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-09-07 16:56</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-09-07 16:57</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
@@ -148,7 +148,7 @@ sudo apt-get install jenkins
 <p><img src="https://ws1.sinaimg.cn/large/ae1a7c45gy1fv12u9agcoj215h0lrgnz.jpg" alt="" />
 这里要配置一个 TOKEN，后面要用到</p>
 
-<h3>3 配置构建脚本</h3>
+<h3>4 配置构建脚本</h3>
 
 <p><img src="http://ww1.sinaimg.cn/large/ae1a7c45gy1fv11vx8m5mj21590pndhv.jpg" alt="" /></p>
 
@@ -159,7 +159,7 @@ echo $pwd
 mvn install -Dmaven.clean.failOnError=false -Djar.forceCreation -Dmaven.test.skip=true
 </code></pre>
 
-<h3>4 设置构建好之后的运行脚本</h3>
+<h3>5 设置构建好之后的运行脚本</h3>
 
 <p>由于我们已经安装了 <code>Hudson Post build task</code>，所以能够选择构建之后运行特定的 Shell 脚本</p>
 
@@ -184,7 +184,7 @@ cp /var/lib/jenkins/workspace/test/target/test-DEBUG-SNAPSHOT* /home/sboot/
 java -jar /home/sboot/test-DEBUG-SNAPSHOT-exec.jar &amp;
 </code></pre>
 
-<h3>5 设置权限</h3>
+<h3>6 设置权限</h3>
 
 <p>起初我无法在构建之后运行脚本，一直提示权限不足，后面将 jenkins 设置为 ROOT 权限运行之后，就可以解决了，虽然会有不安全的因素</p>
 
