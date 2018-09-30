@@ -6,6 +6,14 @@
 	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
+			"title": "Spring Boot当中使用自定义注解",
+			"tag": "SpringBoot",
+			"create": "2018-09-30 12:46",
+			"update": "2018-09-30 12:46",
+			"mini": " 前言 自定义注解算是 Java 这门语言当中我非常喜欢的特性了，因为它能够实实在在的提高开发效率，简化代码而不失可读性。之前仅仅在写入门级 ORM 框架的时候使用过，这两天开发新的项目，看到dalao们在Spring Boot 当中使用自定义注解来完成各种事务，立马就学习了一下   环境   Spring Boot 2.0.5.RELEASE   目标 我们希望使用对于方法的注解，来为该方法加入请求鉴权，增加 RESTful API 的安全性   注解定义 使用 `public @interf",
+			"link": "spring-boot-custom-annotation"
+		},
+		{
 			"title": "使用 Jenkins 自动构建项目",
 			"tag": "Server,且听秋谷,jenkins",
 			"create": "2018-09-07 16:43",
