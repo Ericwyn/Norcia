@@ -4,41 +4,44 @@
 ## 定义自定义异常
 不多累述
 
-    public class JsonParseException extends Exception {
-    
-    	private static final long serialVersionUID = 2008642168824905631L;
-    
-    	public JsonParseException(String msg){
-            super(msg);
-        }
+```
+public class JsonParseException extends Exception {
+
+    private static final long serialVersionUID = 2008642168824905631L;
+
+    public JsonParseException(String msg){
+        super(msg);
     }
+    
+}
+```
 
 ## 定义对该异常的处理
 我们可以把对异常的处理全部写在一个 `GolbalExpectionHandleConfig` 类当中， 具体代码如下
-
-    @ControllerAdvice
-    public class GolbalExpectionHandleConfig {
-        @ExceptionHandler(value = JsonParseException.class)
-        @ResponseBody
-        public ResJson jsonParseErrorHandle(HttpServletRequest req, JsonParseException jse){
-            return ResJson.errorRequestParam(jse.getMessage()+" --> "+req.getRequestURL());
-        }
-    
-        @ExceptionHandler(value = IOException.class)
-        @ResponseBody
-        public ResJson iOExceptionHandle(HttpServletRequest req, IOException ioe){
-            ioe.printStackTrace();
-            return ResJson.serverErrorJson("系统发生错误，IOExpection ，详情请查看服务器日志 --> "+req.getRequestURL());
-        }
-    
-        @ExceptionHandler(value = Exception.class)
-        @ResponseBody
-        public ResJson exceptionHandle(HttpServletRequest req, Exception e){
-            e.printStackTrace();
-            return ResJson.serverErrorJson("系统发生错误，Expection ，详情请查看服务器日志 --> "+req.getRequestURL());
-        }
+```
+@ControllerAdvice
+public class GolbalExpectionHandleConfig {
+    @ExceptionHandler(value = JsonParseException.class)
+    @ResponseBody
+    public ResJson jsonParseErrorHandle(HttpServletRequest req, JsonParseException jse){
+        return ResJson.errorRequestParam(jse.getMessage()+" --> "+req.getRequestURL());
     }
 
+    @ExceptionHandler(value = IOException.class)
+    @ResponseBody
+    public ResJson iOExceptionHandle(HttpServletRequest req, IOException ioe){
+        ioe.printStackTrace();
+        return ResJson.serverErrorJson("系统发生错误，IOExpection ，详情请查看服务器日志 --> "+req.getRequestURL());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    @ResponseBody
+    public ResJson exceptionHandle(HttpServletRequest req, Exception e){
+        e.printStackTrace();
+        return ResJson.serverErrorJson("系统发生错误，Expection ，详情请查看服务器日志 --> "+req.getRequestURL());
+    }
+}
+```
 
 从 [Spring MVC重要注解](https://blog.csdn.net/lovesomnus/article/details/73252532) 这里了解到以下几点
  - `@ControllerAdvice` 是一个 `@Component` ，用于定义`@ExceptionHandler`，`@InitBinder`和`@ModelAttribute`方法，使这些配置适用于所有使用`@RequestMapping`方法。
