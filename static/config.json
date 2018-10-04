@@ -6,6 +6,14 @@
 	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
+			"title": "Spring Boot全局统一异常处理",
+			"tag": "SpringBoot",
+			"create": "2018-10-04 18:37",
+			"update": "2018-10-04 18:37",
+			"mini": " 前言 之前用 Spring Boot 写 RESTful API 的时候，对于各种错误的捕捉都是直接用 try catch 的，所以在各个方法里面都总是有一些相同的 try catch 代码块，虽然也是能用但是总有点别扭不自在。这两天学习了一下 Spring Boot 当中对于异常的统一处理，发现很简单但是却能让代码优雅不少。   定义自定义异常 不多累述      public class JsonParseException extends Exception {          \tpr",
+			"link": "springBootGolbalExpHandle"
+		},
+		{
 			"title": "Spring Boot当中使用自定义注解",
 			"tag": "SpringBoot",
 			"create": "2018-09-30 12:46",

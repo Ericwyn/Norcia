@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Spring Boot当中使用自定义注解</title>
+    <title>Spring Boot全局统一异常处理</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,14 +37,14 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->Spring Boot当中使用自定义注解
+                    <!--标题所在-->Spring Boot全局统一异常处理
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-09-30 12:46</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-10-04 18:37</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-09-30 12:46</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-10-04 18:37</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
@@ -53,105 +53,58 @@
             <div id="mdContent" class="prettyprint">
                 <h2>前言</h2>
 
-<p>自定义注解算是 Java 这门语言当中我非常喜欢的特性了，因为它能够实实在在的提高开发效率，简化代码而不失可读性。之前仅仅在写入门级 ORM 框架的时候使用过，这两天开发新的项目，看到dalao们在Spring Boot 当中使用自定义注解来完成各种事务，立马就学习了一下</p>
+<p>之前用 Spring Boot 写 RESTful API 的时候，对于各种错误的捕捉都是直接用 try catch 的，所以在各个方法里面都总是有一些相同的 try catch 代码块，虽然也是能用但是总有点别扭不自在。这两天学习了一下 Spring Boot 当中对于异常的统一处理，发现很简单但是却能让代码优雅不少。</p>
 
-<h2>环境</h2>
+<h2>定义自定义异常</h2>
 
-<ul>
-<li>Spring Boot 2.0.5.RELEASE</li>
-</ul>
+<p>不多累述</p>
 
-<h2>目标</h2>
+<pre><code>public class JsonParseException extends Exception {
 
-<p>我们希望使用对于方法的注解，来为该方法加入请求鉴权，增加 RESTful API 的安全性</p>
+	private static final long serialVersionUID = 2008642168824905631L;
 
-<h2>注解定义</h2>
-
-<p>使用 <code>public @interface</code> 来定义一个公共的注解，具体代码如下</p>
-
-<pre><code>@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Authorization {
-    Class type();
-}
-</code></pre>
-
-<p>这其中的 <code>type</code> 属性我们用来区别用户角色</p>
-
-<h2>编写拦截器</h2>
-
-<p>有了注解之后，我们需要编写一个拦截器，为注解绑定处理流程。Spring MVC 允许我们直接继承一个拦截器适配器 <code>HandlerInterceptorAdapter</code> ，来实现一个自定义拦截器，只需要实现一个 <code>preHandle</code> 方法就可以了，完整代码如下</p>
-
-<pre><code>@Component
-public class AuthorizationInterceptors extends HandlerInterceptorAdapter {
-    @Autowired
-    TokenService tokenService;
-
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (!(handler instanceof HandlerMethod)){
-            return true;
-        }
-        HandlerMethod handlerMethod = (HandlerMethod)handler;
-        Method method = handlerMethod.getMethod();
-        Annotation annotation;
-        if ((annotation = method.getAnnotation(Authorization.class) ) == null){
-            return true;
-        }
-        String authorization = request.getHeader(&quot;token&quot;);
-        AccessToken token = tokenService.getToken(authorization);
-        if (token == null){
-            // 设置但 token 错误的时候返回 401
-            response.setStatus(401);
-            return false;
-        }else {
-            // 判断 token 对象是否属于特定的角色（管理员、微信用户），然后分开处理
-            if (((Authorization) annotation).type() == Admin.class &amp;&amp; token.getAdmin()!=null){
-                request.setAttribute(&quot;token&quot;, token.getUuid());
-                return true;
-            }else if (((Authorization) annotation).type() == Wechater.class &amp;&amp; token.getWechater()!=null){
-                request.setAttribute(&quot;token&quot;, token.getUuid());
-                return true;
-            }else {
-                response.setStatus(200);
-                response.getWriter().append(JSON.toJSONString(ResJson.errorAccessToken()));
-                return false;
-            }
-        }
+	public JsonParseException(String msg){
+        super(msg);
     }
 }
 </code></pre>
 
-<h2>将注解添加到 Spring 当中</h2>
+<h2>定义对该异常的处理</h2>
 
-<p>注解绑定了处理的事务之后还需要将其添加到Spring 配置当中，新建一个配置类直接实现 <code>WebMvcConfigurer</code> 接口就可以了，然后填充 <code>addInterceptors</code> 方法，完整代码如下</p>
+<p>我们可以把对异常的处理全部写在一个 <code>GolbalExpectionHandleConfig</code> 类当中， 具体代码如下</p>
 
-<pre><code>@Configuration
-public class InterceptorConfig implements WebMvcConfigurer {
-    @Bean
-    AuthorizationInterceptors authorizationInterceptor() {
-        return new AuthorizationInterceptors();
+<pre><code>@ControllerAdvice
+public class GolbalExpectionHandleConfig {
+    @ExceptionHandler(value = JsonParseException.class)
+    @ResponseBody
+    public ResJson jsonParseErrorHandle(HttpServletRequest req, JsonParseException jse){
+        return ResJson.errorRequestParam(jse.getMessage()+&quot; --&gt; &quot;+req.getRequestURL());
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // 鉴权的 @Authorization 注解
-        registry.addInterceptor(authorizationInterceptor()).addPathPatterns(&quot;/**&quot;);
-        System.out.println(&quot;鉴权 @Authorization 注解增加成功&quot;);
+    @ExceptionHandler(value = IOException.class)
+    @ResponseBody
+    public ResJson iOExceptionHandle(HttpServletRequest req, IOException ioe){
+        ioe.printStackTrace();
+        return ResJson.serverErrorJson(&quot;系统发生错误，IOExpection ，详情请查看服务器日志 --&gt; &quot;+req.getRequestURL());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    @ResponseBody
+    public ResJson exceptionHandle(HttpServletRequest req, Exception e){
+        e.printStackTrace();
+        return ResJson.serverErrorJson(&quot;系统发生错误，Expection ，详情请查看服务器日志 --&gt; &quot;+req.getRequestURL());
     }
 }
 </code></pre>
 
-<h2>使用注解</h2>
+<p>从 <a href="https://blog.csdn.net/lovesomnus/article/details/73252532">Spring MVC重要注解</a> 这里了解到以下几点
+ - <code>@ControllerAdvice</code> 是一个 <code>@Component</code> ，用于定义<code>@ExceptionHandler</code>，<code>@InitBinder</code>和<code>@ModelAttribute</code>方法，使这些配置适用于所有使用<code>@RequestMapping</code>方法。
+ - Spring4之前，<code>@ControllerAdvice</code>在同一调度的Servlet中协助所有控制器。Spring4 已经改变：<code>@ControllerAdvice</code> 支持配置控制器的子集，而默认的行为仍然可以利用。
+ - 在Spring4中， <code>@ControllerAdvice</code> 通过 <code>annotations()</code>, <code>basePackageClasses()</code>, <code>basePackages()</code>方法定制用于选择控制器子集。</p>
 
-<pre><code>@RequestMapping(value = &quot;/api/logout&quot;)
-@Authorization(type = Admin.class)
-public String test(){
-    return &quot;success&quot;;
-}
-</code></pre>
+<p>然后实际上除了 <code>@ControllerAdvice</code> 还有 <code>@RestControllerAdvice</code>，两者的区别估计是和<code>@Controller</code> 与 <code>@RestController</code> 差不多吧</p>
 
-<p>这样的话，请求<code>/api/logout</code>的时候，就一定要在 header 里面带上一个 token 参数才可以，token 一般是从登录接口那里获取的</p>
+<p>之后所有的 RequestMapping 方法如果抛出了异常的话就会被处理了</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -186,13 +139,13 @@ public String test(){
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/springBootGolbalExpHandle.html" class="mdui-text-color-black-text pre-next-title">Spring Boot全局统一异常处理</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/jenkinsSetting.html" class="mdui-text-color-black-text pre-next-title">使用 Jenkins 自动构建项目</a>
+                        <a href="/blog/spring-boot-custom-annotation.html" class="mdui-text-color-black-text pre-next-title">Spring Boot当中使用自定义注解</a>
                     </h3>
                 </div>
             </div>
