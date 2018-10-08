@@ -34,12 +34,33 @@
 <div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable index-blog-card gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
+            <a href="blog/spring-boot-to-spring-cloud.html" target="_blank">Spring-Boot魔改为 Spring-Cloud项目实践</a>
+        </div>
+        <div class="mdui-card-primary-subtitle">2018-10-08 23:01</div>
+    </div>
+    <div class="mdui-card-content">
+         前言 最近接触到了 Spring Cloud ，虽然还没有正式的在生产环境当中使用，但是那种尽量将一个大的整体才分成小的模块的这种想法，让我不明觉历。恰好最近实训当中写的项目是基于 Spring Boot 的，于是打算魔改成一个简单的 Spring Cloud 项目。也天生 Spring Boot 就和 Spring Cloud 无痛融合。   基本的想法   将我们的 Spring Boot 项目进行拆分   将拆分的各个模块变成 Spring Cloud 的一个服务   创建 Spring ......
+    </div>
+    <div class="mdui-card-actions mdui-m-t-2 mdui-m-b-2">
+        
+<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
+    <span class="mdui-chip-title">SpringBoot</span>
+</div>
+<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
+    <span class="mdui-chip-title">SpringCloud</span>
+</div>
+        <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
+    </div>
+</div>
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable index-blog-card gradient-wrapper">
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title ">
             <a href="blog/springBootGolbalExpHandle.html" target="_blank">Spring Boot全局统一异常处理</a>
         </div>
         <div class="mdui-card-primary-subtitle">2018-10-04 18:37</div>
     </div>
     <div class="mdui-card-content">
-         前言 之前用 Spring Boot 写 RESTful API 的时候，对于各种错误的捕捉都是直接用 try catch 的，所以在各个方法里面都总是有一些相同的 try catch 代码块，虽然也是能用但是总有点别扭不自在。这两天学习了一下 Spring Boot 当中对于异常的统一处理，发现很简单但是却能让代码优雅不少。   定义自定义异常 不多累述      public class JsonParseException extends Exception {          	pr ......
+         前言 之前用 Spring Boot 写 RESTful API 的时候，对于各种错误的捕捉都是直接用 try catch 的，所以在各个方法里面都总是有一些相同的 try catch 代码块，虽然也是能用但是总有点别扭不自在。这两天学习了一下 Spring Boot 当中对于异常的统一处理，发现很简单但是却能让代码优雅不少。   定义自定义异常 不多累述  ``` public class JsonParseException extends Exception {      private ......
     </div>
     <div class="mdui-card-actions mdui-m-t-2 mdui-m-b-2">
         
@@ -129,27 +150,6 @@
 </div>
 <div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
     <span class="mdui-chip-title">爬虫</span>
-</div>
-        <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
-    </div>
-</div>
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable index-blog-card gradient-wrapper">
-    <div class="mdui-card-primary">
-        <div class="mdui-card-primary-title ">
-            <a href="blog/norcia-document.html" target="_blank">Norcia文档</a>
-        </div>
-        <div class="mdui-card-primary-subtitle">2018-05-22 20:25</div>
-    </div>
-    <div class="mdui-card-content">
-         Norcia 一个简单的静态博客框架   项目结构   根目录下的 HTML \ CSS \ JavaScript 文件   `document` 文件夹用来存放博文 markdown 文件   config.json 作为静态博客的配置文件以及博客文章索引,该文件在初次设定好个人信息后可由 Norcia 程序自动更新与维护, 详情请看下文介绍    config.json 自动更新  更新 运行 Norcia 程序就可以自动依照 document 文件夹里面的 markdown 文件的修改, 而自动维护更新 config.json 索引了  Norcia 为以下三个平台提供打包好的二进制程 ......
-    </div>
-    <div class="mdui-card-actions mdui-m-t-2 mdui-m-b-2">
-        
-<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
-    <span class="mdui-chip-title">且听秋谷</span>
-</div>
-<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
-    <span class="mdui-chip-title">Norcia</span>
 </div>
         <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
     </div>
