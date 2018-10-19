@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Spring-Boot魔改为 Spring-Cloud项目实践</title>
+    <title>古风 | 夜渡寒江别友</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,57 +37,33 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->Spring-Boot魔改为 Spring-Cloud项目实践
+                    <!--标题所在-->古风 | 夜渡寒江别友
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-10-08 23:01</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-10-19 22:12</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-10-08 23:45</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-10-19 22:12</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <h2>前言</h2>
+                <pre><code>    夜渡寒江风有绪
+    长河一去怎戚戚
+    又待波烟帆寄起
+    伴君千里月迷离
 
-<p>最近接触到了 Spring Cloud ，虽然还没有正式的在生产环境当中使用，但是那种尽量将一个大的整体才分成小的模块的这种想法，让我不明觉历。恰好最近实训当中写的项目是基于 Spring Boot 的，于是打算魔改成一个简单的 Spring Cloud 项目。也天生 Spring Boot 就和 Spring Cloud 无痛融合。</p>
+    2018年10月14日晚，与桃源小书童分别后写就
+</code></pre>
 
-<h2>关于微服务</h2>
+<p>送君自然可以送至千里</p>
 
-<p>简单的理解和学习了Spring Cloud 和所谓微服务的概念之后，有了以下一些对微服务的个人理解</p>
+<p>待得真的相隔万水，雪满天山的时候</p>
 
-<h3>1，微服务以服务为核心</h3>
-
-<p>从前我们可能也都习惯在项目当中划分模块这个样子，所以一开始接触微服务的时候，我误以为所谓的微服务、多个服务，就不过是将项目里面的各个模块做成一个服务这样。但后面发现实际上，服务和系统模块，并不一定等同。</p>
-
-<p>例如我的实训项目当中，起初的模块划分不过只有微信用户模块和管理员模块而已，如果按照这样划分的话，划分出两个 service （service-wechat 和 service-admin ） 就可以，但是实际上，微信用户模块当中，还有更加细粒度的划分，例如专门负责微信用户登录、鉴权的，专门负责微信用户订单处理的，专门负责微信用户之间的留言的。</p>
-
-<p>而这些才是所谓的服务</p>
-
-<p>微服务抽象的应该是这些处理具体事务，一个个的功能，将这些当个功能抽取成一个模块才对。</p>
-
-<p>“一个模块只做一件事，并且只做好一件事情”</p>
-
-<h3>2，微服务的优缺点</h3>
-
-<p>我个人觉得微服务最大的优点，是它所谓的“做好一件事”这样的思想。我们把整个系统划分成很多的“一件事”，而对于系统性能的调配，也能够更加的细粒度，对应到各个“一件事”当中。例如我可以为订单功能划分更多的计算性能（在更多的服务器上面部署订单服务并启用负载均衡），而用户授权认证的话只需要使用之前的那一台服务器就可以满足新增的请求压力了。</p>
-
-<p>另外就是更加方便了多人之间的开发，各个小组在约定好程序之间沟通逻辑之后，只需要负责好，测试好自己的那一块就好了。</p>
-
-<p>而最大缺点则是，太过碎片化了。由于原有的单体系统变成了一小块一小块的，各个小块之前，比起之前要耗费多余的资源来负责各个服务之前的沟通和交流。而且对一些需要锁的服务也提高处理难度。</p>
-
-<h2>基本的想法</h2>
-
-<ul>
-<li>将我们的 Spring Boot 项目进行拆分</li>
-<li>将拆分的各个模块变成 Spring Cloud 的一个服务</li>
-<li>创建 Spring Cloud 里面的服务器发现，来组合和管理各个服务</li>
-</ul>
-
-<p>&hellip;&hellip;</p>
+<p>思绪又能够怎样飞去呢</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -122,13 +98,13 @@
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/xin20181014.html" class="mdui-text-color-black-text pre-next-title">古风 | 夜渡寒江别友</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/springBootGolbalExpHandle.html" class="mdui-text-color-black-text pre-next-title">Spring Boot全局统一异常处理</a>
+                        <a href="/blog/spring-boot-to-spring-cloud.html" class="mdui-text-color-black-text pre-next-title">Spring-Boot魔改为 Spring-Cloud项目实践</a>
                     </h3>
                 </div>
             </div>
