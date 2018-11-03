@@ -6,6 +6,14 @@
 	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
+			"title": "Java-JNI简单教程",
+			"tag": "且听秋谷,java,AndroidFramework",
+			"create": "2018-11-03 21:15",
+			"update": "2018-11-03 21:15",
+			"mini": " 前言 最近决定入坑 Android Framework 了，这样的话，JNI 就一定是需要了解和会使用的，毕竟 Android Framework 就是各种 JNI 调用 c 和 c 的驱动然后提供给上层的 Android APP   JNI JNI 就是 Java Native Interface 的缩写，Java 通过 JNI 来调用 C 的程序和库，这些动态库在 windows 上面以 `.dll` 的形式存在，在 Unix 世界里以 `.so` 的形式存在，Android 基于 Lin",
+			"link": "java-jni-quick-start"
+		},
+		{
 			"title": "文赋 | 天海阁文集序",
 			"tag": "古月言说",
 			"create": "2018-11-02 11:39",
