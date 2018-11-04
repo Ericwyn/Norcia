@@ -6,6 +6,14 @@
 	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
+			"title": "Nexus5X-AOSP编译问题记录",
+			"tag": "AOSP,AndroidFramework",
+			"create": "2018-11-04 11:20",
+			"update": "2018-11-04 11:20",
+			"mini": " 前言 入坑 Android Framework ，所以先尝试着自己编译一个 ROM，因为手上有的设备是 Nexus 5X ，没有开发板，所以就先拿着可怜的小5X 来测试吧  照着 start          jack server 无法启动，很奇怪的错误，           我先是 rm 了 `/home/ericwyn/.jackserver` 文件夹           然后 `jackadmin installserver` 重新安装 server           尝试 `jac",
+			"link": "make-nexus5x-aosp"
+		},
+		{
 			"title": "Java-JNI简单教程",
 			"tag": "且听秋谷,java,AndroidFramework",
 			"create": "2018-11-03 21:15",
