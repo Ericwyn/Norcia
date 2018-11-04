@@ -44,7 +44,7 @@
                     创建时间 : <span id ="create" class="mdui-text-color-pink">2018-11-04 11:20</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-11-04 11:31</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-11-04 17:55</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
@@ -106,7 +106,51 @@
 <p>解决方法是
  - 把 <code>export LC_ALL=C</code> 这行代码添加到 bashrc 文件中，<code>LC_ALL=C</code> 是为了去除所有本地化的设置，让命令能正确执行</p>
 
-<h3>未完待续&hellip;</h3>
+<h2>等待编译</h2>
+
+<p>我个人觉得，如果编译的话如果能够跑完前面的 10% ，那么一般后面的 90% 应该也不会有问题了。</p>
+
+<p>关于编译时间，我的电脑是 Thinkpad T450 ，配置 I5-5300U，系统是 Ubuntu 18.04 ，用 <code>make -j4</code> 使用四个核心来编译，一共是用了 <code>04:58:01</code>，我的 CPU 一直满载了 5 个小时啊天&hellip;.</p>
+
+<pre><code>#### build completed successfully (04:58:01 (hh:mm:ss)) ####
+</code></pre>
+
+<p>无比羡慕那些一个小时就能跑完的 dalao</p>
+
+<p>编译过程中一般会有很多 warning，无视就好了</p>
+
+<h2>刷入 Image</h2>
+
+<p>先设定输出目录，就是你的 IMG 编译好的地方</p>
+
+<pre><code>export ANDROID_PRODUCT_OUT=/your/path/to/img
+</code></pre>
+
+<p>找到编译输出的  fastboot 的所在，然后进入到所在的文件夹</p>
+
+<pre><code>whitch fastboot
+</code></pre>
+
+<p>先切换到 su（避免权限问题）， 用这里的 fastboot 的 devices 命令找到连接的设备</p>
+
+<pre><code>./fastboot devices      
+// 输入如下 
+00c996d81da7a82f	fastboot
+</code></pre>
+
+<p>然后开始刷机</p>
+
+<pre><code>./fastboot -w flashall 
+</code></pre>
+
+<p>刷机的过程一般很快的，刷完之后会自动重启，然后就可以看到清水出芙蓉的 AOSP 了</p>
+
+<p>另外如果出现像 <code>error: neither -p product specified nor ANDROID_PRODUCT_OUT set</code> 的错误提示的话，是因为你没有设置 <code>ANDROID_PRODUCT_OUT</code>，使用下面的命令设置就好了</p>
+
+<pre><code>export ANDROID_PRODUCT_OUT={你输出的文件夹，例如 out/target/product/bullhead}
+</code></pre>
+
+<h3>后续</h3>
 
 <p>吐槽一下，我电脑只有两个固态，加起来不过600 g 的空间&hellip;对于编译 AOSP 来说确实不太够呜呜呜，以后一定要买个 1T 的固态口亨</p>
 

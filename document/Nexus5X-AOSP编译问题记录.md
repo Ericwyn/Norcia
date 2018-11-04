@@ -44,8 +44,46 @@ Android 8.1 要求编译时候使用 OpenJDK，虽然我的电脑上面是装了
 解决方法是
  - 把 `export LC_ALL=C` 这行代码添加到 bashrc 文件中，`LC_ALL=C` 是为了去除所有本地化的设置，让命令能正确执行
 
+## 等待编译
 
-### 未完待续...
+我个人觉得，如果编译的话如果能够跑完前面的 10% ，那么一般后面的 90% 应该也不会有问题了。
+
+关于编译时间，我的电脑是 Thinkpad T450 ，配置 I5-5300U，系统是 Ubuntu 18.04 ，用 `make -j4` 使用四个核心来编译，一共是用了 `04:58:01`，我的 CPU 一直满载了 5 个小时啊天.... 
+
+    #### build completed successfully (04:58:01 (hh:mm:ss)) ####
+
+无比羡慕那些一个小时就能跑完的 dalao
+
+编译过程中一般会有很多 warning，无视就好了
+
+## 刷入 Image 
+
+先设定输出目录，就是你的 IMG 编译好的地方
+    
+    export ANDROID_PRODUCT_OUT=/your/path/to/img
+ 
+找到编译输出的  fastboot 的所在，然后进入到所在的文件夹
+ 
+    whitch fastboot
+ 
+先切换到 su（避免权限问题）， 用这里的 fastboot 的 devices 命令找到连接的设备
+ 
+    ./fastboot devices      
+    // 输入如下 
+    00c996d81da7a82f	fastboot
+ 
+然后开始刷机
+    
+    ./fastboot -w flashall 
+
+刷机的过程一般很快的，刷完之后会自动重启，然后就可以看到清水出芙蓉的 AOSP 了
+
+另外如果出现像 `error: neither -p product specified nor ANDROID_PRODUCT_OUT set` 的错误提示的话，是因为你没有设置 `ANDROID_PRODUCT_OUT`，使用下面的命令设置就好了
+
+    export ANDROID_PRODUCT_OUT={你输出的文件夹，例如 out/target/product/bullhead}
+    
+
+### 后续
 吐槽一下，我电脑只有两个固态，加起来不过600 g 的空间...对于编译 AOSP 来说确实不太够呜呜呜，以后一定要买个 1T 的固态口亨
 
 另外用 Thinkpad T 系列这么久，是在编译 AOSP 的时候，才第一次深刻发觉，CPU 真的是不太够用啊，我这样一边编译，一边写博文，居然是已经卡到不能自拔了...
