@@ -44,7 +44,7 @@
                     创建时间 : <span id ="create" class="mdui-text-color-pink">2018-11-04 11:20</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-11-04 11:20</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-11-04 11:29</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
@@ -93,6 +93,18 @@
 <li><p>尝试 <code>jack-admin start-server</code> 启动，<code>ps</code> 查看进程之后发现 jack-server 已经启动了，然后尝试重新编译</p></li>
 </ul></li>
 </ul>
+
+<h3>Ubuntu 18.04 下编译输出  <code>lexer.cpp</code> 失败</h3>
+
+<p>提示</p>
+
+<pre><code>FAILED: out/target/product/gordon_peak_xen/obj/STATIC_LIBRARIES/libedify_intermediates/lexer.cpp
+</code></pre>
+
+<p>在 <a href="http://rangerzhou.top/2018/08/29/Ubuntu18.04%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/">Ubuntu18.04编译问题</a> 中看到解决方案</p>
+
+<p>解决方法是
+ - 把 <code>export LC_ALL=C</code> 这行代码添加到 bashrc 文件中，<code>LC_ALL=C</code> 是为了去除所有本地化的设置，让命令能正确执行</p>
 
 <h3>未完待续&hellip;</h3>
 

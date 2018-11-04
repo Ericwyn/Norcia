@@ -34,5 +34,16 @@ Android 8.1 要求编译时候使用 OpenJDK，虽然我的电脑上面是装了
     
     - 尝试 `jack-admin start-server` 启动，`ps` 查看进程之后发现 jack-server 已经启动了，然后尝试重新编译
 
+### Ubuntu 18.04 下编译输出  `lexer.cpp` 失败
+提示 
+
+    FAILED: out/target/product/gordon_peak_xen/obj/STATIC_LIBRARIES/libedify_intermediates/lexer.cpp
+
+在 [Ubuntu18.04编译问题](http://rangerzhou.top/2018/08/29/Ubuntu18.04%E7%BC%96%E8%AF%91%E9%97%AE%E9%A2%98/) 中看到解决方案
+
+解决方法是
+ - 把 `export LC_ALL=C` 这行代码添加到 bashrc 文件中，`LC_ALL=C` 是为了去除所有本地化的设置，让命令能正确执行
+
+
 ### 未完待续...
 吐槽一下，我电脑只有两个固态，加起来不过600 g 的空间...对于编译 AOSP 来说确实不太够呜呜呜，以后一定要买个 1T 的固态口亨
