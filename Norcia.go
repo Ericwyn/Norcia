@@ -289,6 +289,7 @@ func bindBlog(config BlogConfig,n int) string {
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
+	tmpl = bindNavigation(config,tmpl)
 	return bindDateToTmpl(tmpl,data)
 }
 
