@@ -20,29 +20,7 @@ import (
 )
 
 /**
-配置文件 json 格式
-	{
-		"head": "博客名称",
-		"introduce": "博客介绍",
-		"github": "github地址",
-		"weibo": "weibo地址",
-		"articles": [
-			{
-				"title": "文章标题",
-				"tag": "文章标签",
-				"create": "创作日期",
-				"update": "更新日期"
-				"mini": "文章缩略前300个字"
-			},
-			{
-				"title": "文章标题",
-				"tag": "文章标签",
-				"create": "创作日期",
-				"update": "更新日期"
-				"mini": "文章缩略前300个字"
-			}
-		]
-	}
+	配置文件 json 格式请见根目录下 config.json 文件
 */
 
 // md文件存储文件夹
