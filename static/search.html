@@ -44,11 +44,11 @@
             <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="/img/logo.jpg"/>
             <div class="mdui-typo mdui-m-l-4">
                 <h4 class="mdui-text-color-white mdui-m-t-2 name-mail-line-height"><strong id="blogName">
-                Ericwyn's Blog</strong></h4>
+                    Ericwyn's Blog</strong></h4>
                 <p class="mdui-text-color-white mdui-m-t-0 name-mail-line-height" id="introduce">Coding myself</p>
             </div>
         </div>
-        <ul class="mdui-list">
+        <ul class="mdui-list" mdui-collapse="{accordion: true}">
             <li class="mdui-subheader">博客</li>
             <a href="/index.html">
                 <li class="mdui-list-item mdui-ripple">
@@ -77,19 +77,27 @@
                     <div class="mdui-list-item-content inline-display ">Github</div>
                 </li>
             </a>
-            <li class="mdui-subheader">朋友</li>
-            <a href="https://xiphoray.github.io/">
-                <li class="mdui-list-item mdui-ripple">
-                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">explore</i>
-                    <div class="mdui-list-item-content inline-display ">五寸畦田</div>
-                </li>
-            </a>
-            <a href="https://zilchfp.github.io/">
-                <li class="mdui-list-item mdui-ripple mdui-text-color-black">
-                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-black">explore</i>
-                    <div class="mdui-list-item-content inline-display ">你的益达</div>
-                </li>
-            </a>
+
+            <li class="mdui-collapse-item">
+                <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons">people</i>
+                    <div class="mdui-list-item-content">朋友</div>
+                    <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+                </div>
+                <ul class="mdui-collapse-item-body mdui-list mdui-list-dense">
+                    
+                    <a href="https://xiphoray.github.io/">
+                        <li class="mdui-list-item mdui-ripple">五寸畦田</li>
+                    </a>
+                    <a href="https://zilchfp.github.io/">
+                        <li class="mdui-list-item mdui-ripple">你的益达</li>
+                    </a>
+                    <a href="https://blog.milkysilk.com/">
+                        <li class="mdui-list-item mdui-ripple">千魂剑</li>
+                    </a>
+                </ul>
+            </li>
+
         </ul>
     </div>
 </div>

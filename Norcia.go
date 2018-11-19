@@ -171,9 +171,30 @@ func generateStaticPages(config BlogConfig) {
 	writeStringToFile(bindSearch(config),staticPath+"search.html")
 }
 
+func bindNavFriend(config BlogConfig) string  {
+	var res string
+	var tmpl = readFileToString("temple/navigation/navFriend.html")
+	for _,friend := range config.Friends{
+		data := map[string] string {
+			"Name": friend.Name,
+			"Href": friend.Href,
+		}
+		res += "\n" + bindDateToTmpl(tmpl,data)
+	}
+	return res
+}
+
+func bindNavigation(config BlogConfig,pageStr string) string {
+	data := map[string]string{
+		"Navigation":readFileToString("temple/navigation/navigation.html"),
+		"Friends":bindNavFriend(config),
+	}
+	return bindDateToTmpl(pageStr,data)
+}
+
 // 渲染 index 页面
 func bindIndex(config BlogConfig) string {
-	var tmpl = readFileToString("temple/index.html")
+	var tmpl = readFileToString("temple/index/index.html")
 	data := map[string]string{
 		"Head":config.Head,
 		"Introduce":config.Introduce,
@@ -181,13 +202,14 @@ func bindIndex(config BlogConfig) string {
 		"Mail":config.Mail,
 		"Articles":bindCardAndArticle(config),
 	}
+	tmpl = bindNavigation(config,tmpl)
 	return bindDateToTmpl(tmpl,data)
 }
 
 // 绑定卡片和文章摘要
 func bindCardAndArticle(config BlogConfig) string {
 	var res string
-	var tmpl = readFileToString("temple/blogCard.html")
+	var tmpl = readFileToString("temple/blog/blogCard.html")
 	for i,article := range config.Articles{
 		data := map[string]string{
 			"Title":article.Title,
@@ -208,7 +230,7 @@ func bindCardAndArticle(config BlogConfig) string {
 // 渲染 blog tag 页面
 func bindBlogTag(article Article) string {
 	var res string
-	var tmpl = readFileToString("temple/blogTag.html")
+	var tmpl = readFileToString("temple/blog/blogTag.html")
 	for _,tag := range strings.Split(article.Tag,","){
 		data := map[string]string{"Tag": tag}
 		res += "\n"+bindDateToTmpl(tmpl,data)
@@ -217,41 +239,44 @@ func bindBlogTag(article Article) string {
 }
 
 func bindArchives(config BlogConfig) string{
-	var tmpl = readFileToString("temple/archives.html")
+	var tmpl = readFileToString("temple/archives/archives.html")
 	data := map[string]string{
 		"Head":config.Head,
 		"Introduce":config.Introduce,
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
+	tmpl = bindNavigation(config,tmpl)
 	return bindDateToTmpl(tmpl,data)
 }
 
 func bindTags(config BlogConfig) string{
-	var tmpl = readFileToString("temple/tags.html")
+	var tmpl = readFileToString("temple/tags/tags.html")
 	data := map[string]string{
 		"Head":config.Head,
 		"Introduce":config.Introduce,
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
+	tmpl = bindNavigation(config,tmpl)
 	return bindDateToTmpl(tmpl,data)
 }
 
 func bindSearch(config BlogConfig) string{
-	var tmpl = readFileToString("temple/search.html")
+	var tmpl = readFileToString("temple/search/search.html")
 	data := map[string]string{
 		"Head":config.Head,
 		"Introduce":config.Introduce,
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
+	tmpl = bindNavigation(config,tmpl)
 	return bindDateToTmpl(tmpl,data)
 }
 
 // 渲染 blog 页
 func bindBlog(config BlogConfig,n int) string {
-	var tmpl = readFileToString("temple/blog.html")
+	var tmpl = readFileToString("temple/blog/blog.html")
 	article := config.Articles[n]
 	var preTitle string
 	var nextTitle string
@@ -442,6 +467,7 @@ type BlogConfig struct {
 	Mail      string    `json:"mail"`
 	Domain	  string	`json:"domain"`
 	Articles  []Article `json:"articles"`
+	Friends   []Friend  `json:"friends"`
 }
 
 type Article struct {
@@ -451,6 +477,11 @@ type Article struct {
 	Update string `json:"update"`
 	Mini   string `json:"mini"`
 	Link   string `json:"link"`
+}
+
+type Friend struct {
+	Name   string `json:"name"`
+	Href   string `json:"href"`
 }
 
 //排序 Article

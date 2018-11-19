@@ -9,7 +9,7 @@
 			"title": "Nexus5X-AOSP编译问题记录",
 			"tag": "AOSP,AndroidFramework",
 			"create": "2018-11-04 11:20",
-			"update": "2018-11-04 17:55",
+			"update": "2018-11-04 18:25",
 			"mini": " 前言 入坑 Android Framework ，所以先尝试着自己编译一个 ROM，因为手上有的设备是 Nexus 5X ，没有开发板，所以就先拿着可怜的小5X 来测试吧  照着    无比羡慕那些一个小时就能跑完的 dalao  编译过程中一般会有很多 warning，无视就好了   刷入 Image   先设定输出目录，就是你的 IMG 编译好的地方          export ANDROID_PRODUCT_OUT=/your/path/to/img   找到编译输出的  fastb",
 			"link": "make-nexus5x-aosp"
 		},
@@ -220,6 +220,20 @@
 			"update": "2018-07-27 19:13",
 			"mini": "        斑鬓白须几载疏窗伴误身儒冠         彩英紫苑一朝寒枕随憔赋招魂",
 			"link": "couplet201607"
+		}
+	],
+	"friends": [
+		{
+			"name": "五寸畦田",
+			"href": "https://xiphoray.github.io/"
+		},
+		{
+			"name": "你的益达",
+			"href": "https://zilchfp.github.io/"
+		},
+		{
+			"name": "千魂剑",
+			"href": "https://blog.milkysilk.com/"
 		}
 	]
 }
