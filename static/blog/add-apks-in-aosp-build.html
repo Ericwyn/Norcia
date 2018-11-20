@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>文赋 | 天海阁文集序</title>
+    <title>AOSP植入第三方应用趟坑记录</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,45 +37,150 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->文赋 | 天海阁文集序
+                    <!--标题所在-->AOSP植入第三方应用趟坑记录
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-11-02 11:39</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-11-20 23:58</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-11-20 23:57</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-11-20 23:58</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <p>乙未年秋，余初到大学城，年冬一日，百无聊赖，独寻僻静之处。撞撞跌跌，竟入了此中，发觉了这一妙处所在。</p>
+                <h2>前言</h2>
 
-<p>初入此中，只觉震撼，昔闻诗言，危楼高百尺，手可摘星辰。此处楼高，虽未到百尺，却也觉己可与星辰比肩。</p>
+<p>之前成功的编译了 AOSP ，使用时候确实发现老旧的 Nexus5X 待机时间大大的提高了，然而 AOSP 实在是太过简陋了，还要自己下载各种常用的 APP，于是考虑能不能，直接植入一些自己常用 APP，免去刷机后重新下载的麻烦，于是找到 stackoverflow 上面的问题</p>
 
-<p>独立栏前，可穷千里之目，能观浩浩河山。而身后一座，只如王者之位，坐于其中，有君临天下之感。于此座上读书，无一页不是沧海之卷，无一字不是山河之言。</p>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/10579827/how-do-i-add-apks-in-an-aosp-build">How do I add APKs in an AOSP build?</a></p>
+</blockquote>
 
-<p>此后，余常于闲暇之际，独上此中，每每见有书卷数本置于坐旁，却始终不遇其主人身影。于是留书一封于座左，望有人因缘际会，可答复一二，与我作个秘地好友罢。</p>
+<p>于是就照着操作了</p>
 
-<p>而那日留书归去之后，心中欢喜之情愈盛，感怀之下，想到不知此妙处是否有了名字，也不知该如何称呼，便自顾自地想为其起个名字。念及因坐此处，所阅书卷中，页页之中有沧海之感，字字之间有山河之意，故想起名沧海阁，忽又觉得沧海二字，并无具体所指，此处景象，不过长虹之下，有大江浩荡，奔流到海；天高地阔，万象渺然，虽有沧海之意，却实非沧海之景，故又改为了天海阁。</p>
+<h2>创建存储 apk 的文件夹</h2>
 
-<p>起名之后，又题一联，</p>
+<p>在 AOSP 根目录下，package/app/下面
+创建一个文件，例如 <code>Chrome</code>
+然后将 Chrome APK 移入到这个文件夹里面去</p>
 
-<pre><code>    天涯路远，千书作马，随心把酒飞尘道； 
-    海角途殊，万卷成舟，纵性言欢过勇涛。 
+<h2>编写 Android.mk</h2>
+
+<p>根据stof给的 makefile 模板</p>
+
+<pre><code>LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_MODULE := &lt; 你的 app 的文件夹的名字 &gt;
+
+LOCAL_CERTIFICATE := &lt; desired key &gt;
+
+LOCAL_SRC_FILES := &lt; app 的 apk 文件名 &gt;
+
+LOCAL_MODULE_CLASS := APPS
+
+LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+
+include $(BUILD_PREBUILT)
 </code></pre>
 
-<p>而后念及古人风雅，思及此阁立于十层之上，楼下书馆，又藏有万千书卷，想必到得此处的，必不乏风雅之人。而今佳阁已有，定当要有那才子骚人，吟诗作对，赋辞写文。在下不才，愿以一序一联作抛砖之文，以供今后因缘际会者，在这册中挥毫时候作个参考。</p>
+<h2>将文件夹添加到 core.mk</h2>
 
-<p>此册来由，只因我为天海阁命名后一时兴起，便题为天海阁文集罢，不过虽称为文集，此刻初起，却只不过有我这一序一联罢了，只望后来诸君，莫惜笔墨才思，不论文白，不论诗词书画、文章评论，皆可在写于此文之后，集诸君之力，众人之思，成就这天海阁文集。而诸君亦可借着文集一册，神交诸友，岂不快哉。</p>
+<p>在【源码根目录/build/target/product/core.mk】文件添加刚才添加的项目文件夹名称</p>
 
-<p>不过此天海阁文集，别无分印，况今后集合诸君才情文字，亦是无可复制，也算颇为珍贵，遂望后来诸君，莫将文集带离天海阁，只将其置于沙发座左即可，使后来之人，皆有机会，可自行观阅填写。</p>
+<pre><code>PRODUCT_PACKAGES += \
+    CloudMusic \     
+    BasicDreams \
+    BlockedNumberProvider \
+    BookmarkProvider \
+    Browser2 \
+    BuiltInPrintService \
+    Calendar \
+    CalendarProvider \
+    CaptivePortalLogin \
+    CertInstaller \
+    Contacts \
+    DeskClock \
+    DocumentsUI \
+    DownloadProviderUi \
+    Email \
+    ExactCalculator \
+    ExternalStorageProvider \
+    ......
+</code></pre>
 
-<p><br>
-<br>
-<small>注：此文初写就于 2016 年 6 月中旬，今日偶然又翻到，记录在此 </small></p>
+<p>然后重新编译（然而这是会翻车的，请继续看下文）</p>
+
+<h2><strong>desired key</strong></h2>
+
+<p>起初这个 desired key 我不太懂是什么意思，于是直接注释了，然后编译时候直接报错，于是又再学习了一下这个 desired key</p>
+
+<p>参考 <a href="https://maoao530.github.io/2017/01/31/android-build-sign/">Android系统build阶段签名机制</a></p>
+
+<p>Android 系统在 buiild 的时候有 4 组的 key 用户对 build 阶段的 apk 签名，分别是</p>
+
+<ul>
+<li>Media</li>
+<li>Platform</li>
+<li>Shared</li>
+<li>Testkey</li>
+</ul>
+
+<p>使用的签名，就由 Android.mk 这里的 <code>LOCAL_CERTIFICATE</code> 来限定的，其取值如下</p>
+
+<pre><code>LOCAL_CERTIFICATE := testkey   # 普通APK，默认情况下使用。
+LOCAL_CERTIFICATE := platform  # 该APK完成一些系统的核心功能,这种方式编译出来的APK所在进程的UID为system
+LOCAL_CERTIFICATE := shared    # 该APK需要和home/contacts进程共享数据。
+LOCAL_CERTIFICATE := media     # 该APK是media/download系统中的一环
+</code></pre>
+
+<p>如果不指定，默认的话就是使用 testkey</p>
+
+<p>而再往深入点说，实际上，这个 LOCAL_CERTIFICATE 和 Android 权限有关系，设置 LOCAL_CERTIFICATE 和 UID 来使得程序有特定的访问权限</p>
+
+<p>参照
+ &gt; <a href="http://www.voidcn.com/article/p-vvguhunm-bhu.html">mk中的android:sharedUserId和LOCAL_CERTIFICATE作用</a>
+ &gt; <a href="http://www.voidcn.com/article/p-svbbjtas-bhb.html">Android权限之sharedUserId和签名</a></p>
+
+<p>一开始我用的 LOCAL_CERTIFICATE 是 Platform，后面又更改成 Media，两种情况下，网易云音乐都没法正常运行，会闪退，应用被安装为系统应用,最后哪怕换成了 testkey 也依然会闪退</p>
+
+<p>然后怀疑是因为权限问题，安装成为系统应用导致无法运行，于是按照 <a href="https://stackoverflow.com/questions/10579827/how-do-i-add-apks-in-an-aosp-build">How do I add APKs in an AOSP build?</a> 上面所以的，在最后添加一个 <code>LOCAL_MODULE_PATH := $(TARGET_OUT_DATA)</code>，使得配置文件变为</p>
+
+<pre><code>    LOCAL_PATH := $(call my-dir)
+    include $(CLEAR_VARS)
+    LOCAL_MODULE_TAGS := optional
+    LOCAL_MODULE := CloudMusic
+    LOCAL_CERTIFICATE := testkey
+    LOCAL_SRC_FILES := CloudMusic.apk
+    LOCAL_MODULE_CLASS := APPS
+    LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+    # install the APK in /data/app
+    LOCAL_MODULE_PATH := $(TARGET_OUT_DATA)
+    include $(BUILD_PREBUILT)
+</code></pre>
+
+<p><strong>然而还是翻车了，原因不明&hellip;</strong></p>
+
+<h2>改用其他的方法植入 APP</h2>
+
+<p>将上面的修改删除之后，从头开始</p>
+
+<p>然后又搜索到了 <a href="https://blog.csdn.net/tx422/article/details/77081050">编译Android源码添加apk文件的三种方式</a>
+里面提供了三种方法</p>
+
+<ul>
+<li>修改 device\mstar\common\app\Android.mk</li>
+<li>修改 device\mstar\mstarcedric3\full_mstarcedric3.mk</li>
+<li>直接将 apk 文件放入到 out\target\product\mstarcedric3\system\app 当中</li>
+</ul>
+
+<p>然而我在我的 AOSP 源码当中，并没有找到 common 文件夹&hellip;，所以只能直接尝试第三种方式</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -110,13 +215,13 @@
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/java-jni-quick-start.html" class="mdui-text-color-black-text pre-next-title">Java-JNI简单教程</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/xin20181014.html" class="mdui-text-color-black-text pre-next-title">古风 | 夜渡寒江别友</a>
+                        <a href="/blog/make-nexus5x-aosp.html" class="mdui-text-color-black-text pre-next-title">Nexus5X-AOSP编译问题记录</a>
                     </h3>
                 </div>
             </div>

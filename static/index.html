@@ -34,6 +34,27 @@
 <div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable index-blog-card gradient-wrapper">
     <div class="mdui-card-primary">
         <div class="mdui-card-primary-title ">
+            <a href="blog/add-apks-in-aosp-build.html" target="_blank">AOSP植入第三方应用趟坑记录</a>
+        </div>
+        <div class="mdui-card-primary-subtitle">2018-11-20 23:58</div>
+    </div>
+    <div class="mdui-card-content">
+         前言 之前成功的编译了 AOSP ，使用时候确实发现老旧的 Nexus5X 待机时间大大的提高了，然而 AOSP 实在是太过简陋了，还要自己下载各种常用的 APP，于是考虑能不能，直接植入一些自己常用 APP，免去刷机后重新下载的麻烦，于是找到 stackoverflow 上面的问题  >  里面提供了三种方法    修改 device\mstar\common\app\Android.mk   修改 device\mstar\mstarcedric3\full_mstarcedric3.mk ......
+    </div>
+    <div class="mdui-card-actions mdui-m-t-2 mdui-m-b-2">
+        
+<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
+    <span class="mdui-chip-title">AOSP</span>
+</div>
+<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
+    <span class="mdui-chip-title">AndroidFramework</span>
+</div>
+        <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
+    </div>
+</div>
+<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable index-blog-card gradient-wrapper">
+    <div class="mdui-card-primary">
+        <div class="mdui-card-primary-title ">
             <a href="blog/make-nexus5x-aosp.html" target="_blank">Nexus5X-AOSP编译问题记录</a>
         </div>
         <div class="mdui-card-primary-subtitle">2018-11-04 11:20</div>
@@ -129,24 +150,6 @@
 </div>
 <div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
     <span class="mdui-chip-title">SpringCloud</span>
-</div>
-        <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
-    </div>
-</div>
-<div class="mdui-card mdui-typo mdui-m-t-2 mdui-m-b-2 mdui-hoverable index-blog-card gradient-wrapper">
-    <div class="mdui-card-primary">
-        <div class="mdui-card-primary-title ">
-            <a href="blog/springBootGolbalExpHandle.html" target="_blank">Spring Boot全局统一异常处理</a>
-        </div>
-        <div class="mdui-card-primary-subtitle">2018-10-04 18:37</div>
-    </div>
-    <div class="mdui-card-content">
-         前言 之前用 Spring Boot 写 RESTful API 的时候，对于各种错误的捕捉都是直接用 try catch 的，所以在各个方法里面都总是有一些相同的 try catch 代码块，虽然也是能用但是总有点别扭不自在。这两天学习了一下 Spring Boot 当中对于异常的统一处理，发现很简单但是却能让代码优雅不少。   定义自定义异常 不多累述  ``` public class JsonParseException extends Exception {      private ......
-    </div>
-    <div class="mdui-card-actions mdui-m-t-2 mdui-m-b-2">
-        
-<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag"  name="blogTag">
-    <span class="mdui-chip-title">SpringBoot</span>
 </div>
         <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
     </div>
