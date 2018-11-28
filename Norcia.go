@@ -162,10 +162,16 @@ func bindNavFriend(config BlogConfig) string  {
 	return res
 }
 
-func bindNavigation(config BlogConfig,pageStr string) string {
+func bindNavigation(config BlogConfig,pageStr string, open bool) string {
+	openFlag := "mdui-drawer-close"
+	if open {
+		openFlag = ""
+	}
 	data := map[string]string{
 		"Navigation":readFileToString("temple/navigation/navigation.html"),
 		"Friends":bindNavFriend(config),
+		// 是否默认打开导航栏
+		"OpenNav": openFlag,
 	}
 	return bindDateToTmpl(pageStr,data)
 }
@@ -180,7 +186,7 @@ func bindIndex(config BlogConfig) string {
 		"Mail":config.Mail,
 		"Articles":bindCardAndArticle(config),
 	}
-	tmpl = bindNavigation(config,tmpl)
+	tmpl = bindNavigation(config,tmpl, true)
 	return bindDateToTmpl(tmpl,data)
 }
 
@@ -224,7 +230,7 @@ func bindArchives(config BlogConfig) string{
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl)
+	tmpl = bindNavigation(config,tmpl, true)
 	return bindDateToTmpl(tmpl,data)
 }
 
@@ -236,7 +242,7 @@ func bindTags(config BlogConfig) string{
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl)
+	tmpl = bindNavigation(config,tmpl, true)
 	return bindDateToTmpl(tmpl,data)
 }
 
@@ -248,7 +254,7 @@ func bindSearch(config BlogConfig) string{
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl)
+	tmpl = bindNavigation(config,tmpl, true)
 	return bindDateToTmpl(tmpl,data)
 }
 
@@ -289,7 +295,7 @@ func bindBlog(config BlogConfig,n int) string {
 		"Github":config.Github,
 		"Mail":config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl)
+	tmpl = bindNavigation(config,tmpl, false)
 	return bindDateToTmpl(tmpl,data)
 }
 
