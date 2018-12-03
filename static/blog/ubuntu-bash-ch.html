@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>金缕曲 | 弱冠生辰留记</title>
+    <title>Ubuntu 终端乱码解决方法</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,34 +37,55 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->金缕曲 | 弱冠生辰留记
+                    <!--标题所在-->Ubuntu 终端乱码解决方法
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2017-01-01 19:20</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-03 10:04</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-11-20 23:57</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-03 10:04</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <pre><code>    虚度韶华否。到如今，二十秋尽，几寻回首。
-    儿语高明桑梓处，不记当时年幼。对残灯，重慈影瘦。
-    此后求学游禅桂，幸两三师友同携手。
-    洒笔墨，纸笺旧。
+                <h1>前言</h1>
 
-    人生数度别离久。与寒窗，羊城春媚，又来消受。
-    四五光景新添上，路远羁途随后。仅如愿，初心相守。
-    且看尘涛风月送，纵逍遥些许能够。
-    亦不枉，湿衣袖。
+<p>前几天忘了配置了什么，然后忽然间 ubuntu 的终端就中文乱码了，找了网上各种 ubuntu 中文教程，安装各种中文 package，结果都没用，心都碎了</p>
+
+<p>如下图</p>
+
+<p><img src="https://ws1.sinaimg.cn/large/ae1a7c45gy1fxtbpbek34j20ow0gd40p.jpg" alt="" /></p>
+
+<h2>解决方法 1</h2>
+
+<p>后面觉得换个终端试试，于是又 google 了一晚上的 zsh 安装教程，安装完之后发现还是乱码，于是再度 google ，然后发现这里的解决方法</p>
+
+<blockquote>
+<p><a href="https://github.com/hokein/Wiki/wiki/zsh%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">zsh中文乱码解决方法</a></p>
+</blockquote>
+
+<p>修改一下 <code>~/.zshrc</code> 就可以了，增加下面两行代码</p>
+
+<pre><code>export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
 </code></pre>
 
-<p>丙申猴年 生辰夜，写就于家中卧室床头书桌之上</p>
+<p>然后就可以中文了！！！！</p>
 
-<p>重慈影瘦,心有戚戚</p>
+<h2>后知后觉的解决方法2</h2>
+
+<p>用了两天之后发现 zsh 总是报权限问题&hellip;而且用起来也没有原生终端那么习惯，于是又想换回去，但是还是苦恼于中文乱码问题，然后，后知后觉想到说</p>
+
+<p>“既然编辑 <code>~/.zshrc</code> 就可以解决 zsh 的中文乱码，那么编辑 <code>~/.bashrc</code> 就能够解决 bash 的乱码了吧”</p>
+
+<p>于是在 <code>~/.bashrc</code> 下面也加了上面两行代码</p>
+
+<p>问题解决？！！！</p>
+
+<p>实在是被自己蠢到了，还是决定写这段文字来记录一下</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -99,13 +120,13 @@
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/opencpu-learn-note.html" class="mdui-text-color-black-text pre-next-title">OpenCpu使用笔记</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/GoodbyeMug.html" class="mdui-text-color-black-text pre-next-title">御街行 | 记得当日长亭外</a>
+                        <a href="/blog/add-apks-in-aosp-build.html" class="mdui-text-color-black-text pre-next-title">AOSP植入第三方应用趟坑记录</a>
                     </h3>
                 </div>
             </div>
@@ -121,7 +142,7 @@
 </div>
 
 <div class="mdui-container mdui-appbar-with-toolbar">
-    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white {{.OpenNav}}" id="drawer">
+    <div class="mdui-drawer	mdui-drawer-full-height mdui-color-white mdui-drawer-close" id="drawer">
         <div class="navigation-bar-header">
             <img class="mdui-img-circle logo mdui-m-l-3 mdui-m-t-4" src="/img/logo.jpg"/>
             <div class="mdui-typo mdui-m-l-4">
