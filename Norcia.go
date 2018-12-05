@@ -167,11 +167,15 @@ func bindNavigation(config BlogConfig,pageStr string, open bool) string {
 	if open {
 		openFlag = ""
 	}
-	fmt.Println(openFlag)
 	fileText := readFileToString("temple/navigation/navigation.html")
 	friends := bindNavFriend(config)
-	data := map[string]string{
+	// 分两次绑定，一定要先绑定 Navigation 再绑定 Friends 和 OpenNav
+	// 因为 map 的遍历并不是按顺序的，如果用一个 map 来绑定的话，可能先绑定了 OpenNav 再绑定 Navigation
+	dataNav := map[string]string{
 		"Navigation": fileText,
+	}
+	pageStr = bindDateToTmpl(pageStr,dataNav)
+	data := map[string]string{
 		"Friends": friends,
 		// 是否默认打开导航栏
 		"OpenNav": openFlag,
