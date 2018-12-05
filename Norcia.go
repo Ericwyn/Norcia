@@ -167,9 +167,12 @@ func bindNavigation(config BlogConfig,pageStr string, open bool) string {
 	if open {
 		openFlag = ""
 	}
+	fmt.Println(openFlag)
+	fileText := readFileToString("temple/navigation/navigation.html")
+	friends := bindNavFriend(config)
 	data := map[string]string{
-		"Navigation":readFileToString("temple/navigation/navigation.html"),
-		"Friends":bindNavFriend(config),
+		"Navigation": fileText,
+		"Friends": friends,
 		// 是否默认打开导航栏
 		"OpenNav": openFlag,
 	}
@@ -300,8 +303,10 @@ func bindBlog(config BlogConfig,n int) string {
 }
 
 func bindDateToTmpl(tmpl string, data map[string]string) string {
+	var newKey string
 	for key,value := range data{
-		tmpl = strings.Replace(tmpl,"{{."+key+"}}",value,-1)
+		newKey = "{{."+key+"}}"
+		tmpl = strings.Replace(tmpl, newKey,value,-1)
 	}
 	return tmpl
 }
