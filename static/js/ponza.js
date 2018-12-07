@@ -181,6 +181,7 @@ function submit() {
         return
     }
     uploadComm(comm,name,mail);
+    localStorage.setItem("ponzaLastTime",Date.parse(new Date()));
     document.getElementById("ponza-input-comm").value = "";
 }
 
