@@ -6,6 +6,14 @@
 	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
+			"title": "Ponza博客评论系统-文档",
+			"tag": "且听秋谷,Golang",
+			"create": "2018-12-07 22:23",
+			"update": "2018-12-07 22:23",
+			"mini": " Ponza 静态博客评论框架，灵感来自 Gitment   使用   增加 key      .ponza k \"blog.meetwhy.com\"     // 显示如下     key: b9df8d72b06f4f8399c71ab520600130 for host: blog.meetwhy.com      为项目新建一个 key，该 key 只允许使用在来自域名 `blog.meetwhy.com` 的访问    启动      .ponza  启动项目在 localhost:2",
+			"link": "ponza-document"
+		},
+		{
 			"title": "Ubuntu 终端乱码解决方法",
 			"tag": "Ubuntu 使用日常",
 			"create": "2018-12-03 10:04",

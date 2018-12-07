@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ubuntu 终端乱码解决方法</title>
+    <title>Ponza博客评论系统-文档</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,55 +37,163 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->Ubuntu 终端乱码解决方法
+                    <!--标题所在-->Ponza博客评论系统-文档
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-03 10:04</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-07 22:23</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-03 10:04</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-07 22:23</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <h1>前言</h1>
+                <h1>Ponza</h1>
 
-<p>前几天忘了配置了什么，然后忽然间 ubuntu 的终端就中文乱码了，找了网上各种 ubuntu 中文教程，安装各种中文 package，结果都没用，心都碎了</p>
+<p>静态博客评论框架，灵感来自 Gitment</p>
 
-<p>如下图</p>
+<h2>使用</h2>
 
-<p><img src="https://ws1.sinaimg.cn/large/ae1a7c45gy1fxtbpbek34j20ow0gd40p.jpg" alt="" /></p>
+<h3>增加 key</h3>
 
-<h2>解决方法 1</h2>
-
-<p>后面觉得换个终端试试，于是又 google 了一晚上的 zsh 安装教程，安装完之后发现还是乱码，于是再度 google ，然后发现这里的解决方法</p>
-
-<blockquote>
-<p><a href="https://github.com/hokein/Wiki/wiki/zsh%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95">zsh中文乱码解决方法</a></p>
-</blockquote>
-
-<p>修改一下 <code>~/.zshrc</code> 就可以了，增加下面两行代码</p>
-
-<pre><code>export LC_ALL=en_US.UTF-8  
-export LANG=en_US.UTF-8
+<pre><code>.ponza -k &quot;blog.meetwhy.com&quot;
+// 显示如下
+key: b9df8d72b06f4f8399c71ab520600130 for host: blog.meetwhy.com
 </code></pre>
 
-<p>然后就可以中文了！！！！</p>
+<p>为项目新建一个 key，该 key 只允许使用在来自域名 <code>blog.meetwhy.com</code> 的访问</p>
 
-<h2>后知后觉的解决方法2</h2>
+<h3>启动</h3>
 
-<p>用了两天之后发现 zsh 总是报权限问题&hellip;而且用起来也没有原生终端那么习惯，于是又想换回去，但是还是苦恼于中文乱码问题，然后，后知后觉想到说</p>
+<pre><code>.ponza
+</code></pre>
 
-<p>“既然编辑 <code>~/.zshrc</code> 就可以解决 zsh 的中文乱码，那么编辑 <code>~/.bashrc</code> 就能够解决 bash 的乱码了吧”</p>
+<p>启动项目在 localhost:2334 端口</p>
 
-<p>于是在 <code>~/.bashrc</code> 下面也加了上面两行代码</p>
+<h3>配置反向代理</h3>
 
-<p>问题解决？！！！</p>
+<p>将你的 ponza 服务域名反向代理到 localhost:2334，如果你的 caddy 配置示例如下</p>
 
-<p>实在是被自己蠢到了，还是决定写这段文字来记录一下</p>
+<pre><code>api.ponza.host.com {
+    proxy / localhost:2334 {    
+        transparent
+    }
+}
+</code></pre>
+
+<h3>引入 Ponza 的 js 和 css</h3>
+
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;ponza.css&quot;&gt;
+&lt;script src=&quot;js/ponza.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<h3>配置</h3>
+
+<pre><code>Ponza(&quot;test&quot;,{                                       // 配置评论所在 dom
+    page:window.location.pathname,                      // 配置页面标记
+    server:&quot;https://wx.meetwhy.com&quot;,                    // 配置服务器地址
+    key:&quot;b9df8d72b06f4f8399c71ab520600130&quot;,             // 配置 key
+});
+</code></pre>
+
+<h2>后台数据库</h2>
+
+<p>Ponza 将全部数据都存储在本地的 json 文件当中，不需要依赖于数据库
+存储的地址是 <code>.ponza</code> 文件夹，每个文件以 <code>host.json</code> 来命名，存储该网站下面所有的评论数据</p>
+
+<h2>接口</h2>
+
+<h3>上传评论接口</h3>
+
+<ul>
+<li><p><code>/api/uploadComm</code></p></li>
+
+<li><p><code>POST</code></p></li>
+
+<li><p>参数</p>
+
+<ul>
+<li><code>key</code> ponza 的 key</li>
+<li><code>page</code> 页面的标记</li>
+<li><code>comm</code> 评论正文</li>
+<li><code>name</code> 评论的昵称</li>
+<li><code>mail</code> 邮箱</li>
+</ul></li>
+
+<li><p>返回</p>
+
+<pre><code>&quot;upload message success&quot;
+</code></pre></li>
+</ul>
+
+<h3>获取评论接口</h3>
+
+<ul>
+<li><p><code>/api/getComm</code></p></li>
+
+<li><p><code>POST</code></p></li>
+
+<li><p>参数</p>
+
+<ul>
+<li><code>key</code> ponza 的 key</li>
+<li><code>page</code> 页面的标记</li>
+</ul></li>
+
+<li><p>返回</p>
+
+<pre><code>{
+    &quot;page&quot;: &quot;/blog/ubuntu-bash-ch.html&quot;,
+    &quot;comment&quot;: [
+        {
+            &quot;comm&quot;: &quot;评论 : 1544173519984&quot;,
+            &quot;time&quot;: &quot;2018-12-07T17:05:20+08:00&quot;,
+            &quot;name&quot;: &quot;Ericwyn&quot;,
+            &quot;mail&quot;: &quot;ericwyn.chen@gmail.com&quot;,
+            &quot;agent&quot;: &quot;Ubuntu 18.04 上的 Chrome 71.0 浏览器&quot;
+        },
+        {
+            &quot;comm&quot;: &quot;评论 : 1544173530023&quot;,
+            &quot;time&quot;: &quot;2018-12-07T17:05:30+08:00&quot;,
+            &quot;name&quot;: &quot;Ericwyn&quot;,
+            &quot;mail&quot;: &quot;ericwyn.chen@gmail.com&quot;,
+            &quot;agent&quot;: &quot;Ubuntu 18.04 上的 Chrome 71.0 浏览器&quot;
+        }
+    ]
+}
+</code></pre></li>
+</ul>
+
+<h3>评论初始化接口</h3>
+
+<p>当评论接口或者上传接口返回 4003 时候代表页面的评论数据未创建，使用该接口创建该页面的数据配置
+ - <code>api/initComm</code>
+ - <code>POST</code>
+ - 参数
+     - <code>key</code> ponza 的 key
+     - <code>page</code> 页面的标记</p>
+
+<ul>
+<li><p>返回</p>
+
+<pre><code>&quot;page create success&quot;
+</code></pre></li>
+</ul>
+
+<h3>错误码</h3>
+
+<pre><code>   {&quot;code&quot;:&quot;4003&quot;}
+</code></pre>
+
+<ul>
+<li>4000     服务器错误</li>
+<li>4001     host 错误</li>
+<li>4002     key 错误</li>
+<li>4003     page 错误</li>
+</ul>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -120,13 +228,13 @@ export LANG=en_US.UTF-8
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/ponza-document.html" class="mdui-text-color-black-text pre-next-title">Ponza博客评论系统-文档</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/add-apks-in-aosp-build.html" class="mdui-text-color-black-text pre-next-title">AOSP植入第三方应用趟坑记录</a>
+                        <a href="/blog/ubuntu-bash-ch.html" class="mdui-text-color-black-text pre-next-title">Ubuntu 终端乱码解决方法</a>
                     </h3>
                 </div>
             </div>
