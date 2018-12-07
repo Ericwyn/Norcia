@@ -84,12 +84,13 @@ function getComm(){
             // 如果还有 init 页面的话就先 init
             if (json.code === "4003") {
                 initComm(getComm());
-            }
-            // 将数据显示出来
-            for (let i = json.comment.length-1; i >= 0;i--){
-                let comm = json.comment[i];
-                document.getElementById("ponza-comm-list").innerHTML
-                    += bindComment(comm.name, comm.time, comm.agent, comm.comm);
+            }else {
+                // 将数据显示出来
+                for (let i = json.comment.length-1; i >= 0;i--){
+                    let comm = json.comment[i];
+                    document.getElementById("ponza-comm-list").innerHTML
+                        += bindComment(comm.name, comm.time, comm.agent, comm.comm);
+                }
             }
         },
         function (status) {
