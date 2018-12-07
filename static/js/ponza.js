@@ -176,6 +176,11 @@ function submit() {
         return
     }
     localStorage.setItem("ponzaMail",mail);
+    if (comm.trim() == ""){
+        document.getElementById("ponza-editor-error").innerHTML="无法提交空白评论";
+        return
+    }
+    comm = comm.replace(/\r\n/g, '<br/>').replace(/\n/g, '<br/>').replace(/\s/g, ' ');
     if (!getLastSubmitTime()) {
         document.getElementById("ponza-editor-error").innerHTML="请求过快，稍后再试";
         return
