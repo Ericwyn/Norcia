@@ -243,7 +243,9 @@ service opencpu restart
                 </div>
             </div>
         </div>
-        <div id = "comments"></div>
+        <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-l-2 mdui-p-r-2 mdui-p-b-5">
+            <div id = "comments"></div>
+        </div>
     </div>
     <!--占位-->
     <div class="mdui-col-md-2 mdui-col-sm-0"></div>
@@ -324,6 +326,8 @@ service opencpu restart
 <script type="text/javascript" src="/js/script.js"></script>
 <script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
 <script type="text/javascript" src="/js/jr-qrcode.js"></script>
+<script type="text/javascript" src="/js/ponza.js"></script>
+<link rel="stylesheet" href="/css/ponza.css">
 <script>
     const inst = new mdui.Drawer('#drawer', {swipe: true});
     domId("currentLink").innerHTML+=
@@ -335,19 +339,12 @@ service opencpu restart
         document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
     }
     prettyPrint();
-</script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script>
-    const gitment = new Gitment({
-        id: location.pathname, // optional
-        owner: 'Ericwyn',
-        repo: 'BlogComment',
-        oauth: {
-            client_id: 'faa96e9ea3196d793eb3',
-            client_secret: 'ecf2af0dbdaf560d5aa79e3f649a3e698496271b',
-        },
+    // Ponza
+    Ponza("comments",{                                       // 配置评论所在 dom
+        page:window.location.pathname,                      // 配置页面标记
+        server:"https://ponza.meetwhy.com",                    // 配置服务器地址
+        key:"b9df8d72b06f4f8399c71ab520600130",             // 配置 key
     });
-    gitment.render('comments');
 </script>
+
 </html>
