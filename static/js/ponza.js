@@ -176,6 +176,23 @@ function submit() {
         return
     }
     localStorage.setItem("ponzaMail",mail);
+    if (!getLastSubmitTime()) {
+        document.getElementById("ponza-editor-error").innerHTML="请求过快，稍后再试";
+        return
+    }
     uploadComm(comm,name,mail);
     document.getElementById("ponza-input-comm").value = "";
+}
+
+function getLastSubmitTime() {
+    if (localStorage.getItem("ponzaLastTime") == null){
+        return true
+    }else {
+        let timeStamp = localStorage.getItem("ponzaLastTime");
+        if ((Date.parse(new Date()) - timeStamp) / 1000 > (60 * 3)){
+            return true
+        }else {
+            return false
+        }
+    }
 }
