@@ -174,4 +174,5 @@ function submit() {
     }
     localStorage.setItem("ponzaMail",mail);
     uploadComm(comm,name,mail);
+    document.getElementById("ponza-input-comm").value = "";
 }
