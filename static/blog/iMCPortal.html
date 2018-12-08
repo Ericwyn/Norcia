@@ -466,8 +466,7 @@ uamInitLogo: H3C
 <script type="text/javascript" src="/js/script.js"></script>
 <script type="text/javascript" src="/google-code-prettify/prettify.js"></script>
 <script type="text/javascript" src="/js/jr-qrcode.js"></script>
-<script type="text/javascript" src="/js/ponza.js"></script>
-<link rel="stylesheet" href="/css/ponza.css">
+
 <script>
     const inst = new mdui.Drawer('#drawer', {swipe: true});
     domId("currentLink").innerHTML+=
@@ -479,6 +478,10 @@ uamInitLogo: H3C
         document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
     }
     prettyPrint();
+</script>
+<link rel="stylesheet" href="https://ericwyn.github.io/Ponza/static/ponza.css">
+<script src="https://ericwyn.github.io/Ponza/static/ponza.js"></script>
+<script>
     // Ponza
     Ponza("comments",{                                       // 配置评论所在 dom
         page:window.location.pathname,                      // 配置页面标记
@@ -486,5 +489,4 @@ uamInitLogo: H3C
         key:"b9df8d72b06f4f8399c71ab520600130",             // 配置 key
     });
 </script>
-
 </html>
