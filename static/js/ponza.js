@@ -120,7 +120,7 @@ function initComm(callback){
 }
 
 // 上传一篇文章的评论
-function uploadComm(comm, name, mail){
+function uploadComm(comm, name, site){
     ajax_post(
         server+"/api/uploadComm",
         [
@@ -128,7 +128,7 @@ function uploadComm(comm, name, mail){
             ["page", page],
             ["comm", comm],
             ["name", name],
-            ["mail", mail],
+            ["site", site],
         ],
         function (resp) {
             let json = JSON.parse(resp);
