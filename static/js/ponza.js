@@ -1,31 +1,8 @@
-function ajax_post(url, params, success_callback, fail_callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    let formData = new FormData();
-    if (params !== null) {
-        for (let i = 0; i < params.length; i++) {
-            formData.append(params[i][0],params[i][1])
-        }
-        xhr.send(formData);
-    } else {
-        xhr.send();
-    }
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                success_callback(xhr.responseText)
-            } else {
-                fail_callback(xhr.status)
-            }
-        }
-    }
-}
-
 let page;
 let server;
 let key;
 let commData;
-const pageShowNum = 10;
+const pageShowNum = 7;
 let pageNum;
 
 function Ponza(domId,option){
@@ -246,11 +223,31 @@ function getLastSubmitTime() {
     }
 }
 
-// 分页
 
-/**
- * 简单分页类
- */
+function ajax_post(url, params, success_callback, fail_callback) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    let formData = new FormData();
+    if (params !== null) {
+        for (let i = 0; i < params.length; i++) {
+            formData.append(params[i][0],params[i][1])
+        }
+        xhr.send(formData);
+    } else {
+        xhr.send();
+    }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                success_callback(xhr.responseText)
+            } else {
+                fail_callback(xhr.status)
+            }
+        }
+    }
+}
+
+// --------------------------------------- 下面的 JS 都是为了实现分页
 class SimplePagination {
     constructor (totalPageCount) {
         if (!totalPageCount) return
