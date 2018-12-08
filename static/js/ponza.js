@@ -25,6 +25,7 @@ let page;
 let server;
 let key;
 let commData;
+const pageShowNum = 10;
 
 function Ponza(domId,option){
     page = option.page;
@@ -97,7 +98,7 @@ function getComm(){
                 //     document.getElementById("ponza-comm-list").innerHTML
                 //         += bindComment(comm.name, comm.time, comm.agent, comm.comm, comm.site);
                 // }
-
+                pageNum = commData.comment.length / pageShowNum;
                 // 分页插件
                 const slp = new SimplePagination(pageNum);
                 slp.init({
