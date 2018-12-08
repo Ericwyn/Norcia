@@ -123,3 +123,12 @@ function $buo_f(){
 
 try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
 catch(e){window.attachEvent("onload", $buo_f)}
+
+// 访问量
+document.getElementById("visitCount").onclick = function () {
+    let styleCount = document.getElementById("visitCount").style.opacity;
+    if (styleCount < 1) {
+        styleCount = parseFloat(styleCount) + 0.25;
+    }
+    document.getElementById("visitCount").style.opacity = styleCount
+};
