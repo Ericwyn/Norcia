@@ -26,6 +26,7 @@ let server;
 let key;
 let commData;
 const pageShowNum = 10;
+let pageNum;
 
 function Ponza(domId,option){
     page = option.page;
@@ -99,6 +100,11 @@ function getComm(){
                 //         += bindComment(comm.name, comm.time, comm.agent, comm.comm, comm.site);
                 // }
                 pageNum = commData.comment.length / pageShowNum;
+                if (pageNum-parseInt(pageNum) > 0) {
+                    pageNum = parseInt(pageNum) + 1;
+                }else {
+                    pageNum = parseInt(pageNum)
+                }
                 // 分页插件
                 const slp = new SimplePagination(pageNum);
                 slp.init({
