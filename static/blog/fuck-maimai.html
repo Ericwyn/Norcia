@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ponza博客评论系统-文档</title>
+    <title>和脉脉斗智斗勇的一个晚上</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,163 +37,78 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->Ponza博客评论系统-文档
+                    <!--标题所在-->和脉脉斗智斗勇的一个晚上
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-07 22:23</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-12 21:53</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-07 22:23</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-12 21:54</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <h1>Ponza</h1>
+                <h2>前言</h2>
 
-<p>静态博客评论框架，灵感来自 Gitment</p>
+<p>脉脉作为一个职场交流的软件，在上面还是可以很快看到很多消息的（职言板块感觉有点类似于职场人的微博？，这个功能还是很赞的</p>
 
-<h2>使用</h2>
+<p>但是脉脉出了名的恶心是对通讯录的盗取以及胡乱使用，为了不让自己的七大姑八大姨也收到什么“xxx把你标记为职场小能手的短信”，又能注册脉脉，于是折腾了大半个晚上</p>
 
-<h3>增加 key</h3>
+<h2>分析</h2>
 
-<pre><code>.ponza -k &quot;blog.meetwhy.com&quot;
-// 显示如下
-key: b9df8d72b06f4f8399c71ab520600130 for host: blog.meetwhy.com
-</code></pre>
+<p>首先，脉脉是会读取和上传通讯录的（读取和上传通讯录是不一样的），根据朋友的使用体验，发现应该是第一次注册的时候要求上传通讯录，此后不要求上传通讯录（但是可以手动更新通讯录），而至于读取通讯录的话就不知道了。会有这个结论是因为，当第一次成功注册并且上传通讯录之后，关闭掉对短信的读取权限，软件依然可以正常使用。</p>
 
-<p>为项目新建一个 key，该 key 只允许使用在来自域名 <code>blog.meetwhy.com</code> 的访问</p>
+<h2>开始注册</h2>
 
-<h3>启动</h3>
+<p>起初希望使用 Google Voice 来进行注册，结果脉脉空有外国手机号输入，而却没有实际的给我的 voice 号码发送验证码&hellip;.让人抓鸡</p>
 
-<pre><code>.ponza
-</code></pre>
+<p>所以就只能使用自己的真实手机号注册了</p>
 
-<p>启动项目在 localhost:2334 端口</p>
+<p>但是注册了之后发现一定要读取通讯录并且上传，才能够注册成功。于是我拒绝了，开始了探索怎样才能解决这个问题，成功注册。</p>
 
-<h3>配置反向代理</h3>
+<h2>使用权限欺骗</h2>
 
-<p>将你的 ponza 服务域名反向代理到 localhost:2334，如果你的 caddy 配置示例如下</p>
+<p>Android上面，使用权限欺骗是可以伪造权限的结果，返回给 App 的，但是要基于 Xposed 才可以，我的手机版本是 Android 9，没有 Xposed ，所以没办法使用这个，（Xposed 的话似乎是使用 App Ops Xposed） 就可以了</p>
 
-<pre><code>api.ponza.host.com {
-    proxy / localhost:2334 {    
-        transparent
+<h2>在没有通讯录的手机上面注册</h2>
+
+<p>刚好手边有一台刚刚刷好 AOSP 的测试机，于是装了个脉脉，准备注册，结果发现，如果你的通讯录完全是空白的话，他会认为你没有通讯录&hellip;软件上面显示的，和你没有启用通讯录权限时候，是一样的&hellip;.</p>
+
+<p><img style="width: 400px;" src="https://ws1.sinaimg.cn/large/ae1a7c45gy1fy4abn1n99j20u01hcq4o.jpg"></p>
+
+<h2>添加一个联系人</h2>
+
+<p>然后就添加联系人了，随便添加了一个联系人，重新注册，这个时候就提示联系人太少，无法注册</p>
+
+<h2>添加三个联系人</h2>
+
+<p>随便居然还是提示联系人太少，因为没法知道到底多少个联系人才会解除这个判定，于是决定导入一整批的虚假联系人</p>
+
+<h2>添加多个虚拟联系人</h2>
+
+<p>导出了手机里面的 vcf 格式之后，照着伪造了一份有100个虚假联系人的 vcf，再导入其中，用 js 写的一个小脚本，放到浏览器里跑一下就可以了</p>
+
+<pre><code>    let str = &quot;&quot;
+    for (let i=100;i&lt;199;i++){
+        str += &quot;BEGIN:VCARD\n&quot;    
+        str += &quot;VERSION:3.0\n&quot;
+        str += &quot;N;CHARSET=UTF-8:辣鸡脉脉&quot;+i+&quot;\n&quot; 
+        str += &quot;FN;CHARSET=UTF-8:辣鸡脉脉&quot;+i+&quot;\n&quot; 
+        str += &quot;TEL;TYPE=CELL:13500000&quot;+i+&quot;\n&quot; 
+        str += &quot;END:VCARD\n&quot;
     }
-}
+    console.log(str)
+
 </code></pre>
 
-<h3>引入 Ponza 的 js 和 css</h3>
+<p>复制输出然后粘贴到一个文件，重命名为 .vcf 格式，传到手机里，导入通讯里，于是终于能够通过那一个对联系人的判断了</p>
 
-<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;ponza.css&quot;&gt;
-&lt;script src=&quot;js/ponza.js&quot;&gt;&lt;/script&gt;
-</code></pre>
+<h2>后续</h2>
 
-<h3>配置</h3>
-
-<pre><code>Ponza(&quot;test&quot;,{                                       // 配置评论所在 dom
-    page:window.location.pathname,                      // 配置页面标记
-    server:&quot;https://wx.meetwhy.com&quot;,                    // 配置服务器地址
-    key:&quot;b9df8d72b06f4f8399c71ab520600130&quot;,             // 配置 key
-});
-</code></pre>
-
-<h2>后台数据库</h2>
-
-<p>Ponza 将全部数据都存储在本地的 json 文件当中，不需要依赖于数据库
-存储的地址是 <code>.ponza</code> 文件夹，每个文件以 <code>host.json</code> 来命名，存储该网站下面所有的评论数据</p>
-
-<h2>接口</h2>
-
-<h3>上传评论接口</h3>
-
-<ul>
-<li><p><code>/api/uploadComm</code></p></li>
-
-<li><p><code>POST</code></p></li>
-
-<li><p>参数</p>
-
-<ul>
-<li><code>key</code> ponza 的 key</li>
-<li><code>page</code> 页面的标记</li>
-<li><code>comm</code> 评论正文</li>
-<li><code>name</code> 评论的昵称</li>
-<li><code>mail</code> 邮箱</li>
-</ul></li>
-
-<li><p>返回</p>
-
-<pre><code>&quot;upload message success&quot;
-</code></pre></li>
-</ul>
-
-<h3>获取评论接口</h3>
-
-<ul>
-<li><p><code>/api/getComm</code></p></li>
-
-<li><p><code>POST</code></p></li>
-
-<li><p>参数</p>
-
-<ul>
-<li><code>key</code> ponza 的 key</li>
-<li><code>page</code> 页面的标记</li>
-</ul></li>
-
-<li><p>返回</p>
-
-<pre><code>{
-    &quot;page&quot;: &quot;/blog/ubuntu-bash-ch.html&quot;,
-    &quot;comment&quot;: [
-        {
-            &quot;comm&quot;: &quot;评论 : 1544173519984&quot;,
-            &quot;time&quot;: &quot;2018-12-07T17:05:20+08:00&quot;,
-            &quot;name&quot;: &quot;Ericwyn&quot;,
-            &quot;mail&quot;: &quot;ericwyn.chen@gmail.com&quot;,
-            &quot;agent&quot;: &quot;Ubuntu 18.04 上的 Chrome 71.0 浏览器&quot;
-        },
-        {
-            &quot;comm&quot;: &quot;评论 : 1544173530023&quot;,
-            &quot;time&quot;: &quot;2018-12-07T17:05:30+08:00&quot;,
-            &quot;name&quot;: &quot;Ericwyn&quot;,
-            &quot;mail&quot;: &quot;ericwyn.chen@gmail.com&quot;,
-            &quot;agent&quot;: &quot;Ubuntu 18.04 上的 Chrome 71.0 浏览器&quot;
-        }
-    ]
-}
-</code></pre></li>
-</ul>
-
-<h3>评论初始化接口</h3>
-
-<p>当评论接口或者上传接口返回 4003 时候代表页面的评论数据未创建，使用该接口创建该页面的数据配置
- - <code>api/initComm</code>
- - <code>POST</code>
- - 参数
-     - <code>key</code> ponza 的 key
-     - <code>page</code> 页面的标记</p>
-
-<ul>
-<li><p>返回</p>
-
-<pre><code>&quot;page create success&quot;
-</code></pre></li>
-</ul>
-
-<h3>错误码</h3>
-
-<pre><code>   {&quot;code&quot;:&quot;4003&quot;}
-</code></pre>
-
-<ul>
-<li>4000     服务器错误</li>
-<li>4001     host 错误</li>
-<li>4002     key 错误</li>
-<li>4003     page 错误</li>
-</ul>
+<p>进入软件之后，迎面而来的就是脉脉的老拉新活动，拉一个新用户给老用户发个5块钱红包&hellip;而具体的操作，自然也是让你选择向你通讯录当中的哪个好友发送“xxx把你标记为职场小能手”的消息了&hellip;实在是无力吐槽了</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -228,13 +143,13 @@ key: b9df8d72b06f4f8399c71ab520600130 for host: blog.meetwhy.com
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/fuck-maimai.html" class="mdui-text-color-black-text pre-next-title">和脉脉斗智斗勇的一个晚上</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/ubuntu-bash-ch.html" class="mdui-text-color-black-text pre-next-title">Ubuntu 终端乱码解决方法</a>
+                        <a href="/blog/ponza-document.html" class="mdui-text-color-black-text pre-next-title">Ponza博客评论系统-文档</a>
                     </h3>
                 </div>
             </div>
