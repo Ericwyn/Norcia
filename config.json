@@ -6,6 +6,14 @@
 	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
+			"title": "Sprinp Boot配置文件外置",
+			"tag": "SpringBoot",
+			"create": "2018-12-28 14:32",
+			"update": "2018-12-28 14:32",
+			"mini": " 前言 之前 Spring Boot 开发的时候，打包部署会联通 properties 文件一同打包，虽然这样的好处是生成了一个 jar，直接一把梭 `nohup java jar `就启动了，但是也有很麻烦的地方，例如需要修改配置文件的时候，就要重新打包。于是学习了 Spring Boot 将配置文件外置的方法   Spring Boot 配置文件加载优先级 按照规定，Spring Boot 的配置文件加载优先级如下：    当前目录下的config子目录   当前目录   classpath",
+			"link": "spring-boot-external-config"
+		},
+		{
 			"title": "和脉脉斗智斗勇的一个晚上",
 			"tag": "且听秋谷",
 			"create": "2018-12-12 21:53",

@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>和脉脉斗智斗勇的一个晚上</title>
+    <title>Sprinp Boot配置文件外置</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,14 +37,14 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->和脉脉斗智斗勇的一个晚上
+                    <!--标题所在-->Sprinp Boot配置文件外置
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-12 21:53</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-28 14:32</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-12 21:54</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-28 14:32</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
@@ -53,62 +53,63 @@
             <div id="mdContent" class="prettyprint">
                 <h2>前言</h2>
 
-<p>脉脉作为一个职场交流的软件，在上面还是可以很快看到很多消息的（职言板块感觉有点类似于职场人的微博？，这个功能还是很赞的</p>
+<p>之前 Spring Boot 开发的时候，打包部署会联通 properties 文件一同打包，虽然这样的好处是生成了一个 jar，直接一把梭 <code>nohup java -jar</code>就启动了，但是也有很麻烦的地方，例如需要修改配置文件的时候，就要重新打包。于是学习了 Spring Boot 将配置文件外置的方法</p>
 
-<p>但是脉脉出了名的恶心是对通讯录的盗取以及胡乱使用，为了不让自己的七大姑八大姨也收到什么“xxx把你标记为职场小能手的短信”，又能注册脉脉，于是折腾了大半个晚上</p>
+<h2>Spring Boot 配置文件加载优先级</h2>
 
-<h2>分析</h2>
+<p>按照规定，Spring Boot 的配置文件加载优先级如下：</p>
 
-<p>首先，脉脉是会读取和上传通讯录的（读取和上传通讯录是不一样的），根据朋友的使用体验，发现应该是第一次注册的时候要求上传通讯录，此后不要求上传通讯录（但是可以手动更新通讯录），而至于读取通讯录的话就不知道了。会有这个结论是因为，当第一次成功注册并且上传通讯录之后，关闭掉对短信的读取权限，软件依然可以正常使用。</p>
+<ul>
+<li>当前目录下的config子目录</li>
+<li>当前目录</li>
+<li>classpath下的config目录</li>
+<li>classpath根路径</li>
+</ul>
 
-<h2>开始注册</h2>
+<p><strong>优先级自上而下递减 !</strong></p>
 
-<p>起初希望使用 Google Voice 来进行注册，结果脉脉空有外国手机号输入，而却没有实际的给我的 voice 号码发送验证码&hellip;.让人抓鸡</p>
+<h2>修改 pom.xml</h2>
 
-<p>所以就只能使用自己的真实手机号注册了</p>
+<p>因为我们需要使用外置的配置文件，所以先要让 maven 忽略 resource 里面的配置文件，在打包的时候略过他们，方法如下：在 <code>pom.xml</code> 当中添加以下代码</p>
 
-<p>但是注册了之后发现一定要读取通讯录并且上传，才能够注册成功。于是我拒绝了，开始了探索怎样才能解决这个问题，成功注册。</p>
-
-<h2>使用权限欺骗</h2>
-
-<p>Android上面，使用权限欺骗是可以伪造权限的结果，返回给 App 的，但是要基于 Xposed 才可以，我的手机版本是 Android 9，没有 Xposed ，所以没办法使用这个，（Xposed 的话似乎是使用 App Ops Xposed） 就可以了</p>
-
-<h2>在没有通讯录的手机上面注册</h2>
-
-<p>刚好手边有一台刚刚刷好 AOSP 的测试机，于是装了个脉脉，准备注册，结果发现，如果你的通讯录完全是空白的话，他会认为你没有通讯录&hellip;软件上面显示的，和你没有启用通讯录权限时候，是一样的&hellip;.</p>
-
-<p><img style="width: 400px;" src="https://ws1.sinaimg.cn/large/ae1a7c45gy1fy4abn1n99j20u01hcq4o.jpg"></p>
-
-<h2>添加一个联系人</h2>
-
-<p>然后就添加联系人了，随便添加了一个联系人，重新注册，这个时候就提示联系人太少，无法注册</p>
-
-<h2>添加三个联系人</h2>
-
-<p>随便居然还是提示联系人太少，因为没法知道到底多少个联系人才会解除这个判定，于是决定导入一整批的虚假联系人</p>
-
-<h2>添加多个虚拟联系人</h2>
-
-<p>导出了手机里面的 vcf 格式之后，照着伪造了一份有100个虚假联系人的 vcf，再导入其中，用 js 写的一个小脚本，放到浏览器里跑一下就可以了</p>
-
-<pre><code>    let str = &quot;&quot;
-    for (let i=100;i&lt;199;i++){
-        str += &quot;BEGIN:VCARD\n&quot;    
-        str += &quot;VERSION:3.0\n&quot;
-        str += &quot;N;CHARSET=UTF-8:辣鸡脉脉&quot;+i+&quot;\n&quot; 
-        str += &quot;FN;CHARSET=UTF-8:辣鸡脉脉&quot;+i+&quot;\n&quot; 
-        str += &quot;TEL;TYPE=CELL:13500000&quot;+i+&quot;\n&quot; 
-        str += &quot;END:VCARD\n&quot;
-    }
-    console.log(str)
-
+<pre><code>&lt;build&gt;
+    &lt;resources&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;
+            &lt;excludes&gt;
+                &lt;exclude&gt;**/*.properties&lt;/exclude&gt;
+                &lt;exclude&gt;**/*.yml&lt;/exclude&gt;
+                &lt;exclude&gt;**/*.xml&lt;/exclude&gt;
+            &lt;/excludes&gt;
+        &lt;/resource&gt;
+    &lt;/resources&gt;
+&lt;/build&gt;
 </code></pre>
 
-<p>复制输出然后粘贴到一个文件，重命名为 .vcf 格式，传到手机里，导入通讯里，于是终于能够通过那一个对联系人的判断了</p>
+<h2>转移配置</h2>
 
-<h2>后续</h2>
+<ul>
+<li>在项目根目录下面创建 config 文件夹
 
-<p>进入软件之后，迎面而来的就是脉脉的老拉新活动，拉一个新用户给老用户发个5块钱红包&hellip;而具体的操作，自然也是让你选择向你通讯录当中的哪个好友发送“xxx把你标记为职场小能手”的消息了&hellip;实在是无力吐槽了</p>
+<ul>
+<li>之所以使用 config 文件夹是考虑到这样的话工程目录更加清晰</li>
+</ul></li>
+<li>复制 <code>resource</code> 文件夹当中的配置文件到 config 文件夹里面</li>
+</ul>
+
+<h2>修改代码（可能不需要）</h2>
+
+<p>如果代码当中有些并不是使用自动注入读取的配置的话，要修改获取方式，从前我们使用</p>
+
+<pre><code>Resource resource = new ClassPathResource(&quot;/application.properties&quot;);
+</code></pre>
+
+<p>现在变成</p>
+
+<pre><code>Resource resource = new FileSystemResource(&quot;config/application.properties&quot;);
+</code></pre>
+
+<p>最后，重新打包项目就可以了~</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -143,13 +144,13 @@
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/spring-boot-external-config.html" class="mdui-text-color-black-text pre-next-title">Sprinp Boot配置文件外置</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/ponza-document.html" class="mdui-text-color-black-text pre-next-title">Ponza博客评论系统-文档</a>
+                        <a href="/blog/fuck-maimai.html" class="mdui-text-color-black-text pre-next-title">和脉脉斗智斗勇的一个晚上</a>
                     </h3>
                 </div>
             </div>
