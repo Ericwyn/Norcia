@@ -61,7 +61,7 @@ function bindArticleTags(tags,randomColor) {
             colorClass = colors[(ran+i)%colors.length];
         }
         tagHtml +=
-            `<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag">
+            `<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag" onclick="gotoTagPage('${temp[i]}')">
                 <span class="mdui-chip-title">${temp[i]}</span>
             </div>`
     }
@@ -91,6 +91,20 @@ function getRandom(begin,end){
 
 function gotoSearch() {
     window.location.href = "search.html"
+}
+
+function loadTagsArticles(tagName) {
+    domId("articles").innerHTML = "";
+    norciaConfig.articles.forEach(function (article, index, array) {
+        if (article.tag.indexOf(tagName)!==-1){
+            domId("articles").innerHTML += bindArchiveArticle(article)
+        }
+    });
+}
+
+function gotoTagPage(tagName) {
+    loadTagsArticles(tagName);
+    window.location.href = "tags.html#" + tagName;
 }
 
 function showShareCode() {

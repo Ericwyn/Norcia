@@ -37,6 +37,9 @@
 
 <div class=" mdui-typo mdui-m-t-4 text-align-center" id="foot">
     <p class="mdui-center mdui-typo mdui-text-color-black-secondary">博客由魔改版 <a href="https://github.com/Besfim/Norcia">Norcia</a> 框架驱动</p>
+    <div style="opacity: 0" id="visitCount">
+        <span id="busuanzi_container_site_pv" >本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    </div>
 </div>
 
 {{.Navigation}}
@@ -65,13 +68,27 @@
             });
         });
         let loadFirstFlag = true;
+        let firstTag;
         tagSet.forEach(function (value, key, obj) {
-            domId("tags").innerHTML += bindTagsTag(value,true)
+            domId("tags").innerHTML += bindTagsTag(value,true);
             if (loadFirstFlag) {
-                loadTagsArticles(value);
+                firstTag = value;
                 loadFirstFlag = false;
             }
-        })
+        });
+        if (window.location.href.split("#").length === 2) {
+            loadTagFromUrl();
+        }else {
+            gotoTagPage(firstTag);
+        }
+
+    }
+
+    function loadTagFromUrl() {
+        let tag = decodeURIComponent(window.location.href.split("#")[1]);
+        if (tag !== undefined){
+            loadTagsArticles(tag);
+        }
     }
 
     function bindTagsTag(tag,randomColor) {
@@ -90,19 +107,11 @@
             colorClass = colors[ran];
         }
         tagHtml +=
-        `<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag" onclick="loadTagsArticles('${tag}')">
+                `<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag" onclick="gotoTagPage('${tag}')">
             <span class="mdui-chip-title">${tag}</span>
         </div>`;
         return tagHtml;
     }
 
-    function loadTagsArticles(tagName) {
-        domId("articles").innerHTML = "";
-        norciaConfig.articles.forEach(function (article, index, array) {
-            if (article.tag.indexOf(tagName)!==-1){
-                domId("articles").innerHTML += bindArchiveArticle(article)
-            }
-        })
-    }
 </script>
 </html>
