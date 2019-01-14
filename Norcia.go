@@ -545,6 +545,7 @@ func cleanMarkdownDoc(mkDoc string) string {
 	mkDoc = strings.Replace(mkDoc, "|", "", -1)
 	mkDoc = strings.Replace(mkDoc, "\r", " ", -1)
 	mkDoc = strings.Replace(mkDoc, "\n", " ", -1)
+	mkDoc = strings.Replace(mkDoc, "`", "", -1)
 	//替换图片和 url 链接
 	picReg, _ := regexp.Compile("!\\[.*\\]\\(.*\\)")
 	mkDoc = picReg.ReplaceAllString(mkDoc, "")
