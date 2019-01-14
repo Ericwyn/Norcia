@@ -10,7 +10,7 @@
 			"tag": "SpringBoot,Redis",
 			"create": "2019-01-14 13:19",
 			"update": "2019-01-14 13:19",
-			"mini": " 前言 业务中要求在 Spring Boot 框架上使用缓存来提高数据加载速度，减少对数据库的访问，于是使用 Spring Cache 来作为 Spring Boot 的缓存。   一，加入依赖 由于需要使用 Redis，所以添加 Redis 的依赖是免不了的  `pom.xml`      \u003c!Spring redis\u003e     \u003cdependency\u003e         \u003cgroupId\u003eorg.springframework.boot\u003c/groupId\u003e         \u003cartifactI",
+			"mini": " 前言 业务中要求在 Spring Boot 框架上使用缓存来提高数据加载速度，减少对数据库的访问，于是使用 Spring Cache 来作为 Spring Boot 的缓存。   一，加入依赖 由于需要使用 Redis，所以添加 Redis 的依赖是免不了的  pom.xml      \u003c!Spring redis\u003e     \u003cdependency\u003e         \u003cgroupId\u003eorg.springframework.boot\u003c/groupId\u003e         \u003cartifactId\u003e",
 			"link": "spring-boot-with-spring-cache"
 		},
 		{
