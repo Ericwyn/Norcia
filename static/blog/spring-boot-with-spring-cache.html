@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>烛影摇红 | 廿二岁生辰自题</title>
+    <title>Spring Boot使用Redis整合Spring Cache</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,31 +37,136 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->烛影摇红 | 廿二岁生辰自题
+                    <!--标题所在-->Spring Boot使用Redis整合Spring Cache
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2019-01-01 00:01</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2019-01-14 13:19</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2019-01-14 12:57</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2019-01-14 13:19</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <pre><code>连换星霜，几曾院落桐花现。
-人间来去廿一年，谁教功名显？
-可笑寒窗已掩，再难得，书读百遍。
-夜深忽梦，近水楼台，霞烟尚浅。
+                <h2>前言</h2>
 
-烛影摇红.廿二岁生辰自题
+<p>业务中要求在 Spring Boot 框架上使用缓存来提高数据加载速度，减少对数据库的访问，于是使用 Spring Cache 来作为 Spring Boot 的缓存。</p>
+
+<h2>一，加入依赖</h2>
+
+<p>由于需要使用 Redis，所以添加 Redis 的依赖是免不了的</p>
+
+<h3><code>pom.xml</code></h3>
+
+<pre><code>&lt;!--Spring redis--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
 </code></pre>
 
-<p>时至今日，我梦中常常出现的数样东西之一，其一便是高中课室和语文课堂。</p>
+<h3>加入配置 <code>application.properties</code></h3>
 
-<p>廿二已至，功名未显。毕业将近，寒窗将掩。凭此半阙烛影摇红，自斟自饮，自唱自和。</p>
+<pre><code>spring.redis.database=5
+spring.redis.host=127.0.0.1
+spring.redis.port=6379
+spring.redis.password=password
+# 旧版本 Spring Boot 中的 redis 配置
+# spring.redis.jedis.pool.max-wait=-1ms
+# spring.redis.jedis.pool.max-active=8
+# spring.redis.jedis.pool.max-idle=8
+# spring.redis.jedis.pool.min-idle=0
+spring.redis.timeout=10000ms
+
+# Spring Boot 2.0.3 默认使用 lettuce 链接 redis，配置要变成这样
+# 连接池最大连接数（使用负值表示没有限制） 默认 8
+spring.redis.lettuce.pool.max-active=8
+# 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+spring.redis.lettuce.pool.max-wait=-1ms
+# 连接池中的最大空闲连接 默认 8
+spring.redis.lettuce.pool.max-idle=8
+# 连接池中的最小空闲连接 默认 0
+spring.redis.lettuce.pool.min-idle=0
+</code></pre>
+
+<h2>二，引入 Spring Cache</h2>
+
+<p>在启动类添加注解，以引入 Spring Cache</p>
+
+<pre><code>@SpringBootApplication
+@ServletComponentScan
+@EnableCaching
+public class FontainerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(FontainerApplication.class, args);
+    }
+
+}
+</code></pre>
+
+<h2>三，配置 Cache 注解</h2>
+
+<p>Cache 注解主要有下面几个，参考 <a href="https://www.jianshu.com/p/fd950f65aec7">spring-boot-cache使用实战-简书</a> 当中的表格介绍</p>
+
+<pre><code>@Cacheable (存在缓存则直接返回,不存在则调用业务方法,保存到缓存)
+@CacheEvict (清楚缓存,可清楚cache里全部缓存)
+@CachePut (不管缓存存不存在,调用业务方法,将返回值set到缓存里面)
+</code></pre>
+
+<p>我的话主要是用的是 <code>@Cacheable</code> 和 <code>@CacheEvict</code>，注解的是位于 Service 的方法，其中</p>
+
+<ul>
+<li><code>@Cacheable</code> 注解各种查询的业务方法，缓存首次查询的结果，后续的方法的时候直接返回首次查询时候缓存的结果</li>
+<li><code>@CacheEvict</code> 注解各种插入的业务方法，因为一旦进行了插入，那么旧的缓存可能就会过期了，因此，使用该注解去清除由 <code>@Cacheable</code> 注解设置的缓存</li>
+</ul>
+
+<h3>代码示例</h3>
+
+<p>下面的代码是 Service 层的代码，负责 Product 这个对象的查询和插入</p>
+
+<pre><code>@Service
+public class ProductService {
+    @Autowired
+    ProductRepository productRepository;
+
+    @Cacheable(value = &quot;ProductService.listProduct&quot;)
+    public Page&lt;Product&gt; listProduct(int page, int size){
+        return productRepository.findAll(PageRequest.of(page, size));
+    }
+
+    // 使用 CacheEvict 注解，一旦插入的时候
+    @CacheEvict(value = &quot;ProductService.listProduct&quot;, allEntries = true)
+    public Product addProduct(String name, String intro, String price, String pic){
+        Product product = new Product();
+        product.setName(name);
+        product.setIntro(intro);
+        product.setPrice(price);
+        product.setPic(pic);
+        return productRepository.save(product);
+    }
+
+}
+</code></pre>
+
+<ul>
+<li><p><code>listProduct(int page, int size)</code>使用 <code>@Cacheable(value = &quot;ProductService.listProduct&quot;)</code>
+注解</p>
+
+<ul>
+<li>value 为 <code>ProductService.listProduct</code> 代表以这个名称来缓存其结果</li>
+<li>默认的话，缓存的 key 是该方法的入参，也就是当入参一样并且存在缓存的时候，会直接返回已缓存的结果，否则的话会执行一下数据库查询。</li>
+</ul></li>
+
+<li><p><code>addProduct(String name, String intro, String price, String pic)</code> 使用 <code>@CacheEvict(value = &quot;ProductService.listProduct&quot;, allEntries = true)</code> 注解</p>
+
+<ul>
+<li>CacheEvict 注解的 value 为 <code>ProductService.listProduct</code> 代表要执行该方法的时候，要清楚该名称的缓存，allEntries = true 则代表删除所有 key 的缓存。</li>
+</ul></li>
+</ul>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -96,13 +201,13 @@
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/spring-boot-with-spring-cache.html" class="mdui-text-color-black-text pre-next-title">Spring Boot使用Redis整合Spring Cache</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/spring-boot-external-config.html" class="mdui-text-color-black-text pre-next-title">Sprinp Boot配置文件外置</a>
+                        <a href="/blog/birth2018.html" class="mdui-text-color-black-text pre-next-title">烛影摇红 | 廿二岁生辰自题</a>
                     </h3>
                 </div>
             </div>

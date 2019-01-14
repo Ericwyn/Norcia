@@ -6,11 +6,19 @@
 	"domain": "https://blog.meetwhy.com",
 	"articles": [
 		{
+			"title": "Spring Boot使用Redis整合Spring Cache",
+			"tag": "SpringBoot,Redis",
+			"create": "2019-01-14 13:19",
+			"update": "2019-01-14 13:19",
+			"mini": " 前言 业务中要求在 Spring Boot 框架上使用缓存来提高数据加载速度，减少对数据库的访问，于是使用 Spring Cache 来作为 Spring Boot 的缓存。   一，加入依赖 由于需要使用 Redis，所以添加 Redis 的依赖是免不了的  `pom.xml`      \u003c!Spring redis\u003e     \u003cdependency\u003e         \u003cgroupId\u003eorg.springframework.boot\u003c/groupId\u003e         \u003cartifactI",
+			"link": "spring-boot-with-spring-cache"
+		},
+		{
 			"title": "烛影摇红 | 廿二岁生辰自题",
 			"tag": "古月言说",
 			"create": "2019-01-01 00:01",
-			"update": "2019-01-14 12:56",
-			"mini": "    连换星霜，几曾院落桐花现。     人间来去廿一年，谁教功名显？     可笑寒窗已掩，再难得，书读百遍。     夜深忽梦，近水楼台，霞烟尚浅。      烛影摇红.廿二生辰自题      时至今日，我梦中常常出现的数样东西之一，其一便是高中课室和语文课堂。  廿二已至，功名未显。毕业将近，寒窗将掩。凭此半阙烛影摇红，自斟自饮，自唱自和。",
+			"update": "2019-01-14 12:57",
+			"mini": "    连换星霜，几曾院落桐花现。     人间来去廿一年，谁教功名显？     可笑寒窗已掩，再难得，书读百遍。     夜深忽梦，近水楼台，霞烟尚浅。      烛影摇红.廿二岁生辰自题      时至今日，我梦中常常出现的数样东西之一，其一便是高中课室和语文课堂。  廿二已至，功名未显。毕业将近，寒窗将掩。凭此半阙烛影摇红，自斟自饮，自唱自和。",
 			"link": "birth2018"
 		},
 		{
