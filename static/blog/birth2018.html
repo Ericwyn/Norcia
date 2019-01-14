@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sprinp Boot配置文件外置</title>
+    <title>烛影摇红 | 廿二岁生辰自题</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.9,  user-scalable=no">
     <link rel="stylesheet" href="/css/mdui.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,79 +37,31 @@
         <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
             <div >
                 <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->Sprinp Boot配置文件外置
+                    <!--标题所在-->烛影摇红 | 廿二岁生辰自题
                 </h1>
                 <!--设置创建时间-->
                 <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">2018-12-28 14:32</span>
+                    创建时间 : <span id ="create" class="mdui-text-color-pink">2019-01-01 00:01</span>
                 </div>
                 <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2018-12-28 14:32</span>
+                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">2019-01-14 12:56</span>
                 </div>
             </div>
             <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
                 <hr/>
             </div>
             <div id="mdContent" class="prettyprint">
-                <h2>前言</h2>
+                <pre><code>连换星霜，几曾院落桐花现。
+人间来去廿一年，谁教功名显？
+可笑寒窗已掩，再难得，书读百遍。
+夜深忽梦，近水楼台，霞烟尚浅。
 
-<p>之前 Spring Boot 开发的时候，打包部署会联通 properties 文件一同打包，虽然这样的好处是生成了一个 jar，直接一把梭 <code>nohup java -jar</code>就启动了，但是也有很麻烦的地方，例如需要修改配置文件的时候，就要重新打包。于是学习了 Spring Boot 将配置文件外置的方法</p>
-
-<h2>Spring Boot 配置文件加载优先级</h2>
-
-<p>按照规定，Spring Boot 的配置文件加载优先级如下：</p>
-
-<ul>
-<li>当前目录下的config子目录</li>
-<li>当前目录</li>
-<li>classpath下的config目录</li>
-<li>classpath根路径</li>
-</ul>
-
-<p><strong>优先级自上而下递减 !</strong></p>
-
-<h2>修改 pom.xml</h2>
-
-<p>因为我们需要使用外置的配置文件，所以先要让 maven 忽略 resource 里面的配置文件，在打包的时候略过他们，方法如下：在 <code>pom.xml</code> 当中添加以下代码</p>
-
-<pre><code>&lt;build&gt;
-    &lt;resources&gt;
-        &lt;resource&gt;
-            &lt;directory&gt;src/main/resources&lt;/directory&gt;
-            &lt;excludes&gt;
-                &lt;exclude&gt;**/*.properties&lt;/exclude&gt;
-                &lt;exclude&gt;**/*.yml&lt;/exclude&gt;
-                &lt;exclude&gt;**/*.xml&lt;/exclude&gt;
-            &lt;/excludes&gt;
-        &lt;/resource&gt;
-    &lt;/resources&gt;
-&lt;/build&gt;
+烛影摇红.廿二生辰自题
 </code></pre>
 
-<h2>转移配置</h2>
+<p>时至今日，我梦中常常出现的数样东西之一，其一便是高中课室和语文课堂。</p>
 
-<ul>
-<li>在项目根目录下面创建 config 文件夹
-
-<ul>
-<li>之所以使用 config 文件夹是考虑到这样的话工程目录更加清晰</li>
-</ul></li>
-<li>复制 <code>resource</code> 文件夹当中的配置文件到 config 文件夹里面</li>
-</ul>
-
-<h2>修改代码（可能不需要）</h2>
-
-<p>如果代码当中有些并不是使用自动注入读取的配置的话，要修改获取方式，从前我们使用</p>
-
-<pre><code>Resource resource = new ClassPathResource(&quot;/application.properties&quot;);
-</code></pre>
-
-<p>现在变成</p>
-
-<pre><code>Resource resource = new FileSystemResource(&quot;config/application.properties&quot;);
-</code></pre>
-
-<p>最后，重新打包项目就可以了~</p>
+<p>廿二已至，功名未显。毕业将近，寒窗将掩。凭此半阙烛影摇红，自斟自饮，自唱自和。</p>
 
                 <!-- markdown 转换成的 HTML 的存放地址-->
             </div>
@@ -144,13 +96,13 @@
                 <div id="prePage" class="mdui-float-left text-align-left">
                     <p >< 上一篇</p>
                     <h3>
-                        <a href="/blog/birth2018.html" class="mdui-text-color-black-text pre-next-title">烛影摇红 | 廿二岁生辰自题</a>
+                        <a href="/blog/" class="mdui-text-color-black-text pre-next-title"></a>
                     </h3>
                 </div>
                 <div id="nextPage" class="mdui-float-right text-align-right">
                     <p >下一篇 ></p>
                     <h3>
-                        <a href="/blog/fuck-maimai.html" class="mdui-text-color-black-text pre-next-title">和脉脉斗智斗勇的一个晚上</a>
+                        <a href="/blog/spring-boot-external-config.html" class="mdui-text-color-black-text pre-next-title">Sprinp Boot配置文件外置</a>
                     </h3>
                 </div>
             </div>
