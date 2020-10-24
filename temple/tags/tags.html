@@ -15,7 +15,7 @@
     </script>
 </head>
 <body class="mdui-theme-accent-pink mdui-theme-primary-teal mdui-drawer-body-left" id="body">
-<div class="mdui-toolbar mdui-color-theme" id="toolbar">
+<div class="mdui-toolbar customer-color-theme" id="toolbar">
     <button onclick="inst.toggle()" class="mdui-btn mdui-btn-icon mdui-text-color-white">
         <i class="mdui-icon material-icons">menu</i>
     </button>
@@ -107,7 +107,7 @@
             colorClass = colors[ran];
         }
         tagHtml +=
-                `<div class="mdui-chip ${colorClass} mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag" onclick="gotoTagPage('${tag}')">
+                `<div class="mdui-chip mdui-m-x-1 none-text-transform mdui-text-color-white blog-tag" onclick="gotoTagPage('${tag}')">
             <span class="mdui-chip-title">${tag}</span>
         </div>`;
         return tagHtml;
