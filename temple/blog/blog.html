@@ -16,6 +16,13 @@
     </script>
 </head>
 <style type="text/css">
+    .position-fixed {
+        position: fixed;
+    }
+
+    .max-width-20p {
+        max-width: 20%;
+    }
 </style>
 <body class="mdui-theme-accent-pink mdui-theme-primary-teal" id="body">
 <header class="mdui-color-theme blog-pages-header">
@@ -34,70 +41,83 @@
     <div class="mdui-col-md-2 mdui-col-sm-0"></div>
     <!--内容主要显示区域-->
     <div class="mdui-col-md-8 mdui-col-sm-12 ">
-        <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
-            <div >
-                <h1 id="title" class="bold-font-weight">
-                    <!--标题所在-->{{.Title}}
-                </h1>
-                <!--设置创建时间-->
-                <div class="mdui-typo-body-1 inline-display">
-                    创建时间 : <span id ="create" class="mdui-text-color-pink">{{.Create}}</span>
+        <div class="mdui-col-md-9">
+            <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2">
+                <div >
+                    <h1 id="title" class="bold-font-weight">
+                        <!--标题所在-->{{.Title}}
+                    </h1>
+                    <!--设置创建时间-->
+                    <div class="mdui-typo-body-1 inline-display">
+                        创建时间 : <span id ="create" class="mdui-text-color-pink">{{.Create}}</span>
+                    </div>
+                    <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
+                        最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">{{.Update}}</span>
+                    </div>
                 </div>
-                <div class="mdui-typo-body-1 mdui-m-l-3 inline-display">
-                    最后更新 : <span id ="lastUpdate" class="mdui-text-color-pink">{{.Update}}</span>
+                <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
+                    <hr/>
                 </div>
-            </div>
-            <div class="mdui-typo mdui-m-t-1 mdui-m-b-1">
-                <hr/>
-            </div>
-            <div id="mdContent" class="prettyprint">
+                <div id="mdContent" class="prettyprint">
                 {{.Content}}
-                <!-- markdown 转换成的 HTML 的存放地址-->
-            </div>
-            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
-                <hr/>
-            </div>
-            <!--显示文章外的信息-->
-            <div>
-                <div class="mdui-typo mdui-typo-subheading-opacity">
-                    <ul>
-                        <li id = "currentLink">
+                    <!-- markdown 转换成的 HTML 的存放地址-->
+                </div>
+                <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
+                    <hr/>
+                </div>
+                <!--显示文章外的信息-->
+                <div>
+                    <div class="mdui-typo mdui-typo-subheading-opacity">
+                        <ul>
+                            <li id = "currentLink">
 
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="mdui-m-a-5">
-                <div id = "feedFoodQE" class="none-display">
-                    <img class="mdui-center mdui-m-t-2" src = "/img/feedFood.jpg" style="height: 20em" >
+                <div class="mdui-m-a-5">
+                    <div id = "feedFoodQE" class="none-display">
+                        <img class="mdui-center mdui-m-t-2" src = "/img/feedFood.jpg" style="height: 20em" >
+                    </div>
+                    <button onclick="showFeedFoodQR()" class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
+                        赏
+                    </button>
                 </div>
-                <button onclick="showFeedFoodQR()" class="mdui-btn mdui-btn-icon mdui-center mdui-color-red mdui-btn-raised middle-ico">
-                    赏
-                </button>
-            </div>
-            <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
-                <hr/>
-            </div>
-            <div class="mdui-m-t-2 mdui-m-b-2" id="tags">
+                <div class="mdui-typo mdui-m-t-3 mdui-m-b-3">
+                    <hr/>
+                </div>
+                <div class="mdui-m-t-2 mdui-m-b-2" id="tags">
 
+                </div>
+                <div id="preAndNext" class="">
+                    <div id="prePage" class="mdui-float-left text-align-left">
+                        <p >< 上一篇</p>
+                        <h3>
+                            <a href="/blog/{{.PreLink}}" class="mdui-text-color-black-text pre-next-title">{{.PreTitle}}</a>
+                        </h3>
+                    </div>
+                    <div id="nextPage" class="mdui-float-right text-align-right">
+                        <p >下一篇 ></p>
+                        <h3>
+                            <a href="/blog/{{.NextLink}}" class="mdui-text-color-black-text pre-next-title">{{.NextTitle}}</a>
+                        </h3>
+                    </div>
+                </div>
             </div>
-            <div id="preAndNext" class="">
-                <div id="prePage" class="mdui-float-left text-align-left">
-                    <p >< 上一篇</p>
-                    <h3>
-                        <a href="/blog/{{.PreLink}}" class="mdui-text-color-black-text pre-next-title">{{.PreTitle}}</a>
-                    </h3>
-                </div>
-                <div id="nextPage" class="mdui-float-right text-align-right">
-                    <p >下一篇 ></p>
-                    <h3>
-                        <a href="/blog/{{.NextLink}}" class="mdui-text-color-black-text pre-next-title">{{.NextTitle}}</a>
-                    </h3>
-                </div>
+            <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-l-2 mdui-p-r-2 mdui-p-b-5">
+                <div id = "comments"></div>
             </div>
         </div>
-        <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-l-2 mdui-p-r-2 mdui-p-b-5">
-            <div id = "comments"></div>
+        <div class="mdui-col-md-3">
+            <div class="mdui-card mdui-shadow-6 mdui-typo mdui-p-a-4 mdui-m-b-2 position-fixed max-width-20p">
+                <div id="mdNav">
+
+                </div>
+                <div>
+                    <a onclick="gotoTop()">回到顶部</a>
+                </div>
+            </div>
+
         </div>
     </div>
     <!--占位-->
@@ -133,6 +153,50 @@
         document.getElementsByTagName("code")[k].setAttribute("class",classTemp+" prettyprint")
     }
     prettyPrint();
+
+    // 右边文章导航栏
+    let hList = [];
+    let hListIndex = 0;
+    function gotoH(index){
+        hList[index].scrollIntoView()
+    }
+    function gotoTop() {
+        document.body.scrollTop = 0
+    }
+    let mdContent = domId("mdContent");
+    addMdNav(mdContent);
+
+    function addMdNav(dom) {
+        // 遍历找出最小的 H，以实现如果没有 H1的话 H2 就不缩进
+        let miniH = 5;
+        dom.childNodes.forEach(function (node, index, listObj) {
+            if (node.tagName !== undefined) {
+                if (node.tagName.startsWith("H")) {
+                    let hNumTemp = Number.parseInt(node.tagName.replace("H",""));
+                    if (hNumTemp < miniH){
+                        miniH = hNumTemp;
+                    }
+                }
+            }
+        });
+        dom.childNodes.forEach(function (node, index, listObj) {
+            if (node.tagName !== undefined) {
+                if (node.tagName.startsWith("H")) {
+                    // childList[childIndex++] = node;
+                    hList[hListIndex] = node;
+                    let hNumTemp = Number.parseInt(node.tagName.replace("H",""));
+                    for (let j = 0; j < (hNumTemp - miniH); j++) {
+                        domId("mdNav").innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;"
+                    }
+                    domId("mdNav").innerHTML +=`<a onclick="gotoH('${hListIndex++}')" >• ${node.innerText}</a></br>`;
+                }
+            }
+        });
+        if (domId("mdNav").innerHTML.trim() !== "") {
+            domId("mdNav").innerHTML += `<br>`;
+        }
+    }
+
 </script>
 <link rel="stylesheet" href="https://ericwyn.github.io/Ponza/static/ponza.min.css">
 <script src="https://ericwyn.github.io/Ponza/static/ponza.min.js"></script>
@@ -141,7 +205,7 @@
     Ponza("comments",{                                       // 配置评论所在 dom
         page:window.location.pathname,                      // 配置页面标记
         server:"https://ponza.meetwhy.com",                    // 配置服务器地址
-        key:"b9df8d72b06f4f8399c71ab520600130",             // 配置 key
+        key:"c202a95222b3460b9e4710a47189fce1",             // 配置 key
     });
 </script>
 </html>

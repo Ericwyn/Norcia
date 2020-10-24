@@ -1,2 +1,0 @@
-Sitemap: https://blog.meetwhy.com/sitemap.xml
-Sitemap: https://blog.meetwhy.com/sitemap.html

@@ -1,30 +1,31 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"bufio"
-	"io"
 	"encoding/json"
+	"flag"
+	"fmt"
+	"gopkg.in/russross/blackfriday.v2"
+	"io"
 	"io/ioutil"
-	"strings"
+	"log"
+	"net/http"
+	"os"
+	"path/filepath"
+	"regexp"
 	"sort"
 	"strconv"
-	"log"
-	"path/filepath"
-	"net/http"
-	"flag"
-	"gopkg.in/russross/blackfriday.v2"
+	"strings"
 	"time"
-	"regexp"
 )
 
 /**
-	配置文件 json 格式请见根目录下 config.json 文件
+配置文件 json 格式请见根目录下 config.json 文件
 */
 
 // md文件存储文件夹
 const docDirName string = "document/"
+
 // Norcia 多语言支持
 
 // zh 简体中文
@@ -34,17 +35,18 @@ var language = "zh"
 var languageMap map[string]map[string]string
 
 // 是否开启预览服务
-var previewFlag = flag.Bool("p",false,"run a Web Server for blog preview")
+var previewFlag = flag.Bool("p", false, "run a Web Server for blog preview")
+
 // 是否以英文显示
-var useEn = flag.Bool("en",false,"run with English")
+var useEn = flag.Bool("en", false, "run with English")
 
 // 生成网站地图
-var genSiteMap= flag.Bool("g",false,"generate the SiteMap xml for your static blog")
+var genSiteMap = flag.Bool("g", false, "generate the SiteMap xml for your static blog")
 
-var staticPath = "static/"
+var staticPath = "ericwyn.github.io/"
 
 func main() {
-	initLanguageMap( &languageMap )
+	initLanguageMap(&languageMap)
 	flag.Parse()
 	printHeader()
 	if *useEn {
@@ -53,13 +55,13 @@ func main() {
 	if *previewFlag {
 		configUpdateServer()
 		previewServer()
-	}else {
+	} else {
 		configUpdateServer()
 	}
 }
 
 func previewServer() {
-	h := http.FileServer(http.Dir(getCurrentDirectory()+"/"+staticPath))
+	h := http.FileServer(http.Dir(getCurrentDirectory() + "/" + staticPath))
 	fmt.Println()
 	fmt.Println(getStringsLan("norcia_preview_server"))
 	fmt.Println()
@@ -71,7 +73,7 @@ func previewServer() {
 	}
 }
 
-func configUpdateServer()  {
+func configUpdateServer() {
 	updateNum := 0
 	createNum := 0
 	//var deleteNum = 0
@@ -111,7 +113,7 @@ func configUpdateServer()  {
 			//如果无法找到旧的文件,证明文件时新建的!
 			temp = Article{
 				Title:  title,
-				Tag:    inputNewDocumentsTag(title,blogconfig),
+				Tag:    inputNewDocumentsTag(title, blogconfig),
 				Update: substr(updateTime.String(), 0, 16),
 				Create: substr(updateTime.String(), 0, 16),
 				Mini:   miniDoc,
@@ -128,41 +130,41 @@ func configUpdateServer()  {
 	if *genSiteMap {
 		generateSiteMap(blogconfig)
 	}
-	fmt.Printf(getStringsLan("update_info"), updateNum , createNum)
+	fmt.Printf(getStringsLan("update_info"), updateNum, createNum)
 }
 
 //生成静态页面
 func generateStaticPages(config BlogConfig) {
 	// index 页面
-	writeStringToFile(bindIndex(config),staticPath+"index.html")
+	writeStringToFile(bindIndex(config), staticPath+"index.html")
 	// blog 页面
-	for i,article := range config.Articles{
-		writeStringToFile(bindBlog(config,i),staticPath+"blog/"+article.Link+".html")
+	for i, article := range config.Articles {
+		writeStringToFile(bindBlog(config, i), staticPath+"blog/"+article.Link+".html")
 	}
 	// config.json
 	writeStringToFile(generateConfigJson(config), staticPath+"config.json")
 	// archive 页面
-	writeStringToFile(bindArchives(config),staticPath+"archives.html")
+	writeStringToFile(bindArchives(config), staticPath+"archives.html")
 	// tags 页面
-	writeStringToFile(bindTags(config),staticPath+"tags.html")
+	writeStringToFile(bindTags(config), staticPath+"tags.html")
 	// search 页面
-	writeStringToFile(bindSearch(config),staticPath+"search.html")
+	writeStringToFile(bindSearch(config), staticPath+"search.html")
 }
 
-func bindNavFriend(config BlogConfig) string  {
+func bindNavFriend(config BlogConfig) string {
 	var res string
 	var tmpl = readFileToString("temple/navigation/navFriend.html")
-	for _,friend := range config.Friends{
-		data := map[string] string {
+	for _, friend := range config.Friends {
+		data := map[string]string{
 			"Name": friend.Name,
 			"Href": friend.Href,
 		}
-		res += "\n" + bindDateToTmpl(tmpl,data)
+		res += "\n" + bindDateToTmpl(tmpl, data)
 	}
 	return res
 }
 
-func bindNavigation(config BlogConfig,pageStr string, open bool) string {
+func bindNavigation(config BlogConfig, pageStr string, open bool) string {
 	openFlag := "mdui-drawer-close"
 	if open {
 		openFlag = ""
@@ -174,43 +176,43 @@ func bindNavigation(config BlogConfig,pageStr string, open bool) string {
 	dataNav := map[string]string{
 		"Navigation": fileText,
 	}
-	pageStr = bindDateToTmpl(pageStr,dataNav)
+	pageStr = bindDateToTmpl(pageStr, dataNav)
 	data := map[string]string{
 		"Friends": friends,
 		// 是否默认打开导航栏
 		"OpenNav": openFlag,
 	}
-	return bindDateToTmpl(pageStr,data)
+	return bindDateToTmpl(pageStr, data)
 }
 
 // 渲染 index 页面
 func bindIndex(config BlogConfig) string {
 	var tmpl = readFileToString("temple/index/index.html")
 	data := map[string]string{
-		"Head":config.Head,
-		"Introduce":config.Introduce,
-		"Github":config.Github,
-		"Mail":config.Mail,
-		"Articles":bindCardAndArticle(config),
+		"Head":      config.Head,
+		"Introduce": config.Introduce,
+		"Github":    config.Github,
+		"Mail":      config.Mail,
+		"Articles":  bindCardAndArticle(config),
 	}
-	tmpl = bindNavigation(config,tmpl, true)
-	return bindDateToTmpl(tmpl,data)
+	tmpl = bindNavigation(config, tmpl, true)
+	return bindDateToTmpl(tmpl, data)
 }
 
 // 绑定卡片和文章摘要
 func bindCardAndArticle(config BlogConfig) string {
 	var res string
 	var tmpl = readFileToString("temple/blog/blogCard.html")
-	for i,article := range config.Articles{
+	for i, article := range config.Articles {
 		data := map[string]string{
-			"Title":article.Title,
-			"Tag":bindBlogTag(article),
-			"Create":article.Create,
-			"Update":article.Update,
-			"Mini":article.Mini,
-			"Link":article.Link,
+			"Title":  article.Title,
+			"Tag":    bindBlogTag(article),
+			"Create": article.Create,
+			"Update": article.Update,
+			"Mini":   article.Mini,
+			"Link":   article.Link,
 		}
-		res += "\n"+ bindDateToTmpl(tmpl,data)
+		res += "\n" + bindDateToTmpl(tmpl, data)
 		if i >= 5 {
 			break
 		}
@@ -222,51 +224,51 @@ func bindCardAndArticle(config BlogConfig) string {
 func bindBlogTag(article Article) string {
 	var res string
 	var tmpl = readFileToString("temple/blog/blogTag.html")
-	for _,tag := range strings.Split(article.Tag,","){
+	for _, tag := range strings.Split(article.Tag, ",") {
 		data := map[string]string{"Tag": tag}
-		res += "\n"+bindDateToTmpl(tmpl,data)
+		res += "\n" + bindDateToTmpl(tmpl, data)
 	}
 	return res
 }
 
-func bindArchives(config BlogConfig) string{
+func bindArchives(config BlogConfig) string {
 	var tmpl = readFileToString("temple/archives/archives.html")
 	data := map[string]string{
-		"Head":config.Head,
-		"Introduce":config.Introduce,
-		"Github":config.Github,
-		"Mail":config.Mail,
+		"Head":      config.Head,
+		"Introduce": config.Introduce,
+		"Github":    config.Github,
+		"Mail":      config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl, true)
-	return bindDateToTmpl(tmpl,data)
+	tmpl = bindNavigation(config, tmpl, true)
+	return bindDateToTmpl(tmpl, data)
 }
 
-func bindTags(config BlogConfig) string{
+func bindTags(config BlogConfig) string {
 	var tmpl = readFileToString("temple/tags/tags.html")
 	data := map[string]string{
-		"Head":config.Head,
-		"Introduce":config.Introduce,
-		"Github":config.Github,
-		"Mail":config.Mail,
+		"Head":      config.Head,
+		"Introduce": config.Introduce,
+		"Github":    config.Github,
+		"Mail":      config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl, true)
-	return bindDateToTmpl(tmpl,data)
+	tmpl = bindNavigation(config, tmpl, true)
+	return bindDateToTmpl(tmpl, data)
 }
 
-func bindSearch(config BlogConfig) string{
+func bindSearch(config BlogConfig) string {
 	var tmpl = readFileToString("temple/search/search.html")
 	data := map[string]string{
-		"Head":config.Head,
-		"Introduce":config.Introduce,
-		"Github":config.Github,
-		"Mail":config.Mail,
+		"Head":      config.Head,
+		"Introduce": config.Introduce,
+		"Github":    config.Github,
+		"Mail":      config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl, true)
-	return bindDateToTmpl(tmpl,data)
+	tmpl = bindNavigation(config, tmpl, true)
+	return bindDateToTmpl(tmpl, data)
 }
 
 // 渲染 blog 页
-func bindBlog(config BlogConfig,n int) string {
+func bindBlog(config BlogConfig, n int) string {
 	var tmpl = readFileToString("temple/blog/blog.html")
 	article := config.Articles[n]
 	var preTitle string
@@ -275,106 +277,105 @@ func bindBlog(config BlogConfig,n int) string {
 	var nextLink string
 	if n > 0 {
 		preTitle = config.Articles[n-1].Title
-		preLink = config.Articles[n-1].Link+".html"
-	}else {
+		preLink = config.Articles[n-1].Link + ".html"
+	} else {
 		preTitle = ""
 		preLink = ""
 	}
 	if n < len(config.Articles)-1 {
 		nextTitle = config.Articles[n+1].Title
-		nextLink = config.Articles[n+1].Link+".html"
-	}else {
+		nextLink = config.Articles[n+1].Link + ".html"
+	} else {
 		nextTitle = ""
 		nextLink = ""
 	}
-	data := map[string]string {
-		"Title":article.Title,
-		"Create":article.Create,
-		"Update":article.Update,
-		"Content":string(blackfriday.Run([]byte(readFileToString("document/"+article.Title+".md")))),
-		"PreTitle":preTitle,
-		"PreLink":preLink,
-		"NextTitle":nextTitle,
-		"NextLink":nextLink,
+	data := map[string]string{
+		"Title":     article.Title,
+		"Create":    article.Create,
+		"Update":    article.Update,
+		"Content":   string(blackfriday.Run([]byte(readFileToString("document/" + article.Title + ".md")))),
+		"PreTitle":  preTitle,
+		"PreLink":   preLink,
+		"NextTitle": nextTitle,
+		"NextLink":  nextLink,
 
-		"Head":config.Head,
-		"Introduce":config.Introduce,
-		"Github":config.Github,
-		"Mail":config.Mail,
+		"Head":      config.Head,
+		"Introduce": config.Introduce,
+		"Github":    config.Github,
+		"Mail":      config.Mail,
 	}
-	tmpl = bindNavigation(config,tmpl, false)
-	return bindDateToTmpl(tmpl,data)
+	tmpl = bindNavigation(config, tmpl, false)
+	return bindDateToTmpl(tmpl, data)
 }
 
 func bindDateToTmpl(tmpl string, data map[string]string) string {
 	var newKey string
-	for key,value := range data{
-		newKey = "{{."+key+"}}"
-		tmpl = strings.Replace(tmpl, newKey,value,-1)
+	for key, value := range data {
+		newKey = "{{." + key + "}}"
+		tmpl = strings.Replace(tmpl, newKey, value, -1)
 	}
 	return tmpl
 }
 
 // 生成 siteMap 方便搜索引擎索引
-func generateSiteMap(config BlogConfig)  {
+func generateSiteMap(config BlogConfig) {
 	if config.Domain == "" {
 		return
 	}
 	tml := readFileToString("temple/sitemap.xml")
-	tml = strings.Replace(tml,"</urlset>","",-1)
+	tml = strings.Replace(tml, "</urlset>", "", -1)
 	domain := config.Domain
 	if !strings.HasSuffix(domain, "/") {
-		domain = domain+"/"
+		domain = domain + "/"
 	}
-	for _,article := range config.Articles {
-		timeTemp,_ := time.Parse("2006-01-02 15:04",article.Update)
+	for _, article := range config.Articles {
+		timeTemp, _ := time.Parse("2006-01-02 15:04", article.Update)
 		tml +=
-		"    <url>\n"+
-		"    	<loc>"+domain+"blog/"+article.Link+".html"+"</loc>\n"+
-		"    	<lastmod>"+ timeTemp.Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>1.0</priority>\n"+
-		"    </url>\n"
+			"    <url>\n" +
+				"    	<loc>" + domain + "blog/" + article.Link + ".html" + "</loc>\n" +
+				"    	<lastmod>" + timeTemp.Format("2006-01-02T15:04:05Z07:00") + "</lastmod>\n" +
+				"    	<priority>1.0</priority>\n" +
+				"    </url>\n"
 	}
 	tml +=
-		"    <url>\n"+
-		"    	<loc>"+domain+"</loc>\n"+
-		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>0.9</priority>\n"+
-		"    </url>\n"
+		"    <url>\n" +
+			"    	<loc>" + domain + "</loc>\n" +
+			"    	<lastmod>" + time.Now().Format("2006-01-02T15:04:05Z07:00") + "</lastmod>\n" +
+			"    	<priority>0.9</priority>\n" +
+			"    </url>\n"
 	tml +=
-		"    <url>\n"+
-		"    	<loc>"+domain+"archives.html"+"</loc>\n"+
-		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>0.8</priority>\n"+
-		"    </url>\n"
+		"    <url>\n" +
+			"    	<loc>" + domain + "archives.html" + "</loc>\n" +
+			"    	<lastmod>" + time.Now().Format("2006-01-02T15:04:05Z07:00") + "</lastmod>\n" +
+			"    	<priority>0.8</priority>\n" +
+			"    </url>\n"
 	tml +=
-		"    <url>\n"+
-		"    	<loc>"+domain+"archives.html"+"</loc>\n"+
-		"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-		"    	<priority>0.8</priority>\n"+
-		"    </url>\n"
+		"    <url>\n" +
+			"    	<loc>" + domain + "archives.html" + "</loc>\n" +
+			"    	<lastmod>" + time.Now().Format("2006-01-02T15:04:05Z07:00") + "</lastmod>\n" +
+			"    	<priority>0.8</priority>\n" +
+			"    </url>\n"
 	tml +=
-		"    <url>\n"+
-			"    	<loc>"+domain+"search.html"+"</loc>\n"+
-			"    	<lastmod>"+ time.Now().Format("2006-01-02T15:04:05Z07:00")+"</lastmod>\n"+
-			"    	<priority>0.8</priority>\n"+
+		"    <url>\n" +
+			"    	<loc>" + domain + "search.html" + "</loc>\n" +
+			"    	<lastmod>" + time.Now().Format("2006-01-02T15:04:05Z07:00") + "</lastmod>\n" +
+			"    	<priority>0.8</priority>\n" +
 			"    </url>\n"
 	tml += "</urlset>"
-	writeStringToFile(tml,staticPath+"sitemap.xml")
-	writeStringToFile(tml,staticPath+"sitemap.html")
+	writeStringToFile(tml, staticPath+"sitemap.xml")
+	writeStringToFile(tml, staticPath+"sitemap.html")
 }
 
-
 //用户输入标签，或者是从旧的标签里面选一个
-func inputNewDocumentsTag(title string,config BlogConfig) string{
+func inputNewDocumentsTag(title string, config BlogConfig) string {
 	tagMap := make(map[int]string)
 	var tagCount int
 	tagCount = 0
-	for _,article:= range config.Articles{
-		tagsTemp := strings.Split(article.Tag,",")
-		for _,tag := range tagsTemp {
+	for _, article := range config.Articles {
+		tagsTemp := strings.Split(article.Tag, ",")
+		for _, tag := range tagsTemp {
 			flag := true
-			for _,tagHaveTemp := range tagMap{
+			for _, tagHaveTemp := range tagMap {
 				if tagHaveTemp == tag {
 					flag = false
 					break
@@ -389,23 +390,23 @@ func inputNewDocumentsTag(title string,config BlogConfig) string{
 	fmt.Println("\n以下为已有的标签及编号：")
 	fmt.Println(getStringsLan("existing_tags"))
 
-	for i :=0;i<len(tagMap);i++{
-		fmt.Println("\t",i,".",tagMap[i])
+	for i := 0; i < len(tagMap); i++ {
+		fmt.Println("\t", i, ".", tagMap[i])
 	}
-	fmt.Printf(getStringsLan("key_select"),title)
+	fmt.Printf(getStringsLan("key_select"), title)
 	reader := bufio.NewReader(os.Stdin)
 	input, _, _ := reader.ReadLine()
 	res := ""
-	inputTemp := strings.Split(string(input)," ")
-	for i,tag := range inputTemp{
-		flag,num :=  isInt(tag)
+	inputTemp := strings.Split(string(input), " ")
+	for i, tag := range inputTemp {
+		flag, num := isInt(tag)
 		if flag {
 			if tagMap[(num)] == "" {
 				res += tag
-			}else {
+			} else {
 				res += tagMap[num]
 			}
-		}else {
+		} else {
 			res += tag
 		}
 		if i != len(inputTemp)-1 {
@@ -416,22 +417,22 @@ func inputNewDocumentsTag(title string,config BlogConfig) string{
 }
 
 //用户输入标签，或者是从旧的标签里面选一个
-func inputNewDocumentLink(title string) string{
+func inputNewDocumentLink(title string) string {
 	fmt.Println(getStringsLan("input_link"))
 	reader := bufio.NewReader(os.Stdin)
 	input, _, _ := reader.ReadLine()
-	if strings.Replace(string(input)," ","",-1) != "" {
-		return strings.Replace(string(input)," ","",-1)
+	if strings.Replace(string(input), " ", "", -1) != "" {
+		return strings.Replace(string(input), " ", "", -1)
 	}
 	return title
 }
 
-func isInt(str string)( bool,int){
-	num,err := strconv.ParseInt(str,0,32)
+func isInt(str string) (bool, int) {
+	num, err := strconv.ParseInt(str, 0, 32)
 	if err != nil {
-		return false,-1
-	}else {
-		return true,int(num)
+		return false, -1
+	} else {
+		return true, int(num)
 	}
 }
 
@@ -459,7 +460,7 @@ type BlogConfig struct {
 	Introduce string    `json:"introduce"`
 	Github    string    `json:"github"`
 	Mail      string    `json:"mail"`
-	Domain	  string	`json:"domain"`
+	Domain    string    `json:"domain"`
 	Articles  []Article `json:"articles"`
 	Friends   []Friend  `json:"friends"`
 }
@@ -474,8 +475,8 @@ type Article struct {
 }
 
 type Friend struct {
-	Name   string `json:"name"`
-	Href   string `json:"href"`
+	Name string `json:"name"`
+	Href string `json:"href"`
 }
 
 //排序 Article
@@ -581,10 +582,10 @@ func substr(str string, start, length int) string {
 	return string(rs[start:end])
 }
 
-func makeMap(lang []string) map[string]string{
+func makeMap(lang []string) map[string]string {
 	mapTemp := map[string]string{
-		"zh":lang[0],
-		"en":lang[1],
+		"zh": lang[0],
+		"en": lang[1],
 	}
 	return mapTemp
 }
@@ -606,11 +607,11 @@ func getCurrentDirectory() string {
 	return strings.Replace(dir, "\\", "/", -1)
 }
 
-func getStringsLan(key string) string{
+func getStringsLan(key string) string {
 	return languageMap[key][language]
 }
 
-func initLanguageMap(languageMap *map[string]map[string]string){
+func initLanguageMap(languageMap *map[string]map[string]string) {
 	*languageMap = make(map[string](map[string]string))
 	//载入多语言字符串
 	(*languageMap)["update_info"] = makeMap([]string{
