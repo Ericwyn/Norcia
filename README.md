@@ -1,8 +1,9 @@
 # Norcia 魔改版
 一个简单的静态博客框架
-魔改版：Norcia 项目原本是纯 js 渲染，魔改版将使用 go 直接渲染出 html 静态文件
 
-渲染之后的项目见 [ericwyn.github.io](ericwyn.github.io)
+Norcia 原项目是纯 js 渲染，魔改版将使用 go 直接渲染出 html 静态文件
+
+渲染之后的项目见 [ericwyn.github.io](https://github.com/Ericwyn/ericwyn.github.io)
 
 ## 项目结构
  - `document` 文件夹用来存放博文 markdown 文件
